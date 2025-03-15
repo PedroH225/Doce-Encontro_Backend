@@ -8,6 +8,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -32,5 +35,13 @@ public class Usuario {
 	private String senha;
 	
 	@OneToMany(mappedBy = "organizador", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Evento> eventos;
+	private List<Evento> eventosCriados;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuario_evento", 
+	joinColumns = @JoinColumn(name = "usuarios_id"),
+	inverseJoinColumns = @JoinColumn(name = "eventos_id"))
+	private List<Evento> eventosParticipados;
 }
+
+
