@@ -49,6 +49,15 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`eventos` (
   FOREIGN KEY (`usuario_id`) REFERENCES `festora-db`.`usuarios`(`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `festora-db`.`arquivos` (
+    id VARCHAR(36) PRIMARY KEY NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    caminho VARCHAR(255) NOT NULL,
+    tipo VARCHAR(50) NOT NULL,
+    evento_id VARCHAR(36) NOT NULL,
+    FOREIGN KEY (evento_id) REFERENCES `festora-db`.`eventos`(id) ON DELETE CASCADE
+);
+
 -- -----------------------------------------------------
 -- Table `festora-db`.`imagens`
 -- -----------------------------------------------------
@@ -58,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`imagens` (
   `caminho` LONGTEXT NOT NULL,
   `eventos_id` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`eventos_id`) REFERENCES `festora-db`.`eventos`(`id`) ON DELETE CASCADE
+  FOREIGN KEY (id) REFERENCES `festora-db`.`arquivos`(id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
