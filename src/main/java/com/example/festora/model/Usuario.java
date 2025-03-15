@@ -45,6 +45,9 @@ public class Usuario {
 	
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
 	private List<DataEspecial> datasDataEspeciais;
+	
+	@ManyToMany(mappedBy = "usuarios", fetch = FetchType.EAGER)
+	private List<Notificacao> notificacoes;
 }
 
 
