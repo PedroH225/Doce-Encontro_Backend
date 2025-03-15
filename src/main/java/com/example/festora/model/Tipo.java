@@ -1,4 +1,4 @@
-package com.example.festora;
+package com.example.festora.model;
 
 public enum Tipo {
 	OUTRO("Outro"),
