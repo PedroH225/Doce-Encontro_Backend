@@ -42,6 +42,9 @@ public class Usuario {
 	joinColumns = @JoinColumn(name = "usuarios_id"),
 	inverseJoinColumns = @JoinColumn(name = "eventos_id"))
 	private List<Evento> eventosParticipados;
+	
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+	private List<DataEspecial> datasDataEspeciais;
 }
 
 
