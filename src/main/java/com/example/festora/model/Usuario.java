@@ -34,6 +34,9 @@ public class Usuario {
 	
 	private String senha;
 	
+	@OneToMany(mappedBy = "usuario")
+	private List<Amizade> listaAmigos;
+	
 	@OneToMany(mappedBy = "organizador", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Evento> eventosCriados;
 	

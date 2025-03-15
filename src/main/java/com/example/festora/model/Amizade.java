@@ -6,6 +6,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -23,10 +25,12 @@ public class Amizade {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
 	
-	@Transient
+	@ManyToOne
+	@JoinColumn(name = "usuarios_id")
 	private Usuario usuario;
 	
-	@Transient
+	@ManyToOne
+	@JoinColumn(name = "amigo_id")
 	private Usuario amigo;
 	
 	@Enumerated(EnumType.STRING)
