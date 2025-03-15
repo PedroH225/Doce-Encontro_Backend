@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`eventos` (
   `id` VARCHAR(36) NOT NULL,
   `titulo` VARCHAR(100) NOT NULL,
   `descricao` TEXT NULL,
+  `tipo` VARCHAR(30) NULL,
   `data` DATETIME NOT NULL,
   `endereco_id` VARCHAR(36) NOT NULL,
   `usuario_id` VARCHAR(36) NOT NULL,
