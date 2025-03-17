@@ -1,6 +1,7 @@
 package com.example.festora.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,22 @@ public class UsuarioService {
 	
 	public List<Usuario> obterTodos() {
 		return usuarioRepository.findAll();
+	}
+	
+	public Usuario obterPorId(String id) {
+		Optional<Usuario> buscarUsuario = usuarioRepository.findById(id);
+		
+		if (buscarUsuario.isEmpty()) {
+			throw new RuntimeException("Usuário não encontrado.");
+		}
+		
+		return buscarUsuario.get();
+	}
+	
+	public Usuario registrarUsuário(Usuario usuario) {
+		Usuario usuariodb = usuarioRepository.save(usuario);
+		
+		return usuariodb;
 	}
 	
 	
