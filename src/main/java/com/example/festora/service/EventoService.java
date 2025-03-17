@@ -1,6 +1,7 @@
 package com.example.festora.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,19 @@ public class EventoService {
 		return eventoRepository.findAll();
 	}
 	
+	public Evento obterPorId(String id) {
+		Optional<Evento> buscarEvento = eventoRepository.findById(id);
+		
+		if (buscarEvento.isEmpty()) {
+			throw new RuntimeException("Evento não encontrado.");
+		}
+		
+		return buscarEvento.get();
+	}
 	
 }
+
+
+
+
+
