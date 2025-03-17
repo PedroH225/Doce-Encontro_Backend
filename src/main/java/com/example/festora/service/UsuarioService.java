@@ -36,6 +36,21 @@ public class UsuarioService {
 		
 		return usuariodb;
 	}
+
+	public Usuario editarUsuario(String id, Usuario usuario) {
+		Usuario buscarUsuario = obterPorId(id);
+		
+		usuario.setId(buscarUsuario.getId());
+		return usuarioRepository.save(usuario);
+	}
+
+	public String excluirUsuario(String id) {
+		Usuario buscarUsuario = obterPorId(id);
+		
+		usuarioRepository.delete(buscarUsuario);
+		
+		return "Usuário excluído com sucesso.";
+	}
 	
 	
 }
