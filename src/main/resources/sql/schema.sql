@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`usuarios` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `festora-db`.`enderecos` (
   `id` VARCHAR(36) NOT NULL,
-  `local` VARCHAR(100) NULL,
+  `local` VARCHAR(100) NOT NULL,
   `estado` VARCHAR(45) NOT NULL,
   `cidade` VARCHAR(50) NOT NULL,
   `rua` VARCHAR(100) NOT NULL,
