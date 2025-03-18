@@ -40,7 +40,7 @@ public class EventoService {
 	}
 	
 	public EventoResponseDTO registrarEvento(String organizadorId, EventoRequestDTO eventoDTO) {
-		Usuario buscarOrganizador = usuarioService.obterPorId(organizadorId);
+		Usuario buscarOrganizador = usuarioService.findById(organizadorId);
 		
 		Endereco novoEndereco = 
 				new Endereco(null, eventoDTO.local(), eventoDTO.estado(), eventoDTO.cidade(), 

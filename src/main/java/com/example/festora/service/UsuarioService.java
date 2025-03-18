@@ -2,10 +2,12 @@ package com.example.festora.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.example.festora.model.Usuario;
+import com.example.festora.model.dtos.UsuarioResponseDTO;
 import com.example.festora.repository.UsuarioRepository;
 
 @Service
@@ -17,11 +19,11 @@ public class UsuarioService {
 		this.usuarioRepository = usuarioRepository;
 	}
 	
-	public List<Usuario> obterTodos() {
+	public List<Usuario> findAll() {
 		return usuarioRepository.findAll();
 	}
 	
-	public Usuario obterPorId(String id) {
+	public Usuario findById(String id) {
 		Optional<Usuario> buscarUsuario = usuarioRepository.findById(id);
 		
 		if (buscarUsuario.isEmpty()) {
@@ -31,21 +33,47 @@ public class UsuarioService {
 		return buscarUsuario.get();
 	}
 	
-	public Usuario registrarUsuário(Usuario usuario) {
+	private List<UsuarioResponseDTO> converterDtos(List<Usuario> usuario) {
+		return usuario.stream()
+				.map(u -> new UsuarioResponseDTO(u))
+				.collect(Collectors.toList());
+	}
+	
+	private UsuarioResponseDTO converterDto(Usuario usuario) {
+		return new UsuarioResponseDTO(usuario);
+	}
+	
+	public List<UsuarioResponseDTO> obterTodos() {
+		return converterDtos(usuarioRepository.findAll());
+	}
+	
+	
+	
+	public UsuarioResponseDTO obterPorId(String id) {
+		Optional<Usuario> buscarUsuario = usuarioRepository.findById(id);
+		
+		if (buscarUsuario.isEmpty()) {
+			throw new RuntimeException("Usuário não encontrado.");
+		}
+		
+		return converterDto(buscarUsuario.get());
+	}
+	
+	public UsuarioResponseDTO registrarUsuário(Usuario usuario) {
 		Usuario usuariodb = usuarioRepository.save(usuario);
 		
-		return usuariodb;
+		return converterDto(usuariodb);
 	}
 
-	public Usuario editarUsuario(String id, Usuario usuario) {
-		Usuario buscarUsuario = obterPorId(id);
+	public UsuarioResponseDTO editarUsuario(String id, Usuario usuario) {
+		Usuario buscarUsuario = findById(id);
 		
 		usuario.setId(buscarUsuario.getId());
-		return usuarioRepository.save(usuario);
+		return converterDto(usuarioRepository.save(usuario));
 	}
 
 	public String excluirUsuario(String id) {
-		Usuario buscarUsuario = obterPorId(id);
+		Usuario buscarUsuario = findById(id);
 		
 		usuarioRepository.delete(buscarUsuario);
 		
