@@ -49,6 +49,10 @@ public class EventoService {
 		return buscarEvento.get();
 	}
 	
+	private EventoResponseDTO converterParticipantesDto(Evento evento) {
+		return new EventoResponseDTO(evento, evento.getParticipantes());
+	}
+	
 	private EventoResponseDTO converterDto(Evento evento) {
 		return new EventoResponseDTO(evento);
 	}
@@ -58,9 +62,6 @@ public class EventoService {
 				.map(e -> new EventoResponseDTO(e))
 				.collect(Collectors.toList());
 	}
-	
-	
-	
 	
 	public List<EventoResponseDTO> obterTodos() {
 		return converterDtos(eventoRepository.findAll());
@@ -73,7 +74,7 @@ public class EventoService {
 			throw new RuntimeException("Evento não encontrado.");
 		}
 		
-		return converterDto(buscarEvento.get());
+		return converterParticipantesDto(buscarEvento.get());
 	}
 	
 	public EventoResponseDTO registrarEvento(String organizadorId, EventoRequestDTO eventoDTO) {
