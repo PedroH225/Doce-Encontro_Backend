@@ -3,6 +3,8 @@ package com.example.festora.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.festora.model.dtos.EventoRequestDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -55,4 +57,18 @@ public class Evento {
 	@OneToMany(mappedBy = "evento", fetch = FetchType.EAGER)
 	private List<Arquivo> arquivos;
 	
+	
+	public Evento editar(EventoRequestDTO eventoDTO) {
+		setTitulo(eventoDTO.titulo());
+		setDescricao(eventoDTO.descricao());
+		setTipo(Tipo.fromString(eventoDTO.tipo()));
+		setData(eventoDTO.data());
+		endereco.setLocal(eventoDTO.local());
+		endereco.setCidade(eventoDTO.cidade());
+		endereco.setEstado(eventoDTO.estado());
+		endereco.setRua(eventoDTO.rua());
+		endereco.setNumero(eventoDTO.numero());
+		
+		return this;
+	}
 }

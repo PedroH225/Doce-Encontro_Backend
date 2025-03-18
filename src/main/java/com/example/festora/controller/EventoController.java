@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,11 @@ public class EventoController {
 	@PostMapping("/{organizadorId}")
 	public EventoResponseDTO registrarEvento(@PathVariable String organizadorId, @RequestBody EventoRequestDTO eventoDTO) {
 		return eventoService.registrarEvento(organizadorId, eventoDTO);
+	}
+	
+	@PutMapping("/{eventoId}")
+	public EventoResponseDTO editarEvento(@PathVariable String eventoId, @RequestBody EventoRequestDTO eventoDTO) {
+		return eventoService.editarEvento(eventoId, eventoDTO);
 	}
 }
 

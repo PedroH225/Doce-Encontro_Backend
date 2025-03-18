@@ -12,7 +12,6 @@ import com.example.festora.model.Tipo;
 import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.EventoRequestDTO;
 import com.example.festora.model.dtos.EventoResponseDTO;
-import com.example.festora.model.dtos.UsuarioResponseDTO;
 import com.example.festora.repository.EventoRepository;
 
 @Service
@@ -80,6 +79,14 @@ public class EventoService {
 				eventoDTO.data(), novoEndereco, buscarOrganizador, null, null);
 		
 		return new EventoResponseDTO(eventoRepository.save(novoEvento));
+	}
+	
+	public EventoResponseDTO editarEvento(String eventoId, EventoRequestDTO eventoDTO) {
+		Evento buscarEvento = findById(eventoId);
+		
+		Evento eventoEditado = eventoRepository.save(buscarEvento.editar(eventoDTO));
+		
+		return converterDto(eventoEditado);
 	}
 	
 }
