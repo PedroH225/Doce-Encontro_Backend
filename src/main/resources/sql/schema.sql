@@ -21,6 +21,20 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`usuarios` (
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `festora-db`.`eventos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `festora-db`.`eventos` (
+  `id` VARCHAR(36) NOT NULL,
+  `titulo` VARCHAR(100) NOT NULL,
+  `descricao` TEXT NULL,
+  `tipo` VARCHAR(30) NULL,
+  `data` DATETIME NOT NULL,
+  `usuario_id` VARCHAR(36) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`usuario_id`) REFERENCES `festora-db`.`usuarios`(`id`) ON DELETE CASCADE
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `festora-db`.`enderecos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `festora-db`.`enderecos` (
@@ -30,23 +44,9 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`enderecos` (
   `cidade` VARCHAR(50) NOT NULL,
   `rua` VARCHAR(100) NOT NULL,
   `numero` INT NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `festora-db`.`eventos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `festora-db`.`eventos` (
-  `id` VARCHAR(36) NOT NULL,
-  `titulo` VARCHAR(100) NOT NULL,
-  `descricao` TEXT NULL,
-  `tipo` VARCHAR(30) NULL,
-  `data` DATETIME NOT NULL,
-  `endereco_id` VARCHAR(36) NOT NULL,
-  `usuario_id` VARCHAR(36) NOT NULL,
+  `evento_id` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`endereco_id`) REFERENCES `festora-db`.`enderecos`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`usuario_id`) REFERENCES `festora-db`.`usuarios`(`id`) ON DELETE CASCADE
+  FOREIGN KEY (`evento_id`) REFERENCES `festora-db`.`eventos`(`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `festora-db`.`arquivos` (
@@ -97,8 +97,8 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`datas_especiais` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `festora-db`.`amizades` (
   `id` VARCHAR(36) NOT NULL,
-  `usuarios_id` VARCHAR(36) NOT NULL,
-  `amigo_id` VARCHAR(36) NOT NULL,
+  `usuarios_id` VARCHAR(36),
+  `amigo_id` VARCHAR(36),
   `status` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`usuarios_id`) REFERENCES `festora-db`.`usuarios`(`id`) ON DELETE CASCADE,
