@@ -81,11 +81,13 @@ public class EventoService {
 		
 		Endereco novoEndereco = 
 				new Endereco(null, eventoDTO.local(), eventoDTO.estado(), eventoDTO.cidade(), 
-						eventoDTO.rua(), eventoDTO.numero());
+						eventoDTO.rua(), eventoDTO.numero(), null);
 		
 		Evento novoEvento = 
 				new Evento(null, eventoDTO.titulo(), eventoDTO.descricao(), Tipo.fromString(eventoDTO.tipo()), 
 				eventoDTO.data(), novoEndereco, buscarOrganizador, null, null);
+		
+		novoEndereco.setEvento(novoEvento);
 		
 		return new EventoResponseDTO(eventoRepository.save(novoEvento));
 	}
