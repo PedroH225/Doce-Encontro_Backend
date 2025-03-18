@@ -2,6 +2,7 @@ package com.example.festora.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import com.example.festora.model.Tipo;
 import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.EventoRequestDTO;
 import com.example.festora.model.dtos.EventoResponseDTO;
+import com.example.festora.model.dtos.UsuarioResponseDTO;
 import com.example.festora.repository.EventoRepository;
 
 @Service
@@ -25,11 +27,11 @@ public class EventoService {
 		this.usuarioService = usuarioService;
 	}
 	
-	public List<Evento> obterTodos() {
+	public List<Evento> findAll() {
 		return eventoRepository.findAll();
 	}
 	
-	public Evento obterPorId(String id) {
+	public Evento findById(String id) {
 		Optional<Evento> buscarEvento = eventoRepository.findById(id);
 		
 		if (buscarEvento.isEmpty()) {
@@ -37,6 +39,33 @@ public class EventoService {
 		}
 		
 		return buscarEvento.get();
+	}
+	
+	private EventoResponseDTO converterDto(Evento evento) {
+		return new EventoResponseDTO(evento);
+	}
+	
+	private List<EventoResponseDTO> converterDtos(List<Evento> evento) {
+		return evento.stream()
+				.map(e -> new EventoResponseDTO(e))
+				.collect(Collectors.toList());
+	}
+	
+	
+	
+	
+	public List<EventoResponseDTO> obterTodos() {
+		return converterDtos(eventoRepository.findAll());
+	}
+	
+	public EventoResponseDTO obterPorId(String id) {
+		Optional<Evento> buscarEvento = eventoRepository.findById(id);
+		
+		if (buscarEvento.isEmpty()) {
+			throw new RuntimeException("Evento não encontrado.");
+		}
+		
+		return converterDto(buscarEvento.get());
 	}
 	
 	public EventoResponseDTO registrarEvento(String organizadorId, EventoRequestDTO eventoDTO) {

@@ -26,12 +26,12 @@ public class EventoController {
 	}
 	
 	@GetMapping
-	public List<Evento> obterTodos() {
+	public List<EventoResponseDTO> obterTodos() {
 		return eventoService.obterTodos();
 	}
 	
 	@GetMapping("/{id}")
-	public Evento obterPorId(@PathVariable String id) {
+	public EventoResponseDTO obterPorId(@PathVariable String id) {
 		return eventoService.obterPorId(id);
 	}
 	
