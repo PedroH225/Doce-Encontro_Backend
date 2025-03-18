@@ -37,20 +37,32 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario")
 	private List<Amizade> listaAmigos;
 	
-	@OneToMany(mappedBy = "organizador", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "organizador", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Evento> eventosCriados;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "usuario_evento", 
 	joinColumns = @JoinColumn(name = "usuarios_id"),
 	inverseJoinColumns = @JoinColumn(name = "eventos_id"))
 	private List<Evento> eventosParticipados;
 	
-	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<DataEspecial> datasDataEspeciais;
 	
-	@ManyToMany(mappedBy = "usuarios", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "usuarios", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Notificacao> notificacoes;
+	
+	
+	
+	public void removerParticipacao(Evento evento) {
+		this.eventosParticipados.remove(evento);
+		evento.getParticipantes().remove(this);
+	}
+	
+	public void removerNotificacao(Notificacao notificacao) {
+		this.notificacoes.remove(notificacao);
+		notificacao.getUsuarios().remove(this);
+	}
 }
 
 

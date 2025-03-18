@@ -43,8 +43,7 @@ public class Evento {
 	
 	private LocalDateTime data;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
+	@OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Endereco endereco;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -54,7 +53,7 @@ public class Evento {
 	@ManyToMany(mappedBy = "eventosParticipados")
 	private List<Usuario> participantes;
 	
-	@OneToMany(mappedBy = "evento", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "evento", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Arquivo> arquivos;
 	
 	
@@ -71,4 +70,5 @@ public class Evento {
 		
 		return this;
 	}
+	
 }
