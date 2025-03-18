@@ -3,6 +3,8 @@ package com.example.festora.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.festora.model.dtos.EventoRequestDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,8 +43,7 @@ public class Evento {
 	
 	private LocalDateTime data;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
+	@OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Endereco endereco;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -52,7 +53,22 @@ public class Evento {
 	@ManyToMany(mappedBy = "eventosParticipados")
 	private List<Usuario> participantes;
 	
-	@OneToMany(mappedBy = "evento", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "evento", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Arquivo> arquivos;
+	
+	
+	public Evento editar(EventoRequestDTO eventoDTO) {
+		setTitulo(eventoDTO.titulo());
+		setDescricao(eventoDTO.descricao());
+		setTipo(Tipo.fromString(eventoDTO.tipo()));
+		setData(eventoDTO.data());
+		endereco.setLocal(eventoDTO.local());
+		endereco.setCidade(eventoDTO.cidade());
+		endereco.setEstado(eventoDTO.estado());
+		endereco.setRua(eventoDTO.rua());
+		endereco.setNumero(eventoDTO.numero());
+		
+		return this;
+	}
 	
 }
