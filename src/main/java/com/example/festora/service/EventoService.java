@@ -2,6 +2,7 @@ package com.example.festora.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -109,6 +110,22 @@ public class EventoService {
 		enderecoRepository.excluir(buscarEvento.getEndereco().getId());
 		
 		return "Evento excluído com sucesso.";
+	}
+	
+	public String participar(String eventoId, String usuarioId) {
+		Optional<Usuario> usuario = eventoRepository.verificarParticipacao(usuarioId, eventoId);
+		if (usuario.isPresent()) {
+			throw new RuntimeException("Você já está participando do evento.");
+		}
+		
+		Usuario buscarUsuario = usuarioService.findById(usuarioId);
+		Evento buscarEvento = findById(eventoId);
+		
+		buscarEvento.addParticipante(buscarUsuario);
+		
+		eventoRepository.save(buscarEvento);
+		
+		return "Usuário adicionado com sucesso";
 	}
 	
 }

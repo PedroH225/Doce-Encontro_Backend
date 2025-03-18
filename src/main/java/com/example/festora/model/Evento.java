@@ -71,4 +71,8 @@ public class Evento {
 		return this;
 	}
 	
+	public void addParticipante(Usuario participante) {
+		this.participantes.add(participante);
+	}
+	
 }

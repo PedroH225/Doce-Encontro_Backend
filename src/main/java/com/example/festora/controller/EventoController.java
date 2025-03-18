@@ -51,6 +51,11 @@ public class EventoController {
 	public String excluirEvento(@PathVariable String eventoId) {
 		return eventoService.excluirEvento(eventoId);
 	}
+	
+	@PostMapping("/participar/{eventoId}/{usuarioId}")
+	public String participar(@PathVariable String eventoId, @PathVariable String usuarioId) {
+		return eventoService.participar(eventoId, usuarioId);
+	}
 }
 
 
