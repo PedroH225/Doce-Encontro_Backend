@@ -5,16 +5,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.example.festora.model.Evento;
+import com.example.festora.model.Endereco;
 
 import jakarta.transaction.Transactional;
 
 @Repository
-public interface EventoRepository extends JpaRepository<Evento, String> {
-	
-	@Modifying
-    @Transactional
-	@Query("DELETE FROM Evento e WHERE e.id = :id")
-	void excluir(String id);
+public interface EnderecoRepository extends JpaRepository<Endereco, String> {
 
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Endereco e WHERE e.id = :id")
+	void excluir(String id);
+	
 }

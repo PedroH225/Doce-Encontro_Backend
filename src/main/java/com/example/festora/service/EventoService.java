@@ -12,18 +12,27 @@ import com.example.festora.model.Tipo;
 import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.EventoRequestDTO;
 import com.example.festora.model.dtos.EventoResponseDTO;
+import com.example.festora.repository.EnderecoRepository;
 import com.example.festora.repository.EventoRepository;
+
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 @Service
 public class EventoService {
 
 	private EventoRepository eventoRepository;
 	
+	private EnderecoRepository enderecoRepository;
+	
 	private UsuarioService usuarioService;
 
-	public EventoService(EventoRepository eventoRepository, UsuarioService usuarioService) {
+	public EventoService(EventoRepository eventoRepository, UsuarioService usuarioService, 
+			EnderecoRepository enderecoRepository) {
 		this.eventoRepository = eventoRepository;
 		this.usuarioService = usuarioService;
+		this.enderecoRepository = enderecoRepository;
 	}
 	
 	public List<Evento> findAll() {
@@ -87,6 +96,16 @@ public class EventoService {
 		Evento eventoEditado = eventoRepository.save(buscarEvento.editar(eventoDTO));
 		
 		return converterDto(eventoEditado);
+	}
+	
+	@Transactional
+	public String excluirEvento(String id) {
+		Evento buscarEvento = findById(id);
+		
+		eventoRepository.excluir(buscarEvento.getId());
+		enderecoRepository.excluir(buscarEvento.getEndereco().getId());
+		
+		return "Evento excluído com sucesso.";
 	}
 	
 }

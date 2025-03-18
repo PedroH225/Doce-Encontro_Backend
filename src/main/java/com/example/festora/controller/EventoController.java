@@ -2,6 +2,7 @@ package com.example.festora.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +45,11 @@ public class EventoController {
 	@PutMapping("/{eventoId}")
 	public EventoResponseDTO editarEvento(@PathVariable String eventoId, @RequestBody EventoRequestDTO eventoDTO) {
 		return eventoService.editarEvento(eventoId, eventoDTO);
+	}
+	
+	@DeleteMapping("/{eventoId}")
+	public String excluirEvento(@PathVariable String eventoId) {
+		return eventoService.excluirEvento(eventoId);
 	}
 }
 
