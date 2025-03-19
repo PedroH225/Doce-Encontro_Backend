@@ -46,7 +46,7 @@ public class Evento {
 	@OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Endereco endereco;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "usuario_id", referencedColumnName = "id")
 	private Usuario organizador;
 	
@@ -73,6 +73,7 @@ public class Evento {
 	
 	public void addParticipante(Usuario participante) {
 		this.participantes.add(participante);
+		participante.getEventosParticipados().add(this);
 	}
 	
 }

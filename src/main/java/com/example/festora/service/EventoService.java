@@ -114,13 +114,14 @@ public class EventoService {
 	
 	public String participar(String eventoId, String usuarioId) {
 		Optional<Usuario> usuario = eventoRepository.verificarParticipacao(usuarioId, eventoId);
-		if (usuario.isPresent()) {
+		Evento buscarEvento = findById(eventoId);
+		Usuario buscarUsuario = usuarioService.findById(usuarioId);
+
+
+		if (usuario.isPresent() || buscarEvento.getOrganizador() == buscarUsuario) {
 			throw new RuntimeException("Você já está participando do evento.");
 		}
-		
-		Usuario buscarUsuario = usuarioService.findById(usuarioId);
-		Evento buscarEvento = findById(eventoId);
-		
+				
 		buscarEvento.addParticipante(buscarUsuario);
 		
 		eventoRepository.save(buscarEvento);
