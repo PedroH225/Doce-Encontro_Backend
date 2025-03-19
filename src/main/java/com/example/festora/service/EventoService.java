@@ -129,6 +129,28 @@ public class EventoService {
 		return "Usuário adicionado com sucesso";
 	}
 	
+	public String removerParticipacao(String eventoId, String usuarioId) {
+		Evento buscarEvento = findById(eventoId);
+		Usuario buscarUsuario = usuarioService.findById(usuarioId);
+
+		if(buscarEvento.getOrganizador() == buscarUsuario) {
+			throw new RuntimeException("Organizadores não podem retirar a participação.");
+		}
+		
+		Optional<Usuario> usuario = eventoRepository.verificarParticipacao(usuarioId, eventoId);
+		
+		if (usuario.isEmpty()) {
+			throw new RuntimeException("Você não está participando do evento.");
+		}
+		
+		
+		buscarEvento.removerParticipante(buscarUsuario);
+		
+		eventoRepository.save(buscarEvento);
+		
+		return "Participação removida com sucesso.";
+	}
+	
 }
 
 

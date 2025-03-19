@@ -53,16 +53,6 @@ public class Usuario {
 	private List<Notificacao> notificacoes;
 	
 	
-	
-	public void removerParticipacao(Evento evento) {
-		this.eventosParticipados.remove(evento);
-		evento.getParticipantes().remove(this);
-	}
-	
-	public void removerNotificacao(Notificacao notificacao) {
-		this.notificacoes.remove(notificacao);
-		notificacao.getUsuarios().remove(this);
-	}
 }
 
 

@@ -76,4 +76,9 @@ public class Evento {
 		participante.getEventosParticipados().add(this);
 	}
 	
+	public void removerParticipante(Usuario participante) {
+		this.participantes.remove(participante);
+		participante.getEventosParticipados().remove(this);
+	}
+	
 }
