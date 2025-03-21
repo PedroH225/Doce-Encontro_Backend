@@ -124,3 +124,20 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`notificacao_usuario` (
   FOREIGN KEY (`usuario_id`) REFERENCES `festora-db`.`usuarios`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`notificacao_id`) REFERENCES `festora-db`.`notificacoes`(`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `festora-db`.`requisitos` (
+	`id` VARCHAR(36) PRIMARY KEY NOT NULL,
+	`titulo` VARCHAR(100) NOT NULL,
+	`descricao` VARCHAR(200) NOT NULL,
+	`evento_id` VARCHAR(36) NOT NULL,
+	 FOREIGN KEY (`evento_id`) REFERENCES `festora-db`.`eventos`(`id`) ON DELETE CASCADE
+) ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `festora-db`.`requisito_usuario` (
+  `requisito_id` VARCHAR(36) NOT NULL,
+  `usuario_id` VARCHAR(36) NOT NULL,
+  FOREIGN KEY (`usuario_id`) REFERENCES `festora-db`.`usuarios`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`requisito_id`) REFERENCES `festora-db`.`requisitos`(`id`) ON DELETE CASCADE
+) ENGINE = InnoDB;
