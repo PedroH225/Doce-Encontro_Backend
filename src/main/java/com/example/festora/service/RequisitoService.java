@@ -38,4 +38,18 @@ public class RequisitoService {
 		return repository.save(requisito);
 	}
 	
+	public Requisito editarRequisito(Requisito requisitoEditado, String requisitoId) {
+		Requisito buscarRequisito = findById(requisitoId);
+		
+		buscarRequisito.setTitulo(requisitoEditado.getTitulo());
+		buscarRequisito.setDescricao(requisitoEditado.getDescricao());
+
+		return repository.save(buscarRequisito);
+	}
+	
 }
+
+
+
+
+
