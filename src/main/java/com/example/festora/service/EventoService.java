@@ -87,7 +87,7 @@ public class EventoService {
 		
 		Evento novoEvento = 
 				new Evento(null, eventoDTO.titulo(), eventoDTO.descricao(), Tipo.fromString(eventoDTO.tipo()), 
-				eventoDTO.data(), novoEndereco, buscarOrganizador, null, null);
+				eventoDTO.data(), novoEndereco, buscarOrganizador, null, null, null);
 		
 		novoEndereco.setEvento(novoEvento);
 		
