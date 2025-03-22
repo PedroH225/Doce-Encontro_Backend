@@ -8,9 +8,9 @@ import lombok.Data;
 public class UsuarioResponseDTO {
 
 	private String id;
-	
+
 	private String nome;
-	
+
 	public UsuarioResponseDTO(Usuario usuario) {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();

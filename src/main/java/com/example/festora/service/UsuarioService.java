@@ -1,15 +1,13 @@
 package com.example.festora.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.example.festora.model.Evento;
-import com.example.festora.model.Notificacao;
 import com.example.festora.model.Usuario;
+import com.example.festora.model.dtos.UsuarioDetailsDTO;
 import com.example.festora.model.dtos.UsuarioResponseDTO;
 import com.example.festora.repository.UsuarioRepository;
 
@@ -42,15 +40,15 @@ public class UsuarioService {
 		return usuario.stream().map(u -> new UsuarioResponseDTO(u)).collect(Collectors.toList());
 	}
 
-	private UsuarioResponseDTO converterDto(Usuario usuario) {
-		return new UsuarioResponseDTO(usuario);
+	private UsuarioDetailsDTO converterDto(Usuario usuario) {
+		return new UsuarioDetailsDTO(usuario);
 	}
 
 	public List<UsuarioResponseDTO> obterTodos() {
 		return converterDtos(usuarioRepository.findAll());
 	}
 
-	public UsuarioResponseDTO obterPorId(String id) {
+	public UsuarioDetailsDTO obterPorId(String id) {
 		Optional<Usuario> buscarUsuario = usuarioRepository.findById(id);
 
 		if (buscarUsuario.isEmpty()) {
@@ -60,13 +58,13 @@ public class UsuarioService {
 		return converterDto(buscarUsuario.get());
 	}
 
-	public UsuarioResponseDTO registrarUsuário(Usuario usuario) {
+	public UsuarioDetailsDTO registrarUsuário(Usuario usuario) {
 		Usuario usuariodb = usuarioRepository.save(usuario);
 
 		return converterDto(usuariodb);
 	}
 
-	public UsuarioResponseDTO editarUsuario(String id, Usuario usuarioEditado) {
+	public UsuarioDetailsDTO editarUsuario(String id, Usuario usuarioEditado) {
 		Usuario buscarUsuario = findById(id);
 
 		return converterDto(usuarioRepository.save(buscarUsuario.editar(usuarioEditado)));
