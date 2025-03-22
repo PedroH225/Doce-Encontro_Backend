@@ -82,6 +82,20 @@ public class RequisitoService {
 		return converterDTO(repository.save(buscarRequisito));
 	}
 	
+	public RequisitoResponseDTO removerResponsavel(String requisitoId, String usuarioId) {
+		Requisito buscarRequisito = findById(requisitoId);
+		String eventoId = buscarRequisito.getEvento().getId();
+		Optional<Usuario> buscarUsuario = eventoRepository.verificarParticipacao(usuarioId, eventoId);
+		
+		if (buscarUsuario.isEmpty()) {
+			throw new RuntimeException("Você não está participando do evento.");
+		}
+		
+		buscarRequisito.removerResponsavel(buscarUsuario.get());
+		
+		return converterDTO(repository.save(buscarRequisito));
+	}
+	
 }
 
 

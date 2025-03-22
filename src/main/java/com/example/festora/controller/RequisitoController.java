@@ -42,6 +42,11 @@ public class RequisitoController {
 		return service.addResponsavel(requisitoId, usuarioId);
 	}
 	
+	@DeleteMapping("/{requisitoId}/{usuarioId}")
+	public RequisitoResponseDTO removerResponsavel(@PathVariable String requisitoId, @PathVariable String usuarioId) {
+		return service.removerResponsavel(requisitoId, usuarioId);
+	}
+	
 }
 
 

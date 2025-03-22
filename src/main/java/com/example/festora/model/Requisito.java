@@ -47,4 +47,10 @@ public class Requisito {
 		responsavel.getRequisitosEntregues().add(this);
 
 	}
+	
+		public void removerResponsavel(Usuario responsavel) {
+			this.responsaveis.remove(responsavel);
+			responsavel.getRequisitosEntregues().remove(this);
+	
+		}
 }
