@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.festora.model.Evento;
+import com.example.festora.model.dtos.EventoDetailsDTO;
 import com.example.festora.model.dtos.EventoRequestDTO;
 import com.example.festora.model.dtos.EventoResponseDTO;
 import com.example.festora.service.EventoService;
@@ -33,7 +34,7 @@ public class EventoController {
 	}
 	
 	@GetMapping("/{id}")
-	public EventoResponseDTO obterPorId(@PathVariable String id) {
+	public EventoDetailsDTO obterPorId(@PathVariable String id) {
 		return eventoService.obterPorId(id);
 	}
 	

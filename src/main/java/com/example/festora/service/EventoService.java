@@ -11,6 +11,7 @@ import com.example.festora.model.Endereco;
 import com.example.festora.model.Evento;
 import com.example.festora.model.Tipo;
 import com.example.festora.model.Usuario;
+import com.example.festora.model.dtos.EventoDetailsDTO;
 import com.example.festora.model.dtos.EventoRequestDTO;
 import com.example.festora.model.dtos.EventoResponseDTO;
 import com.example.festora.repository.EnderecoRepository;
@@ -50,8 +51,8 @@ public class EventoService {
 		return buscarEvento.get();
 	}
 	
-	private EventoResponseDTO converterParticipantesDto(Evento evento) {
-		return new EventoResponseDTO(evento, evento.getParticipantes());
+	private EventoDetailsDTO converterParticipantesDto(Evento evento) {
+		return new EventoDetailsDTO(evento);
 	}
 	
 	private EventoResponseDTO converterDto(Evento evento) {
@@ -68,7 +69,7 @@ public class EventoService {
 		return converterDtos(eventoRepository.findAll());
 	}
 	
-	public EventoResponseDTO obterPorId(String id) {
+	public EventoDetailsDTO obterPorId(String id) {
 		Optional<Evento> buscarEvento = eventoRepository.findById(id);
 		
 		if (buscarEvento.isEmpty()) {

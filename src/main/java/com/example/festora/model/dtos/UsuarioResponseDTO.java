@@ -15,4 +15,5 @@ public class UsuarioResponseDTO {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
 	}
+
 }

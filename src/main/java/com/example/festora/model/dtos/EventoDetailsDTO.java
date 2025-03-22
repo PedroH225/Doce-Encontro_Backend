@@ -12,30 +12,30 @@ import com.example.festora.model.Usuario;
 import lombok.Data;
 
 @Data
-public class EventoResponseDTO {
+public class EventoDetailsDTO {
 
 	private String id;
-	
+
 	private String titulo;
-	
-	private String  descricao;
-	
+
+	private String descricao;
+
 	private Tipo tipo;
-	
-	private String organizador;
-	
+
 	private Endereco endereco;
-	
-	public EventoResponseDTO(Evento evento) {
+
+	private UsuarioResponseDTO organizador;
+
+	private List<UsuarioResponseDTO> participantes = new ArrayList<UsuarioResponseDTO>();
+
+	public EventoDetailsDTO(Evento evento) {
 		this.id = evento.getId();
 		this.titulo = evento.getTitulo();
 		this.descricao = evento.getDescricao();
 		this.tipo = evento.getTipo();
 		this.endereco = evento.getEndereco();
-		this.organizador = evento.getOrganizador().getNome();
+		this.organizador = new UsuarioResponseDTO(evento.getOrganizador());
+		this.participantes = evento.getParticipantes().stream().map(u -> new UsuarioResponseDTO(u))
+				.collect(Collectors.toList());
 	}
-
 }
-
-
-
