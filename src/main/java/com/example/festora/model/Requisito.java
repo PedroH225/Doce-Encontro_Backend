@@ -28,20 +28,23 @@ public class Requisito {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
-	
+
 	private String titulo;
 
 	private String descricao;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "evento_id", referencedColumnName = "id")
 	private Evento evento;
-	
+
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "requisito_usuario",
-	joinColumns = @JoinColumn(name = "requisito_id"),
-	inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+	@JoinTable(name = "requisito_usuario", joinColumns = @JoinColumn(name = "requisito_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
 	private List<Usuario> responsaveis;
 
+	public void adicionarResponsavel(Usuario responsavel) {
+		this.responsaveis.add(responsavel);
+		responsavel.getRequisitosEntregues().add(this);
+
+	}
 }

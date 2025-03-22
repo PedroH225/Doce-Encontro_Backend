@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.festora.model.Requisito;
+import com.example.festora.model.dtos.RequisitoResponseDTO;
 import com.example.festora.service.RequisitoService;
 
 @RestController
@@ -34,6 +35,11 @@ public class RequisitoController {
 	@DeleteMapping("/{requisitoId}")
 	public String excluirRequisito(@PathVariable String requisitoId) {
 		return service.excluirRequisito(requisitoId);
+	}
+	
+	@PostMapping("/{requisitoId}/{usuarioId}")
+	public RequisitoResponseDTO adicionarResponsavel(@PathVariable String requisitoId, @PathVariable String usuarioId) {
+		return service.addResponsavel(requisitoId, usuarioId);
 	}
 	
 }
