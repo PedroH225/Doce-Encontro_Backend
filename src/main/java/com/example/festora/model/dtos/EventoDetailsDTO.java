@@ -27,7 +27,7 @@ public class EventoDetailsDTO {
 
 	private UsuarioResponseDTO organizador;
 
-	private List<Requisito> requisitos;
+	private List<RequisitoResponseDTO> requisitos;
 	
 	private List<UsuarioResponseDTO> participantes = new ArrayList<UsuarioResponseDTO>();
 
@@ -37,7 +37,9 @@ public class EventoDetailsDTO {
 		this.descricao = evento.getDescricao();
 		this.tipo = evento.getTipo();
 		this.endereco = evento.getEndereco();
-		this.requisitos = evento.getRequisitos();
+		this.requisitos = evento.getRequisitos().stream()
+				.map(r -> new RequisitoResponseDTO(r))
+				.collect(Collectors.toList());
 				
 		this.organizador = new UsuarioResponseDTO(evento.getOrganizador());
 		this.participantes = evento.getParticipantes().stream().map(u -> new UsuarioResponseDTO(u))
