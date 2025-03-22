@@ -2,6 +2,9 @@ package com.example.festora.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,11 +33,12 @@ public class Requisito {
 
 	private String descricao;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "evento_id", referencedColumnName = "id")
 	private Evento evento;
 	
-	@ManyToMany()
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "requisito_usuario",
 	joinColumns = @JoinColumn(name = "requisito_id"),
 	inverseJoinColumns = @JoinColumn(name = "usuario_id"))

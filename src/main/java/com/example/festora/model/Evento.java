@@ -84,4 +84,9 @@ public class Evento {
 		participante.getEventosParticipados().remove(this);
 	}
 	
+	public void addRequisito(Requisito requisito) {
+		this.requisitos.add(requisito);
+		requisito.setEvento(this);
+	}
+	
 }
