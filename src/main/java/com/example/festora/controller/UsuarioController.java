@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.festora.model.Usuario;
+import com.example.festora.model.dtos.UsuarioDetailsDTO;
 import com.example.festora.model.dtos.UsuarioResponseDTO;
 import com.example.festora.service.UsuarioService;
 
@@ -31,17 +32,17 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/{id}")
-	public UsuarioResponseDTO obterPorId(@PathVariable String id) {
+	public UsuarioDetailsDTO obterPorId(@PathVariable String id) {
 		return usuarioService.obterPorId(id);
 	}
 	
 	@PostMapping
-	public UsuarioResponseDTO registrarUsuario(@RequestBody Usuario usuario) {
+	public UsuarioDetailsDTO registrarUsuario(@RequestBody Usuario usuario) {
 		return usuarioService.registrarUsuário(usuario);
 	}
 	
 	@PutMapping("/{id}")
-	public UsuarioResponseDTO editarUsuario(@PathVariable String id, @RequestBody Usuario usuario) {
+	public UsuarioDetailsDTO editarUsuario(@PathVariable String id, @RequestBody Usuario usuario) {
 		return usuarioService.editarUsuario(id, usuario);
 	}
 	

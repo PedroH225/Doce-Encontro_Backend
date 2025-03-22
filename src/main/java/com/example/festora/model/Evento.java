@@ -3,6 +3,7 @@ package com.example.festora.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.festora.controller.RequisitoController;
 import com.example.festora.model.dtos.EventoRequestDTO;
 
 import jakarta.persistence.CascadeType;
@@ -46,7 +47,7 @@ public class Evento {
 	@OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Endereco endereco;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "usuario_id", referencedColumnName = "id")
 	private Usuario organizador;
 	
@@ -56,6 +57,8 @@ public class Evento {
 	@OneToMany(mappedBy = "evento", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Arquivo> arquivos;
 	
+	@OneToMany(mappedBy = "evento")
+	private List<Requisito> requisitos;
 	
 	public Evento editar(EventoRequestDTO eventoDTO) {
 		setTitulo(eventoDTO.titulo());
@@ -69,6 +72,21 @@ public class Evento {
 		endereco.setNumero(eventoDTO.numero());
 		
 		return this;
+	}
+	
+	public void addParticipante(Usuario participante) {
+		this.participantes.add(participante);
+		participante.getEventosParticipados().add(this);
+	}
+	
+	public void removerParticipante(Usuario participante) {
+		this.participantes.remove(participante);
+		participante.getEventosParticipados().remove(this);
+	}
+	
+	public void addRequisito(Requisito requisito) {
+		this.requisitos.add(requisito);
+		requisito.setEvento(this);
 	}
 	
 }

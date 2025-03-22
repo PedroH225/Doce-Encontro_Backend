@@ -2,6 +2,8 @@ package com.example.festora.model;
 
 import java.util.List;
 
+import com.example.festora.controller.RequisitoController;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -52,16 +54,16 @@ public class Usuario {
 	@ManyToMany(mappedBy = "usuarios", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Notificacao> notificacoes;
 	
+	@ManyToMany(mappedBy = "responsaveis")
+	private List<Requisito> requisitosEntregues;
 	
 	
-	public void removerParticipacao(Evento evento) {
-		this.eventosParticipados.remove(evento);
-		evento.getParticipantes().remove(this);
-	}
-	
-	public void removerNotificacao(Notificacao notificacao) {
-		this.notificacoes.remove(notificacao);
-		notificacao.getUsuarios().remove(this);
+	public Usuario editar(Usuario usuarioEditado) {
+		this.nome =  usuarioEditado.nome;
+		this.senha = usuarioEditado.senha;
+		this.email = usuarioEditado.email;
+		
+		return this;
 	}
 }
 

@@ -1,5 +1,9 @@
 package com.example.festora.model.dtos;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.festora.model.Endereco;
 import com.example.festora.model.Evento;
 import com.example.festora.model.Tipo;
@@ -18,9 +22,9 @@ public class EventoResponseDTO {
 	
 	private Tipo tipo;
 	
-	private Endereco endereco;
+	private String organizador;
 	
-	private UsuarioResponseDTO organizador;
+	private Endereco endereco;
 	
 	public EventoResponseDTO(Evento evento) {
 		this.id = evento.getId();
@@ -28,8 +32,9 @@ public class EventoResponseDTO {
 		this.descricao = evento.getDescricao();
 		this.tipo = evento.getTipo();
 		this.endereco = evento.getEndereco();
-		this.organizador = new UsuarioResponseDTO(evento.getOrganizador());
+		this.organizador = evento.getOrganizador().getNome();
 	}
+
 }
 
 
