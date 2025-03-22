@@ -1,5 +1,6 @@
 package com.example.festora.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.festora.model.Requisito;
 import com.example.festora.repository.RequisitoRepository;
 import com.example.festora.service.RequisitoService;
+
+import sun.net.www.content.text.plain;
 
 @RestController
 @RequestMapping("/eventos/requisitos")
@@ -31,4 +34,13 @@ public class RequisitoController {
 		return service.editarRequisito(requisito, requisitoId);
 	}
 	
+	@DeleteMapping("/{requisitoId}")
+	public String excluirRequisito(@PathVariable String requisitoId) {
+		return service.excluirRequisito(requisitoId);
+	}
+	
 }
+
+
+
+

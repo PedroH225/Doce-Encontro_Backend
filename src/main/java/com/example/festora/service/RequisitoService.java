@@ -47,6 +47,14 @@ public class RequisitoService {
 		return repository.save(buscarRequisito);
 	}
 	
+	public String excluirRequisito(String requisitoId) {
+		Requisito buscarRequisito = findById(requisitoId);
+
+		repository.excluir(requisitoId);
+		
+		return "Requisito excluído com sucesso!";
+	}
+	
 }
 
 
