@@ -2,6 +2,8 @@ package com.example.festora.model;
 
 import java.util.List;
 
+import com.example.festora.controller.RequisitoController;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -51,6 +53,9 @@ public class Usuario {
 	
 	@ManyToMany(mappedBy = "usuarios", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Notificacao> notificacoes;
+	
+	@ManyToMany(mappedBy = "responsaveis")
+	private List<Requisito> requisitosEntregues;
 	
 	
 }

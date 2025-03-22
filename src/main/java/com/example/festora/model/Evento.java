@@ -3,6 +3,7 @@ package com.example.festora.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.festora.controller.RequisitoController;
 import com.example.festora.model.dtos.EventoRequestDTO;
 
 import jakarta.persistence.CascadeType;
@@ -56,6 +57,8 @@ public class Evento {
 	@OneToMany(mappedBy = "evento", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Arquivo> arquivos;
 	
+	@OneToMany(mappedBy = "evento")
+	private List<Requisito> requisitos;
 	
 	public Evento editar(EventoRequestDTO eventoDTO) {
 		setTitulo(eventoDTO.titulo());
