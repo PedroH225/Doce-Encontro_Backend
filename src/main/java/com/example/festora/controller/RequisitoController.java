@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.festora.model.Requisito;
-import com.example.festora.repository.RequisitoRepository;
 import com.example.festora.service.RequisitoService;
-
-import sun.net.www.content.text.plain;
 
 @RestController
 @RequestMapping("/eventos/requisitos")
