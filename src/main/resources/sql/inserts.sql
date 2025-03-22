@@ -53,3 +53,16 @@ INSERT INTO `festora-db`.`notificacao_usuario` (notificacao_id, usuario_id) VALU
 ('e4f5g6h7-i8j9-4abc-1def-4567890123dd', '77eea251-9b21-42b1-b9cf-276035b66ed7'),
 ('e4f5g6h7-i8j9-4abc-1def-4567890123dd', '37997bb5-8bba-4707-ae13-6d89b4cdf668'),
 ('f5g6h7i8-j9k0-4def-2abc-5678901234ee', 'b634becf-47f9-4c99-a45e-f00f531e29bb');
+
+INSERT INTO `festora-db`.`requisitos` (id, titulo, descricao, evento_id) VALUES
+('d72f72a0-e2f5-4c7b-9d4a-4d6db0f6495b', 'Picanha', '2kg de pão de alho.', 'bd5def34-a0c0-447f-bfec-679360657861'),
+('a2c2c0e1-fad5-4a3e-b836-5f6c9ad5d85c', 'Cerveja', '2L de cerveja.', 'bd5def34-a0c0-447f-bfec-679360657861');
+
+INSERT INTO `festora-db`.`requisitos` (id, titulo, descricao, evento_id) VALUES
+('e6f5c85e-89ab-4bfa-97e2-59714d4b27d3', 'Carvão', '1 saco de carvão.', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4'),
+('b13e17c9-df67-4ed9-92bc-55954d2f7a43', 'Pão de alho', '12 unidades de pão de alho.', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4');
+
+INSERT INTO `festora-db`.`requisitos` (id, titulo, descricao, evento_id) VALUES
+('b1e9cbb1-ae10-4db1-8086-0cba12dd5935', 'Linguiça', '2kg de linguiça.', '25da36ea-f881-44ea-a325-54094d96d459'),
+('e002e576-4bda-4be6-adc5-d6ada04ad105', 'Coração de frango.', '1kg de coração de frango.', '25da36ea-f881-44ea-a325-54094d96d459');
+

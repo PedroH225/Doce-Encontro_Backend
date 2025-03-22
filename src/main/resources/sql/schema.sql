@@ -139,5 +139,6 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`requisito_usuario` (
   `requisito_id` VARCHAR(36) NOT NULL,
   `usuario_id` VARCHAR(36) NOT NULL,
   FOREIGN KEY (`usuario_id`) REFERENCES `festora-db`.`usuarios`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`requisito_id`) REFERENCES `festora-db`.`requisitos`(`id`) ON DELETE CASCADE
+  FOREIGN KEY (`requisito_id`) REFERENCES `festora-db`.`requisitos`(`id`) ON DELETE CASCADE,
+  CONSTRAINT `unique_requisito_usuario` UNIQUE (`requisito_id`, `usuario_id`)
 ) ENGINE = InnoDB;
