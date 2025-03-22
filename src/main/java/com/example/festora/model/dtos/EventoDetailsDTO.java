@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.example.festora.model.Endereco;
 import com.example.festora.model.Evento;
+import com.example.festora.model.Requisito;
 import com.example.festora.model.Tipo;
 import com.example.festora.model.Usuario;
 
@@ -26,6 +27,8 @@ public class EventoDetailsDTO {
 
 	private UsuarioResponseDTO organizador;
 
+	private List<Requisito> requisitos;
+	
 	private List<UsuarioResponseDTO> participantes = new ArrayList<UsuarioResponseDTO>();
 
 	public EventoDetailsDTO(Evento evento) {
@@ -34,8 +37,11 @@ public class EventoDetailsDTO {
 		this.descricao = evento.getDescricao();
 		this.tipo = evento.getTipo();
 		this.endereco = evento.getEndereco();
+		this.requisitos = evento.getRequisitos();
+				
 		this.organizador = new UsuarioResponseDTO(evento.getOrganizador());
 		this.participantes = evento.getParticipantes().stream().map(u -> new UsuarioResponseDTO(u))
 				.collect(Collectors.toList());
+		
 	}
 }
