@@ -58,6 +58,13 @@ public class Usuario {
 	private List<Requisito> requisitosEntregues;
 	
 	
+	public Usuario editar(Usuario usuarioEditado) {
+		this.nome =  usuarioEditado.nome;
+		this.senha = usuarioEditado.senha;
+		this.email = usuarioEditado.email;
+		
+		return this;
+	}
 }
 
 

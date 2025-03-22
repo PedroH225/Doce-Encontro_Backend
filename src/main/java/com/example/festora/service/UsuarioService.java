@@ -66,11 +66,10 @@ public class UsuarioService {
 		return converterDto(usuariodb);
 	}
 
-	public UsuarioResponseDTO editarUsuario(String id, Usuario usuario) {
+	public UsuarioResponseDTO editarUsuario(String id, Usuario usuarioEditado) {
 		Usuario buscarUsuario = findById(id);
 
-		usuario.setId(buscarUsuario.getId());
-		return converterDto(usuarioRepository.save(usuario));
+		return converterDto(usuarioRepository.save(buscarUsuario.editar(usuarioEditado)));
 	}
 
 	@Transactional
