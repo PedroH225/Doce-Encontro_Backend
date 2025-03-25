@@ -142,3 +142,30 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`requisito_usuario` (
   FOREIGN KEY (`requisito_id`) REFERENCES `festora-db`.`requisitos`(`id`) ON DELETE CASCADE,
   CONSTRAINT `unique_requisito_usuario` UNIQUE (`requisito_id`, `usuario_id`)
 ) ENGINE = InnoDB;
+
+
+CREATE TABLE `festora-db`.`chats` (
+    `id` VARCHAR(36) PRIMARY KEY,
+    `nome` VARCHAR(100) NOT NULL,
+    `evento_id` VARCHAR(36),
+    FOREIGN KEY (`evento_id`) REFERENCES `festora-db`.`eventos`(`id`) ON DELETE CASCADE
+) ENGINE = InnoDB;
+
+
+CREATE TABLE `festora-db`.`chat_usuario` (
+    `chat_id` VARCHAR(36) NOT NULL,
+    `usuario_id` VARCHAR(36) NOT NULL,
+    FOREIGN KEY (`chat_id`) REFERENCES `festora-db`.`chats`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`usuario_id`) REFERENCES `festora-db`.`usuarios`(`id`) ON DELETE CASCADE
+) ENGINE = InnoDB;
+
+
+CREATE TABLE `festora-db`.`mensagens` (
+    `id` VARCHAR(36) PRIMARY KEY,
+    `conteudo` TEXT NOT NULL,
+	`data_envio` TIMESTAMP NOT NULL,
+	`chat_id` VARCHAR(36) NOT NULL,
+    `usuario_id` VARCHAR(36) NOT NULL,
+    FOREIGN KEY (`chat_id`) REFERENCES `festora-db`.`chats`(id) ON DELETE CASCADE,
+    FOREIGN KEY (`usuario_id`) REFERENCES `festora-db`.`usuarios`(id) ON DELETE CASCADE
+) ENGINE = InnoDB;

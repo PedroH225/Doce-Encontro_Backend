@@ -66,3 +66,7 @@ INSERT INTO `festora-db`.`requisitos` (id, titulo, descricao, evento_id) VALUES
 ('b1e9cbb1-ae10-4db1-8086-0cba12dd5935', 'Linguiça', '2kg de linguiça.', '25da36ea-f881-44ea-a325-54094d96d459'),
 ('e002e576-4bda-4be6-adc5-d6ada04ad105', 'Coração de frango.', '1kg de coração de frango.', '25da36ea-f881-44ea-a325-54094d96d459');
 
+INSERT INTO `festora-db`.`chats` (id, nome, evento_id) VALUES
+('a7046e44-3be1-4485-ab7e-e9d04bfba1ad', 'Chat de Evento A', 'bd5def34-a0c0-447f-bfec-679360657861'),
+('f1ff21ec-1d8e-40bb-af82-d6ddc7bec4a8', 'Chat de Evento B', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4'),
+('81ee50e6-648f-4134-95da-3877612e88b9', 'Chat de Evento C', '25da36ea-f881-44ea-a325-54094d96d459');
