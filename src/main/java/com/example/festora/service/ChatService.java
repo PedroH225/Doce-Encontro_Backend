@@ -2,8 +2,8 @@ package com.example.festora.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.hibernate.grammars.hql.HqlParser.ConcatenationExpressionContext;
 import org.springframework.stereotype.Service;
 
 import com.example.festora.model.Chat;
@@ -49,6 +49,12 @@ public class ChatService {
 	public List<Chat> findByAll() {
 		return chatRepository.findAll();
 	}
+	
+	private List<MensagemDTO> converterDTOs(List<Mensagem> mensagens) {
+		return mensagens.stream()
+				.map(m -> new MensagemDTO(m))
+				.collect(Collectors.toList());
+	}
 
 	public MensagemDTO enviarMensagem(String mensagem, String chatId, String usuarioId) {
 		Chat buscarChat = findById(chatId);
@@ -62,6 +68,10 @@ public class ChatService {
 		Mensagem novaMensagem = new Mensagem(buscarChat, buscarUsuario, mensagem);
 
 		return new MensagemDTO(mensagemRepository.save(novaMensagem));
+	}
+
+	public List<MensagemDTO> obterMensagens(String chatId) {
+		return converterDTOs(mensagemRepository.obterMensagensPorData(chatId));
 	}
 
 }

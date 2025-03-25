@@ -1,5 +1,8 @@
 package com.example.festora.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +28,11 @@ public class ChatController {
 			@RequestBody String mensagem) {
 		
 		return chatService.enviarMensagem(mensagem, chatId, usuarioId);
+	}
+	
+	@GetMapping("/mensagens/{chatId}")
+	public List<MensagemDTO> obterMensagens(@PathVariable String chatId) {
+		return chatService.obterMensagens(chatId);
 	}
 }
 
