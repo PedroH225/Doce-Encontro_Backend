@@ -61,6 +61,10 @@ public class EventoService {
 			throw new RuntimeException("Você não está participando do evento");
 		}
 	}
+	
+	public boolean verificarAutor(String usuarioId, String eventoId) {
+		return eventoRepository.findAutor(usuarioId, eventoId).isPresent();
+	}
 
 	private EventoDetailsDTO converterParticipantesDto(Evento evento) {
 		return new EventoDetailsDTO(evento);
@@ -127,7 +131,7 @@ public class EventoService {
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
 		garantirNaoParticipacao(eventoId, usuarioId);
 
-		if (buscarEvento.getOrganizador() == buscarUsuario) {
+		if (verificarAutor(usuarioId, eventoId)) {
 			throw new RuntimeException("Você já está participando do evento.");
 		}
 
@@ -144,7 +148,7 @@ public class EventoService {
 		Evento buscarEvento = findById(eventoId);
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
 		
-		if (buscarEvento.getOrganizador() == buscarUsuario) {
+		if (verificarAutor(usuarioId, eventoId)) {
 			throw new RuntimeException("Organizadores não podem retirar a participação.");
 		}
 		garantirParticipacao(eventoId, usuarioId);

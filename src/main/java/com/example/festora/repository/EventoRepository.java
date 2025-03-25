@@ -23,4 +23,7 @@ public interface EventoRepository extends JpaRepository<Evento, String> {
 	@Query("SELECT p from Evento e JOIN e.participantes p WHERE p.id = :id AND e.id = :eventoId")
 	Optional<Usuario> verificarParticipacao(String id, String eventoId);
 
+	@Query("SELECT u FROM Usuario u JOIN u.eventosCriados e WHERE u.id = :usuarioId AND e.id = :eventoId")
+	Optional<Usuario> findAutor(String usuarioId, String eventoId);
+	
 }
