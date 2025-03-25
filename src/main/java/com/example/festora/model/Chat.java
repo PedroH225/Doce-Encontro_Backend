@@ -1,5 +1,6 @@
 package com.example.festora.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -18,7 +19,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "chats")
@@ -43,6 +43,13 @@ public class Chat {
 	@OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
 	private List<Mensagem> mensagens;
 
+	public Chat(Evento evento) {
+		this.id = null;
+		this.nome = "Chat de " + evento.getTitulo();
+		this.evento = evento;
+		this.usuarios = new ArrayList<Usuario>();
+		this.mensagens = new ArrayList<Mensagem>();
+	}
 }
 
 

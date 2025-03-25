@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.festora.model.Chat;
 import com.example.festora.model.Endereco;
 import com.example.festora.model.Evento;
 import com.example.festora.model.Tipo;
@@ -85,6 +86,7 @@ public class EventoService {
 				null, null, null, null);
 
 		novoEndereco.setEvento(novoEvento);
+		novoEvento.setChat(new Chat(novoEvento));
 
 		return new EventoResponseDTO(eventoRepository.save(novoEvento));
 	}
