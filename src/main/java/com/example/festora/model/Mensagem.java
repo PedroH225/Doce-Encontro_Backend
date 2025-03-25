@@ -39,6 +39,15 @@ public class Mensagem {
 	@ManyToOne
 	@JoinColumn(name = "usuario_id", referencedColumnName = "id")
 	private Usuario usuario;
+	
+	public Mensagem(Chat chat, Usuario usuario, String conteudo) {
+		this.id = null;
+		this.dataEnvio = LocalDateTime.now();
+		this.conteudo = conteudo;
+		this.chat = chat;
+		this.usuario = usuario;
+		
+	}
 }
 
 
