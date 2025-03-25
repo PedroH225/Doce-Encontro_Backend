@@ -50,6 +50,11 @@ public class Chat {
 		this.usuarios = new ArrayList<Usuario>();
 		this.mensagens = new ArrayList<Mensagem>();
 	}
+	
+	public void adicionarParticipante(Usuario participante) {
+		this.usuarios.add(participante);
+		participante.getChats().add(this);
+	}
 }
 
 

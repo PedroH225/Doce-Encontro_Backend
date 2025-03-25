@@ -120,6 +120,8 @@ public class EventoService {
 
 		buscarEvento.addParticipante(buscarUsuario);
 
+		buscarEvento.getChat().adicionarParticipante(buscarUsuario);
+		
 		eventoRepository.save(buscarEvento);
 
 		return "Usuário adicionado com sucesso";
