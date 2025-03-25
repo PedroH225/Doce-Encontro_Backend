@@ -142,6 +142,8 @@ public class EventoService {
 		}
 
 		buscarEvento.removerParticipante(buscarUsuario);
+		
+		buscarEvento.getChat().removerParticipante(buscarUsuario);
 
 		eventoRepository.save(buscarEvento);
 
