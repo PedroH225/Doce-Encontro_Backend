@@ -2,7 +2,6 @@ package com.example.festora.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -17,8 +16,6 @@ import com.example.festora.model.dtos.EventoResponseDTO;
 import com.example.festora.repository.EnderecoRepository;
 import com.example.festora.repository.EventoRepository;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -84,7 +81,8 @@ public class EventoService {
 				eventoDTO.rua(), eventoDTO.numero(), null);
 
 		Evento novoEvento = new Evento(null, eventoDTO.titulo(), eventoDTO.descricao(),
-				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), novoEndereco, buscarOrganizador, null, null, null);
+				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), novoEndereco, buscarOrganizador,
+				null, null, null, null);
 
 		novoEndereco.setEvento(novoEvento);
 

@@ -57,6 +57,12 @@ public class Usuario {
 	@ManyToMany(mappedBy = "responsaveis")
 	private List<Requisito> requisitosEntregues;
 	
+	@ManyToMany(mappedBy = "usuarios")
+	private List<Chat> chats;
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Mensagem> mensagens;
+	
 	
 	public Usuario editar(Usuario usuarioEditado) {
 		this.nome =  usuarioEditado.nome;

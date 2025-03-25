@@ -60,6 +60,9 @@ public class Evento {
 	@OneToMany(mappedBy = "evento")
 	private List<Requisito> requisitos;
 	
+	@OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
+	private Chat chat;
+	
 	public Evento editar(EventoRequestDTO eventoDTO) {
 		setTitulo(eventoDTO.titulo());
 		setDescricao(eventoDTO.descricao());
