@@ -49,6 +49,19 @@ public class EventoService {
 		return buscarEvento.get();
 	}
 
+	public void garantirNaoParticipacao(String eventoId, String usuarioId) {
+		if (eventoRepository.verificarParticipacao(usuarioId, eventoId).isPresent()) {
+			throw new RuntimeException("Você já está participando do evento");
+		}
+
+	}
+	
+	public void garantirParticipacao(String eventoId, String usuarioId) {
+		if (eventoRepository.verificarParticipacao(usuarioId, eventoId).isEmpty()) {
+			throw new RuntimeException("Você não está participando do evento");
+		}
+	}
+
 	private EventoDetailsDTO converterParticipantesDto(Evento evento) {
 		return new EventoDetailsDTO(evento);
 	}
@@ -82,8 +95,8 @@ public class EventoService {
 				eventoDTO.rua(), eventoDTO.numero(), null);
 
 		Evento novoEvento = new Evento(null, eventoDTO.titulo(), eventoDTO.descricao(),
-				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), novoEndereco, buscarOrganizador,
-				null, null, null, null);
+				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), novoEndereco, buscarOrganizador, null, null, null,
+				null);
 
 		novoEndereco.setEvento(novoEvento);
 		novoEvento.setChat(new Chat(novoEvento));
@@ -110,18 +123,18 @@ public class EventoService {
 	}
 
 	public String participar(String eventoId, String usuarioId) {
-		Optional<Usuario> usuario = eventoRepository.verificarParticipacao(usuarioId, eventoId);
 		Evento buscarEvento = findById(eventoId);
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
+		garantirNaoParticipacao(eventoId, usuarioId);
 
-		if (usuario.isPresent() || buscarEvento.getOrganizador() == buscarUsuario) {
+		if (buscarEvento.getOrganizador() == buscarUsuario) {
 			throw new RuntimeException("Você já está participando do evento.");
 		}
 
 		buscarEvento.addParticipante(buscarUsuario);
 
 		buscarEvento.getChat().adicionarParticipante(buscarUsuario);
-		
+
 		eventoRepository.save(buscarEvento);
 
 		return "Usuário adicionado com sucesso";
@@ -130,19 +143,15 @@ public class EventoService {
 	public String removerParticipacao(String eventoId, String usuarioId) {
 		Evento buscarEvento = findById(eventoId);
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
-
+		
 		if (buscarEvento.getOrganizador() == buscarUsuario) {
 			throw new RuntimeException("Organizadores não podem retirar a participação.");
 		}
-
-		Optional<Usuario> usuario = eventoRepository.verificarParticipacao(usuarioId, eventoId);
-
-		if (usuario.isEmpty()) {
-			throw new RuntimeException("Você não está participando do evento.");
-		}
-
-		buscarEvento.removerParticipante(buscarUsuario);
+		garantirParticipacao(eventoId, usuarioId);
 		
+		
+		buscarEvento.removerParticipante(buscarUsuario);
+
 		buscarEvento.getChat().removerParticipante(buscarUsuario);
 
 		eventoRepository.save(buscarEvento);
