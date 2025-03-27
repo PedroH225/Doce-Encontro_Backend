@@ -2,6 +2,7 @@ package com.example.festora.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,10 @@ public class NotificacaoService {
 		notificacao.enviarNotificacao(evento.getParticipantes());
 		
 		notificacaoRepository.save(notificacao);
+	}
+	
+	public List<Notificacao> obterNotificacoesUsuario(String usuarioId) {
+		return notificacaoRepository.findAllByUsuariosId(usuarioId);
 	}
 }
 
