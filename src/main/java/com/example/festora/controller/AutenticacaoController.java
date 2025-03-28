@@ -13,7 +13,7 @@ import com.example.festora.service.AuthorizationService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/usuarios")
 public class AutenticacaoController {
 
 	private AuthorizationService authorizationService;
@@ -22,7 +22,7 @@ public class AutenticacaoController {
 		this.authorizationService = authorizationService;
 	}
 	
-	@PostMapping("/register")
+	@PostMapping("/registrar")
 	public ResponseEntity<Object> register(@RequestBody RegisterDTO registerDto ) {
 		return authorizationService.register(registerDto);
 	}
