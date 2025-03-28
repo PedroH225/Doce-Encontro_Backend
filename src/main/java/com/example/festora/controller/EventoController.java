@@ -56,9 +56,9 @@ public class EventoController {
 		return eventoService.excluirEvento(eventoId);
 	}
 	
-	@PostMapping("/participar/{eventoId}/{usuarioId}")
-	public String participar(@PathVariable String eventoId, @PathVariable String usuarioId) {
-		return eventoService.participar(eventoId, usuarioId);
+	@PostMapping("/participar/{eventoId}")
+	public String participar(@PathVariable String eventoId) {
+		return eventoService.participar(eventoId, RetornarIdToken.get());
 	}
 	
 	@DeleteMapping("/participar/{eventoId}/{usuarioId}")
