@@ -2,6 +2,8 @@ package com.example.festora.controller;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.festora.model.Evento;
+import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.EventoDetailsDTO;
 import com.example.festora.model.dtos.EventoRequestDTO;
 import com.example.festora.model.dtos.EventoResponseDTO;
 import com.example.festora.service.EventoService;
+import com.example.festora.utils.RetornarIdToken;
 
 
 @RestController
@@ -38,9 +41,9 @@ public class EventoController {
 		return eventoService.obterPorId(id);
 	}
 	
-	@PostMapping("/{organizadorId}")
-	public EventoResponseDTO registrarEvento(@PathVariable String organizadorId, @RequestBody EventoRequestDTO eventoDTO) {
-		return eventoService.registrarEvento(organizadorId, eventoDTO);
+	@PostMapping
+	public EventoResponseDTO registrarEvento(@RequestBody EventoRequestDTO eventoDTO) {
+		return eventoService.registrarEvento(RetornarIdToken.get(), eventoDTO);
 	}
 	
 	@PutMapping("/{eventoId}")
