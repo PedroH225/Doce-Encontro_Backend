@@ -63,3 +63,6 @@ build/
 
 ### DOCKER ###
 docker-compose.yml
+
+### OUTROS ###
+token-perm.txt
