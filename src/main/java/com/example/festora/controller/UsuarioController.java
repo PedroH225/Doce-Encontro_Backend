@@ -36,11 +36,6 @@ public class UsuarioController {
 		return usuarioService.obterPorId(id);
 	}
 	
-	@PostMapping
-	public UsuarioDetailsDTO registrarUsuario(@RequestBody Usuario usuario) {
-		return usuarioService.registrarUsuário(usuario);
-	}
-	
 	@PutMapping("/{id}")
 	public UsuarioDetailsDTO editarUsuario(@PathVariable String id, @RequestBody Usuario usuario) {
 		return usuarioService.editarUsuario(id, usuario);

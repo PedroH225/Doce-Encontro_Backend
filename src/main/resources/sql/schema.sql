@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS `festora-db`.`usuarios` (
   `id` VARCHAR(36) NOT NULL,
   `nome` VARCHAR(50) NOT NULL,
   `email` VARCHAR(100) UNIQUE NOT NULL,
-  `senha` VARCHAR(50) NOT NULL,
+  `senha` VARCHAR(100) NOT NULL,
+  `criado_em` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 

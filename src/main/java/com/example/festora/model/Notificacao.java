@@ -1,8 +1,13 @@
 package com.example.festora.model;
 
+import java.lang.annotation.Repeatable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,10 +37,21 @@ public class Notificacao {
 	
 	private LocalDateTime data;
 	
+	@JsonIgnore
 	@ManyToMany()
 	@JoinTable(name = "notificacao_usuario", 
 		joinColumns = @JoinColumn(name = "notificacao_id"),
 		inverseJoinColumns = @JoinColumn(name = "usuario_id"))
 	private List<Usuario> usuarios;
-
+	
+	
+	public void enviarNotificacao(List<Usuario> usuarios) {
+		for (Usuario usuario : usuarios) {
+			this.usuarios.add(usuario);
+			usuario.getNotificacoes().add(this);
+		}
+	}
 }
+
+
+
