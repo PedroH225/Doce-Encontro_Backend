@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.festora.model.Notificacao;
 import com.example.festora.service.NotificacaoService;
+import com.example.festora.utils.RetornarIdToken;
 
 @RestController
 @RequestMapping("/usuarios/notificacoes")
@@ -21,9 +22,9 @@ public class NotificacaoController {
 		this.notificacaoService = notificacaoService;
 	}
 	
-	@GetMapping("/{usuarioId}")
-	public List<Notificacao> obterNotificacoesUsuario(@PathVariable String usuarioId) {
-		return notificacaoService.obterNotificacoesUsuario(usuarioId);
+	@GetMapping
+	public List<Notificacao> obterNotificacoesUsuario() {
+		return notificacaoService.obterNotificacoesUsuario(RetornarIdToken.get());
 	}
 }
 

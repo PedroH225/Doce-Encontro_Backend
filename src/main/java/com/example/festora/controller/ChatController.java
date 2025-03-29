@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.festora.model.Mensagem;
 import com.example.festora.model.dtos.MensagemDTO;
 import com.example.festora.service.ChatService;
+import com.example.festora.utils.RetornarIdToken;
 
 @RestController
 @RequestMapping("/eventos/chats")
@@ -23,11 +24,10 @@ public class ChatController {
 		this.chatService = chatService;
 	}
 	
-	@PostMapping("/mensagens/{chatId}/{usuarioId}")
-	public MensagemDTO enviarMensagem(@PathVariable String chatId, @PathVariable String usuarioId,
-			@RequestBody String mensagem) {
+	@PostMapping("/mensagens/{chatId}")
+	public MensagemDTO enviarMensagem(@PathVariable String chatId, @RequestBody String mensagem) {
 		
-		return chatService.enviarMensagem(mensagem, chatId, usuarioId);
+		return chatService.enviarMensagem(mensagem, chatId, RetornarIdToken.get());
 	}
 	
 	@GetMapping("/mensagens/{chatId}")
