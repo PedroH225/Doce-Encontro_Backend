@@ -23,7 +23,7 @@ public class AutenticacaoController {
 	}
 	
 	@PostMapping("/registrar")
-	public ResponseEntity<Object> register(@RequestBody RegisterDTO registerDto ) {
+	public ResponseEntity<Object> register(@RequestBody @Valid RegisterDTO registerDto ) {
 		return authorizationService.register(registerDto);
 	}
 	
