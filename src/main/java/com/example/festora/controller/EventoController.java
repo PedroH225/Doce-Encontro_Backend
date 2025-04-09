@@ -47,7 +47,7 @@ public class EventoController {
 	
 	@PutMapping("/{eventoId}")
 	public EventoResponseDTO editarEvento(@PathVariable String eventoId, @RequestBody @Valid EventoRequestDTO eventoDTO) {
-		return eventoService.editarEvento(eventoId, eventoDTO);
+		return eventoService.editarEvento(eventoId, eventoDTO, IdToken.get());
 	}
 	
 	@DeleteMapping("/{eventoId}")

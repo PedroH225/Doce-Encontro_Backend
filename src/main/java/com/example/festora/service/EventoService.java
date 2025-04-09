@@ -108,7 +108,10 @@ public class EventoService {
 		return new EventoResponseDTO(eventoRepository.save(novoEvento));
 	}
 
-	public EventoResponseDTO editarEvento(String eventoId, EventoRequestDTO eventoDTO) {
+	public EventoResponseDTO editarEvento(String eventoId, EventoRequestDTO eventoDTO, String autorId) {
+		if (!verificarAutor(autorId, eventoId)) {
+			throw new RuntimeException("Você não é o autor do evento.");
+		}
 		Evento buscarEvento = findById(eventoId);
 
 		Evento eventoEditado = eventoRepository.save(buscarEvento.editar(eventoDTO));
