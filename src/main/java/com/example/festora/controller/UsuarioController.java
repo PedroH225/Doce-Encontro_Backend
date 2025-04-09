@@ -15,6 +15,7 @@ import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.UsuarioDetailsDTO;
 import com.example.festora.model.dtos.UsuarioResponseDTO;
 import com.example.festora.service.UsuarioService;
+import com.example.festora.utils.IdToken;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -31,19 +32,19 @@ public class UsuarioController {
 		return usuarioService.obterTodos();
 	}
 	
-	@GetMapping("/{id}")
-	public UsuarioDetailsDTO obterPorId(@PathVariable String id) {
-		return usuarioService.obterPorId(id);
+	@GetMapping("/find")
+	public UsuarioDetailsDTO obterPorId() {
+		return usuarioService.obterPorId(IdToken.get());
 	}
 	
-	@PutMapping("/{id}")
-	public UsuarioDetailsDTO editarUsuario(@PathVariable String id, @RequestBody Usuario usuario) {
-		return usuarioService.editarUsuario(id, usuario);
+	@PutMapping
+	public UsuarioDetailsDTO editarUsuario(@RequestBody Usuario usuario) {
+		return usuarioService.editarUsuario(IdToken.get(), usuario);
 	}
 	
-	@DeleteMapping("/{id}")
-	public String excluirUsuario(@PathVariable String id) {
-		return usuarioService.excluirUsuario(id);
+	@DeleteMapping
+	public String excluirUsuario() {
+		return usuarioService.excluirUsuario(IdToken.get());
 	}
 	
 	

@@ -17,6 +17,8 @@ import com.example.festora.model.dtos.EventoResponseDTO;
 import com.example.festora.service.EventoService;
 import com.example.festora.utils.IdToken;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/eventos")
@@ -39,18 +41,18 @@ public class EventoController {
 	}
 	
 	@PostMapping
-	public EventoResponseDTO registrarEvento(@RequestBody EventoRequestDTO eventoDTO) {
+	public EventoResponseDTO registrarEvento(@RequestBody @Valid EventoRequestDTO eventoDTO) {
 		return eventoService.registrarEvento(IdToken.get(), eventoDTO);
 	}
 	
 	@PutMapping("/{eventoId}")
-	public EventoResponseDTO editarEvento(@PathVariable String eventoId, @RequestBody EventoRequestDTO eventoDTO) {
-		return eventoService.editarEvento(eventoId, eventoDTO);
+	public EventoResponseDTO editarEvento(@PathVariable String eventoId, @RequestBody @Valid EventoRequestDTO eventoDTO) {
+		return eventoService.editarEvento(eventoId, eventoDTO, IdToken.get());
 	}
 	
 	@DeleteMapping("/{eventoId}")
 	public String excluirEvento(@PathVariable String eventoId) {
-		return eventoService.excluirEvento(eventoId);
+		return eventoService.excluirEvento(eventoId, IdToken.get());
 	}
 	
 	@PostMapping("/participar/{eventoId}")
