@@ -120,8 +120,12 @@ public class EventoService {
 	}
 
 	@Transactional
-	public String excluirEvento(String id) {
-		Evento buscarEvento = findById(id);
+	public String excluirEvento(String eventoId, String autorId) {
+		if (!verificarAutor(autorId, eventoId)) {
+			throw new RuntimeException("Você não é o autor do evento.");
+		}
+		
+		Evento buscarEvento = findById(eventoId);
 
 		eventoRepository.excluir(buscarEvento.getId());
 		enderecoRepository.excluir(buscarEvento.getEndereco().getId());

@@ -52,7 +52,7 @@ public class EventoController {
 	
 	@DeleteMapping("/{eventoId}")
 	public String excluirEvento(@PathVariable String eventoId) {
-		return eventoService.excluirEvento(eventoId);
+		return eventoService.excluirEvento(eventoId, IdToken.get());
 	}
 	
 	@PostMapping("/participar/{eventoId}")
