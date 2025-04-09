@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.example.festora.model.Usuario;
 
-public class RetornarIdToken {
+public class IdToken {
 	public static String get() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    Usuario usuario = (Usuario) authentication.getPrincipal();

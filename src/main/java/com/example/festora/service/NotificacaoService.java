@@ -22,8 +22,7 @@ public class NotificacaoService {
 		this.notificacaoRepository = notificacaoRepository;
 	}
 	
-	public void notificarParticipantes(String eventoId, String titulo, String corpo) {
-		Evento evento = eventoService.findById(eventoId);
+	public void notificarParticipantes(Evento evento, String titulo, String corpo) {
 		Notificacao notificacao = new Notificacao(null, titulo, corpo, LocalDateTime.now(), new ArrayList<>());
 		notificacao.enviarNotificacao(evento.getParticipantes());
 		
