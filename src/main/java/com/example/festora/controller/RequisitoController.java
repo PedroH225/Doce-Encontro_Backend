@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.festora.model.Requisito;
 import com.example.festora.model.dtos.RequisitoResponseDTO;
 import com.example.festora.service.RequisitoService;
-import com.example.festora.utils.RetornarIdToken;
+import com.example.festora.utils.IdToken;
 
 @RestController
 @RequestMapping("/eventos/requisitos")
@@ -40,12 +40,12 @@ public class RequisitoController {
 	
 	@PostMapping("/addResp/{requisitoId}")
 	public RequisitoResponseDTO adicionarResponsavel(@PathVariable String requisitoId) {
-		return service.addResponsavel(requisitoId, RetornarIdToken.get());
+		return service.addResponsavel(requisitoId, IdToken.get());
 	}
 	
 	@DeleteMapping("/removerResp/{requisitoId}")
 	public RequisitoResponseDTO removerResponsavel(@PathVariable String requisitoId) {
-		return service.removerResponsavel(requisitoId, RetornarIdToken.get());
+		return service.removerResponsavel(requisitoId, IdToken.get());
 	}
 	
 }

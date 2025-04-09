@@ -2,8 +2,6 @@ package com.example.festora.controller;
 
 import java.util.List;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,12 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.EventoDetailsDTO;
 import com.example.festora.model.dtos.EventoRequestDTO;
 import com.example.festora.model.dtos.EventoResponseDTO;
 import com.example.festora.service.EventoService;
-import com.example.festora.utils.RetornarIdToken;
+import com.example.festora.utils.IdToken;
 
 
 @RestController
@@ -43,7 +40,7 @@ public class EventoController {
 	
 	@PostMapping
 	public EventoResponseDTO registrarEvento(@RequestBody EventoRequestDTO eventoDTO) {
-		return eventoService.registrarEvento(RetornarIdToken.get(), eventoDTO);
+		return eventoService.registrarEvento(IdToken.get(), eventoDTO);
 	}
 	
 	@PutMapping("/{eventoId}")
@@ -58,12 +55,12 @@ public class EventoController {
 	
 	@PostMapping("/participar/{eventoId}")
 	public String participar(@PathVariable String eventoId) {
-		return eventoService.participar(eventoId, RetornarIdToken.get());
+		return eventoService.participar(eventoId, IdToken.get());
 	}
 	
 	@DeleteMapping("/participar/{eventoId}")
 	public String removerParticipacao(@PathVariable String eventoId) {
-		return eventoService.removerParticipacao(eventoId, RetornarIdToken.get());
+		return eventoService.removerParticipacao(eventoId, IdToken.get());
 	}
 	
 }
