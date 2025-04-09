@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.festora.exception.exceptions.EventoNotFoundException;
 import com.example.festora.model.Chat;
 import com.example.festora.model.Endereco;
 import com.example.festora.model.Evento;
@@ -43,7 +44,7 @@ public class EventoService {
 		Optional<Evento> buscarEvento = eventoRepository.findById(id);
 
 		if (buscarEvento.isEmpty()) {
-			throw new RuntimeException("Evento não encontrado.");
+			throw new EventoNotFoundException();
 		}
 
 		return buscarEvento.get();
@@ -83,13 +84,9 @@ public class EventoService {
 	}
 
 	public EventoDetailsDTO obterPorId(String id) {
-		Optional<Evento> buscarEvento = eventoRepository.findById(id);
+		Evento buscarEvento = findById(id);
 
-		if (buscarEvento.isEmpty()) {
-			throw new RuntimeException("Evento não encontrado.");
-		}
-
-		return converterParticipantesDto(buscarEvento.get());
+		return converterParticipantesDto(buscarEvento);
 	}
 
 	public EventoResponseDTO registrarEvento(String organizadorId, EventoRequestDTO eventoDTO) {
