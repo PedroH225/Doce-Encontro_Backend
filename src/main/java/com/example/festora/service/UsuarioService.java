@@ -43,6 +43,10 @@ public class UsuarioService {
 	private UsuarioDetailsDTO converterDto(Usuario usuario) {
 		return new UsuarioDetailsDTO(usuario);
 	}
+	
+	private boolean verificarEmailExistente(String email, String id) {
+		return usuarioRepository.findByEmailAndIdNot(email, id).isPresent();
+	}
 
 	public List<UsuarioResponseDTO> obterTodos() {
 		return converterDtos(usuarioRepository.findAll());
@@ -65,6 +69,9 @@ public class UsuarioService {
 	}
 
 	public UsuarioDetailsDTO editarUsuario(String id, Usuario usuarioEditado) {
+		if (verificarEmailExistente(usuarioEditado.getEmail(), id)) {
+			throw new RuntimeException("Email já está em uso.");
+		}
 		Usuario buscarUsuario = findById(id);
 
 		return converterDto(usuarioRepository.save(buscarUsuario.editar(usuarioEditado)));
