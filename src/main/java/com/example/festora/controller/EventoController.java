@@ -20,6 +20,8 @@ import com.example.festora.model.dtos.EventoResponseDTO;
 import com.example.festora.service.EventoService;
 import com.example.festora.utils.RetornarIdToken;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/eventos")
@@ -42,12 +44,12 @@ public class EventoController {
 	}
 	
 	@PostMapping
-	public EventoResponseDTO registrarEvento(@RequestBody EventoRequestDTO eventoDTO) {
+	public EventoResponseDTO registrarEvento(@RequestBody @Valid EventoRequestDTO eventoDTO) {
 		return eventoService.registrarEvento(RetornarIdToken.get(), eventoDTO);
 	}
 	
 	@PutMapping("/{eventoId}")
-	public EventoResponseDTO editarEvento(@PathVariable String eventoId, @RequestBody EventoRequestDTO eventoDTO) {
+	public EventoResponseDTO editarEvento(@PathVariable String eventoId, @RequestBody @Valid EventoRequestDTO eventoDTO) {
 		return eventoService.editarEvento(eventoId, eventoDTO);
 	}
 	
