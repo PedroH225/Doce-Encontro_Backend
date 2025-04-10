@@ -1,13 +1,19 @@
 package com.example.festora.exception;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.festora.exception.exceptions.ConflictException;
+import com.example.festora.exception.exceptions.EmailEmUsoException;
 import com.example.festora.exception.exceptions.EventoNotFoundException;
 import com.example.festora.exception.exceptions.ForbiddenException;
 import com.example.festora.exception.exceptions.NotFoundException;
@@ -39,6 +45,15 @@ public class ResourceExceptionHandler {
         HttpStatus status = HttpStatus.CONFLICT;
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err); 
+    }
+	
+	@ExceptionHandler(EmailEmUsoException.class)
+    public ResponseEntity<Map<String, String>> responseEntity(EmailEmUsoException ex) {
+        Map<String, String> erro = new HashMap<>();
+        
+        erro.put("email", ex.getMessage());
+
+        return ResponseEntity.badRequest().body(erro);
     }
 }
 

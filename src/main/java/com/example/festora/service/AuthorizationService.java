@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.example.festora.exception.exceptions.EmailEmUsoException;
 import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.AuthetinticationDTO;
 import com.example.festora.model.dtos.LoginResponseDTO;
@@ -57,7 +58,7 @@ public class AuthorizationService implements UserDetailsService{
 
     public ResponseEntity<Object> register (RegisterDTO registerDto){
     	if (verificarEmailExistente(registerDto.email())) {
-			throw new RuntimeException("Email já está em uso.");
+			throw new EmailEmUsoException();
 		}
     	
     	String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.senha());

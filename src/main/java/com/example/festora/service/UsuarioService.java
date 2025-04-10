@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.festora.exception.exceptions.EmailEmUsoException;
 import com.example.festora.exception.exceptions.UsuarioNotFoundException;
 import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.UsuarioDetailsDTO;
@@ -71,7 +72,7 @@ public class UsuarioService {
 
 	public UsuarioDetailsDTO editarUsuario(String id, Usuario usuarioEditado) {
 		if (verificarEmailExistente(usuarioEditado.getEmail(), id)) {
-			throw new RuntimeException("Email já está em uso.");
+			throw new EmailEmUsoException();
 		}
 		Usuario buscarUsuario = findById(id);
 
