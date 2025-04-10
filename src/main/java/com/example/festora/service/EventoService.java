@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.festora.exception.exceptions.EventoNotFoundException;
+import com.example.festora.exception.exceptions.ForbiddenException;
 import com.example.festora.exception.exceptions.JaParticipandoException;
 import com.example.festora.exception.exceptions.NotAutorException;
 import com.example.festora.exception.exceptions.NotParticipandoException;
@@ -156,7 +157,7 @@ public class EventoService {
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
 		
 		if (verificarAutor(usuarioId, eventoId)) {
-			throw new RuntimeException("Organizadores não podem retirar a participação.");
+			throw new ForbiddenException("Organizadores não podem retirar a participação.");
 		}
 		garantirParticipacao(eventoId, usuarioId);
 		
