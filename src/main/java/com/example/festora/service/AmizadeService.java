@@ -16,28 +16,28 @@ import com.example.festora.repository.AmizadeRepository;
 public class AmizadeService {
 
 	private AmizadeRepository amizadeRepository;
-	
+
 	private UsuarioService usuarioService;
 
 	public AmizadeService(AmizadeRepository amizadeRepository, UsuarioService usuarioService) {
 		this.amizadeRepository = amizadeRepository;
 		this.usuarioService = usuarioService;
 	}
-	
+
 	public List<Amizade> findAll() {
 		return amizadeRepository.findAll();
 	}
-	
+
 	public Amizade findById(String amizadeId) {
 		Optional<Amizade> buscarAmizade = amizadeRepository.findById(amizadeId);
-		
+
 		if (buscarAmizade.isEmpty()) {
 			throw new RuntimeException("Amizade não encontrada.");
 		}
-		
+
 		return buscarAmizade.get();
 	}
-	
+
 	private AmizadeResponseDTO converterDto(Amizade amizade) {
 		return new AmizadeResponseDTO(amizade);
 	}
@@ -47,17 +47,23 @@ public class AmizadeService {
 		try {
 			Usuario amigo = usuarioService.findById(amigoId);
 			Amizade novaAmizade = new Amizade(null, usuario, amigo, StatusAmizade.PENDENTE);
-			
+
 			novaAmizade.addAmigo(usuario, amigo);
 
 			return converterDto(amizadeRepository.save(novaAmizade));
 		} catch (UsuarioNotFoundException e) {
 			throw new RuntimeException("Amigo não encontrado.");
 		}
+	}
+	
+	public AmizadeResponseDTO aceitarPedido(String amizadeId) {
+		Amizade amizade = findById(amizadeId);
 		
+		amizade.setStatus(StatusAmizade.ACEITO);
+		
+		return converterDto(amizadeRepository.save(amizade));
 	}
 }
-
 
 
 
