@@ -8,16 +8,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.festora.exception.exceptions.EventoNotFoundException;
+import com.example.festora.exception.exceptions.NotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class ResourceExceptionHandler {
 
-	@ExceptionHandler(exception = EventoNotFoundException.class)
+	@ExceptionHandler(exception = NotFoundException.class)
 	public ResponseEntity<StandardError> responseEntity(EventoNotFoundException e, HttpServletRequest request) {
-        String error = "Evento não encontrado.";
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        String error = "Recurso não encontrado.";
+        HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err); 
     }
