@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.festora.exception.exceptions.ChatNotFoundException;
 import com.example.festora.model.Chat;
 import com.example.festora.model.Mensagem;
 import com.example.festora.model.Usuario;
@@ -40,7 +41,7 @@ public class ChatService {
 		Optional<Chat> buscarChat = chatRepository.findById(id);
 
 		if (buscarChat.isEmpty()) {
-			throw new RuntimeException("Chat não encontrado.");
+			throw new ChatNotFoundException();
 		}
 
 		return buscarChat.get();
@@ -71,6 +72,8 @@ public class ChatService {
 	}
 
 	public List<MensagemDTO> obterMensagens(String chatId) {
+		findById(chatId);
+		
 		return converterDTOs(mensagemRepository.obterMensagensPorData(chatId));
 	}
 
