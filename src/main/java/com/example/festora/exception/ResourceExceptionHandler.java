@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.festora.exception.exceptions.EventoNotFoundException;
+import com.example.festora.exception.exceptions.ForbiddenException;
 import com.example.festora.exception.exceptions.NotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,4 +23,15 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err); 
     }
+	
+	@ExceptionHandler(exception = ForbiddenException.class)
+	public ResponseEntity<StandardError> responseEntity(ForbiddenException e, HttpServletRequest request) {
+        String error = "Ação não permitida.";
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err); 
+    }
 }
+
+
+

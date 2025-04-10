@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.festora.exception.exceptions.EventoNotFoundException;
+import com.example.festora.exception.exceptions.NotAutorException;
 import com.example.festora.model.Chat;
 import com.example.festora.model.Endereco;
 import com.example.festora.model.Evento;
@@ -107,7 +108,7 @@ public class EventoService {
 
 	public EventoResponseDTO editarEvento(String eventoId, EventoRequestDTO eventoDTO, String autorId) {
 		if (!verificarAutor(autorId, eventoId)) {
-			throw new RuntimeException("Você não é o autor do evento.");
+			throw new NotAutorException();
 		}
 		Evento buscarEvento = findById(eventoId);
 
@@ -119,7 +120,7 @@ public class EventoService {
 	@Transactional
 	public String excluirEvento(String eventoId, String autorId) {
 		if (!verificarAutor(autorId, eventoId)) {
-			throw new RuntimeException("Você não é o autor do evento.");
+			throw new NotAutorException();
 		}
 		
 		Evento buscarEvento = findById(eventoId);
