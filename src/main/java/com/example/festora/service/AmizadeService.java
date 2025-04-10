@@ -86,6 +86,12 @@ public class AmizadeService {
 		
 		return converterDtos(amizades, usuarioId);
 	}
+	
+	public List<AmigoDTO> buscarAceitos(String usuarioId) {
+		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId, StatusAmizade.ACEITO);
+		
+		return converterDtos(amizades, usuarioId);
+	}
 }
 
 

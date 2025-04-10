@@ -47,6 +47,11 @@ public class AmizadeController {
 		return amizadeService.buscarPendentes(IdToken.get());
 	}
 	
+	@GetMapping
+	public List<AmigoDTO> buscarAceitos() {
+		return amizadeService.buscarAceitos(IdToken.get());
+	}
+	
 }
 
 
