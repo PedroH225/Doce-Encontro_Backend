@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ResourceExceptionHandler {
 
 	@ExceptionHandler(exception = NotFoundException.class)
-	public ResponseEntity<StandardError> responseEntity(EventoNotFoundException e, HttpServletRequest request) {
+	public ResponseEntity<StandardError> responseEntity(NotFoundException e, HttpServletRequest request) {
         String error = "Recurso não encontrado.";
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
