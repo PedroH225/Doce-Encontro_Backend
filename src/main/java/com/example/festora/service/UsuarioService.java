@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.festora.exception.exceptions.EmailEmUsoException;
+import com.example.festora.exception.exceptions.UsuarioNotFoundException;
 import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.UsuarioDetailsDTO;
 import com.example.festora.model.dtos.UsuarioResponseDTO;
@@ -30,7 +32,7 @@ public class UsuarioService {
 		Optional<Usuario> buscarUsuario = usuarioRepository.findById(id);
 
 		if (buscarUsuario.isEmpty()) {
-			throw new RuntimeException("Usuário não encontrado.");
+			throw new UsuarioNotFoundException();
 		}
 
 		return buscarUsuario.get();
@@ -43,6 +45,10 @@ public class UsuarioService {
 	private UsuarioDetailsDTO converterDto(Usuario usuario) {
 		return new UsuarioDetailsDTO(usuario);
 	}
+	
+	private boolean verificarEmailExistente(String email, String id) {
+		return usuarioRepository.findByEmailAndIdNot(email, id).isPresent();
+	}
 
 	public List<UsuarioResponseDTO> obterTodos() {
 		return converterDtos(usuarioRepository.findAll());
@@ -52,7 +58,7 @@ public class UsuarioService {
 		Optional<Usuario> buscarUsuario = usuarioRepository.findById(id);
 
 		if (buscarUsuario.isEmpty()) {
-			throw new RuntimeException("Usuário não encontrado.");
+			throw new UsuarioNotFoundException();
 		}
 
 		return converterDto(buscarUsuario.get());
@@ -65,6 +71,9 @@ public class UsuarioService {
 	}
 
 	public UsuarioDetailsDTO editarUsuario(String id, Usuario usuarioEditado) {
+		if (verificarEmailExistente(usuarioEditado.getEmail(), id)) {
+			throw new EmailEmUsoException();
+		}
 		Usuario buscarUsuario = findById(id);
 
 		return converterDto(usuarioRepository.save(buscarUsuario.editar(usuarioEditado)));

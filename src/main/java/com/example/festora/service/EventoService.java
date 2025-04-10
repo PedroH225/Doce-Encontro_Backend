@@ -6,6 +6,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.festora.exception.exceptions.EventoNotFoundException;
+import com.example.festora.exception.exceptions.ForbiddenException;
+import com.example.festora.exception.exceptions.JaParticipandoException;
+import com.example.festora.exception.exceptions.NotAutorException;
+import com.example.festora.exception.exceptions.NotParticipandoException;
 import com.example.festora.model.Chat;
 import com.example.festora.model.Endereco;
 import com.example.festora.model.Evento;
@@ -43,7 +48,7 @@ public class EventoService {
 		Optional<Evento> buscarEvento = eventoRepository.findById(id);
 
 		if (buscarEvento.isEmpty()) {
-			throw new RuntimeException("Evento não encontrado.");
+			throw new EventoNotFoundException();
 		}
 
 		return buscarEvento.get();
@@ -51,14 +56,14 @@ public class EventoService {
 
 	public void garantirNaoParticipacao(String eventoId, String usuarioId) {
 		if (eventoRepository.verificarParticipacao(usuarioId, eventoId).isPresent()) {
-			throw new RuntimeException("Você já está participando do evento");
+			throw new JaParticipandoException();
 		}
 
 	}
 	
 	public void garantirParticipacao(String eventoId, String usuarioId) {
 		if (eventoRepository.verificarParticipacao(usuarioId, eventoId).isEmpty()) {
-			throw new RuntimeException("Você não está participando do evento");
+			throw new NotParticipandoException();
 		}
 	}
 	
@@ -83,13 +88,9 @@ public class EventoService {
 	}
 
 	public EventoDetailsDTO obterPorId(String id) {
-		Optional<Evento> buscarEvento = eventoRepository.findById(id);
+		Evento buscarEvento = findById(id);
 
-		if (buscarEvento.isEmpty()) {
-			throw new RuntimeException("Evento não encontrado.");
-		}
-
-		return converterParticipantesDto(buscarEvento.get());
+		return converterParticipantesDto(buscarEvento);
 	}
 
 	public EventoResponseDTO registrarEvento(String organizadorId, EventoRequestDTO eventoDTO) {
@@ -110,7 +111,7 @@ public class EventoService {
 
 	public EventoResponseDTO editarEvento(String eventoId, EventoRequestDTO eventoDTO, String autorId) {
 		if (!verificarAutor(autorId, eventoId)) {
-			throw new RuntimeException("Você não é o autor do evento.");
+			throw new NotAutorException();
 		}
 		Evento buscarEvento = findById(eventoId);
 
@@ -122,7 +123,7 @@ public class EventoService {
 	@Transactional
 	public String excluirEvento(String eventoId, String autorId) {
 		if (!verificarAutor(autorId, eventoId)) {
-			throw new RuntimeException("Você não é o autor do evento.");
+			throw new NotAutorException();
 		}
 		
 		Evento buscarEvento = findById(eventoId);
@@ -139,7 +140,7 @@ public class EventoService {
 		garantirNaoParticipacao(eventoId, usuarioId);
 
 		if (verificarAutor(usuarioId, eventoId)) {
-			throw new RuntimeException("Você já está participando do evento.");
+			throw new JaParticipandoException();
 		}
 
 		buscarEvento.addParticipante(buscarUsuario);
@@ -156,7 +157,7 @@ public class EventoService {
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
 		
 		if (verificarAutor(usuarioId, eventoId)) {
-			throw new RuntimeException("Organizadores não podem retirar a participação.");
+			throw new ForbiddenException("Organizadores não podem retirar a participação.");
 		}
 		garantirParticipacao(eventoId, usuarioId);
 		

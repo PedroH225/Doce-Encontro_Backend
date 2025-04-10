@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.example.festora.exception.exceptions.EmailEmUsoException;
 import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.AuthetinticationDTO;
 import com.example.festora.model.dtos.LoginResponseDTO;
@@ -36,6 +37,10 @@ public class AuthorizationService implements UserDetailsService{
 
     private AuthenticationManager authenticationManager;
     
+    private boolean verificarEmailExistente(String email) {
+		return userRepository.buscarPorEmail(email).isPresent();
+	}
+    
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email);
@@ -52,8 +57,11 @@ public class AuthorizationService implements UserDetailsService{
 
 
     public ResponseEntity<Object> register (RegisterDTO registerDto){
-        if (this.userRepository.findByEmail(registerDto.email()) != null ) return ResponseEntity.badRequest().build();
-        String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.senha());
+    	if (verificarEmailExistente(registerDto.email())) {
+			throw new EmailEmUsoException();
+		}
+    	
+    	String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.senha());
         
         Usuario newUser = new Usuario(registerDto.nome(), registerDto.email(), encryptedPassword);
         this.userRepository.save(newUser);

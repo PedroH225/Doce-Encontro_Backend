@@ -6,6 +6,8 @@ import javax.management.RuntimeErrorException;
 
 import org.springframework.stereotype.Service;
 
+import com.example.festora.exception.exceptions.NotParticipandoException;
+import com.example.festora.exception.exceptions.RequisitoNotFoundException;
 import com.example.festora.model.Evento;
 import com.example.festora.model.Requisito;
 import com.example.festora.model.Usuario;
@@ -33,7 +35,7 @@ public class RequisitoService {
 		Optional<Requisito> buscarRequisito = repository.findById(id);
 		
 		if (buscarRequisito.isEmpty()) {
-			throw new RuntimeException("Requisito não encontrado.");
+			throw new RequisitoNotFoundException();
 		}
 		
 		return buscarRequisito.get();
@@ -74,7 +76,7 @@ public class RequisitoService {
 		Optional<Usuario> buscarUsuario = eventoRepository.verificarParticipacao(usuarioId, eventoId);
 		
 		if (buscarUsuario.isEmpty()) {
-			throw new RuntimeException("Você não está participando do evento.");
+			throw new NotParticipandoException();
 		}
 		
 		buscarRequisito.adicionarResponsavel(buscarUsuario.get());
@@ -88,7 +90,7 @@ public class RequisitoService {
 		Optional<Usuario> buscarUsuario = eventoRepository.verificarParticipacao(usuarioId, eventoId);
 		
 		if (buscarUsuario.isEmpty()) {
-			throw new RuntimeException("Você não está participando do evento.");
+			throw new NotParticipandoException();
 		}
 		
 		buscarRequisito.removerResponsavel(buscarUsuario.get());
