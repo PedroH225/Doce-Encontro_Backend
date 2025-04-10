@@ -2,6 +2,7 @@ package com.example.festora.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import com.example.festora.exception.exceptions.UsuarioNotFoundException;
 import com.example.festora.model.Amizade;
 import com.example.festora.model.StatusAmizade;
 import com.example.festora.model.Usuario;
+import com.example.festora.model.dtos.AmigoDTO;
 import com.example.festora.model.dtos.AmizadeResponseDTO;
 import com.example.festora.repository.AmizadeRepository;
 
@@ -41,6 +43,13 @@ public class AmizadeService {
 	private AmizadeResponseDTO converterDto(Amizade amizade) {
 		return new AmizadeResponseDTO(amizade);
 	}
+	
+	private List<AmigoDTO> converterDtos(List<Amizade> amizades, String usuarioId) {
+		return amizades.stream()
+				.map(a -> new AmigoDTO(a, usuarioId))
+				.collect(Collectors.toList());
+	}
+
 
 	public AmizadeResponseDTO adicionarAmigo(String usuarioId, String amigoId) {
 		Usuario usuario = usuarioService.findById(usuarioId);
@@ -70,6 +79,12 @@ public class AmizadeService {
 		amizadeRepository.excluirAmizade(amizadeId);
 		
 		return "Amizade excluída com sucesso!";
+	}
+
+	public List<AmigoDTO> buscarPendentes(String usuarioId) {
+		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId, StatusAmizade.PENDENTE);
+		
+		return converterDtos(amizades, usuarioId);
 	}
 }
 

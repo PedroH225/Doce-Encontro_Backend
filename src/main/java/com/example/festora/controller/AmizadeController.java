@@ -1,6 +1,9 @@
 package com.example.festora.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.service.annotation.PutExchange;
 
 import com.example.festora.model.Amizade;
+import com.example.festora.model.dtos.AmigoDTO;
 import com.example.festora.model.dtos.AmizadeResponseDTO;
 import com.example.festora.service.AmizadeService;
 import com.example.festora.utils.IdToken;
@@ -37,6 +41,12 @@ public class AmizadeController {
 	public String excluirAmigo(@PathVariable String amizadeId) {
 		return amizadeService.excluirAmigo(amizadeId);
 	}
+	
+	@GetMapping("/pendentes")
+	public List<AmigoDTO> buscarPendentes() {
+		return amizadeService.buscarPendentes(IdToken.get());
+	}
+	
 }
 
 
