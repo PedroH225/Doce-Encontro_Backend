@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.festora.exception.exceptions.EventoNotFoundException;
+import com.example.festora.exception.exceptions.JaParticipandoException;
 import com.example.festora.exception.exceptions.NotAutorException;
 import com.example.festora.exception.exceptions.NotParticipandoException;
 import com.example.festora.model.Chat;
@@ -54,7 +55,7 @@ public class EventoService {
 
 	public void garantirNaoParticipacao(String eventoId, String usuarioId) {
 		if (eventoRepository.verificarParticipacao(usuarioId, eventoId).isPresent()) {
-			throw new RuntimeException("Você já está participando do evento");
+			throw new JaParticipandoException();
 		}
 
 	}
@@ -138,7 +139,7 @@ public class EventoService {
 		garantirNaoParticipacao(eventoId, usuarioId);
 
 		if (verificarAutor(usuarioId, eventoId)) {
-			throw new RuntimeException("Você já está participando do evento.");
+			throw new JaParticipandoException();
 		}
 
 		buscarEvento.addParticipante(buscarUsuario);
