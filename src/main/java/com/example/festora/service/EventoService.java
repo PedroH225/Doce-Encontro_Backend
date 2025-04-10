@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.festora.exception.exceptions.EventoNotFoundException;
 import com.example.festora.exception.exceptions.NotAutorException;
+import com.example.festora.exception.exceptions.NotParticipandoException;
 import com.example.festora.model.Chat;
 import com.example.festora.model.Endereco;
 import com.example.festora.model.Evento;
@@ -60,7 +61,7 @@ public class EventoService {
 	
 	public void garantirParticipacao(String eventoId, String usuarioId) {
 		if (eventoRepository.verificarParticipacao(usuarioId, eventoId).isEmpty()) {
-			throw new RuntimeException("Você não está participando do evento");
+			throw new NotParticipandoException();
 		}
 	}
 	
