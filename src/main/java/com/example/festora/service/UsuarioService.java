@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.festora.exception.exceptions.UsuarioNotFoundException;
 import com.example.festora.model.Usuario;
 import com.example.festora.model.dtos.UsuarioDetailsDTO;
 import com.example.festora.model.dtos.UsuarioResponseDTO;
@@ -30,7 +31,7 @@ public class UsuarioService {
 		Optional<Usuario> buscarUsuario = usuarioRepository.findById(id);
 
 		if (buscarUsuario.isEmpty()) {
-			throw new RuntimeException("Usuário não encontrado.");
+			throw new UsuarioNotFoundException();
 		}
 
 		return buscarUsuario.get();
@@ -56,7 +57,7 @@ public class UsuarioService {
 		Optional<Usuario> buscarUsuario = usuarioRepository.findById(id);
 
 		if (buscarUsuario.isEmpty()) {
-			throw new RuntimeException("Usuário não encontrado.");
+			throw new UsuarioNotFoundException();
 		}
 
 		return converterDto(buscarUsuario.get());
