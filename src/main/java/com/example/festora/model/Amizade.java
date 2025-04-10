@@ -35,4 +35,14 @@ public class Amizade {
 	
 	@Enumerated(EnumType.STRING)
 	private StatusAmizade status;
+	
+	
+	public void addAmigo(Usuario usuario, Usuario amigo) {
+		usuario.getListaAmigos().add(this);
+		amigo.getListaAmigos().add(this);
+
+	}
 }
+
+
+
