@@ -63,6 +63,14 @@ public class AmizadeService {
 		
 		return converterDto(amizadeRepository.save(amizade));
 	}
+	
+	public String excluirAmigo(String amizadeId) {
+		findById(amizadeId);
+		
+		amizadeRepository.excluirAmizade(amizadeId);
+		
+		return "Amizade excluída com sucesso!";
+	}
 }
 
 
