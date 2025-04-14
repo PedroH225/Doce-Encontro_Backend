@@ -9,11 +9,11 @@
 		<version>3.4.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>festora</artifactId>
+	<groupId>br.com.doceencontro</groupId>
+	<artifactId>doce-encontro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>festora</name>
-	<description>Backend do aplicativo Festora</description>
+	<name>doce-encontro</name>
+	<description>Backend do aplicativo Doce Encontro</description>
 	<url />
 	<licenses>
 		<license />
