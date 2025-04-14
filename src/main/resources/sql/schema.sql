@@ -135,7 +135,6 @@ CREATE TABLE IF NOT EXISTS `doce-encontro-db`.`requisitos` (
 	 FOREIGN KEY (`evento_id`) REFERENCES `doce-encontro-db`.`eventos`(`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
-
 CREATE TABLE IF NOT EXISTS `doce-encontro-db`.`requisito_usuario` (
   `requisito_id` VARCHAR(36) NOT NULL,
   `usuario_id` VARCHAR(36) NOT NULL,
@@ -144,6 +143,21 @@ CREATE TABLE IF NOT EXISTS `doce-encontro-db`.`requisito_usuario` (
   CONSTRAINT `unique_requisito_usuario` UNIQUE (`requisito_id`, `usuario_id`)
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `doce-encontro-db`.`convites` (
+	`id` VARCHAR(36) PRIMARY KEY NOT NULL,
+	`titulo` VARCHAR(100) NOT NULL,
+	`descricao` VARCHAR(200) NOT NULL,
+	`evento_id` VARCHAR(36) NOT NULL,
+	 FOREIGN KEY (`evento_id`) REFERENCES `doce-encontro-db`.`eventos`(`id`) ON DELETE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `doce-encontro-db`.`convite_usuario` (
+  `convite_id` VARCHAR(36) NOT NULL,
+  `usuario_id` VARCHAR(36) NOT NULL,
+  FOREIGN KEY (`usuario_id`) REFERENCES `doce-encontro-db`.`usuarios`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`convite_id`) REFERENCES `doce-encontro-db`.`convites`(`id`) ON DELETE CASCADE,
+  CONSTRAINT `unique_requisito_usuario` UNIQUE (`convite_id`, `usuario_id`)
+) ENGINE = InnoDB;
 
 CREATE TABLE `doce-encontro-db`.`chats` (
     `id` VARCHAR(36) PRIMARY KEY,
