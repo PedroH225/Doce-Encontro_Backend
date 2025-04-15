@@ -12,6 +12,7 @@ import br.com.doceencontro.exception.exceptions.JaParticipandoException;
 import br.com.doceencontro.exception.exceptions.NotAutorException;
 import br.com.doceencontro.exception.exceptions.NotParticipandoException;
 import br.com.doceencontro.model.Chat;
+import br.com.doceencontro.model.Convite;
 import br.com.doceencontro.model.Endereco;
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Tipo;
@@ -100,9 +101,11 @@ public class EventoService {
 
 		Evento novoEvento = new Evento(null, eventoDTO.titulo(), eventoDTO.descricao(),
 				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), novoEndereco, buscarOrganizador, null, null, null,
-				null);
+				null, null);
 
+		
 		novoEndereco.setEvento(novoEvento);
+		novoEvento.setConvite(new Convite(novoEvento));
 		novoEvento.setChat(new Chat(novoEvento));
 
 		return new EventoResponseDTO(eventoRepository.save(novoEvento));

@@ -3,7 +3,6 @@ package br.com.doceencontro.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import br.com.doceencontro.controller.RequisitoController;
 import br.com.doceencontro.model.dtos.EventoRequestDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -61,6 +60,9 @@ public class Evento {
 	
 	@OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Chat chat;
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "evento")
+	private Convite convite;
 	
 	public Evento editar(EventoRequestDTO eventoDTO) {
 		setTitulo(eventoDTO.titulo());
