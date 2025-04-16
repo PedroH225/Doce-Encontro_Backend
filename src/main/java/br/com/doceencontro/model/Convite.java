@@ -43,7 +43,7 @@ public class Convite {
 		this.evento = evento;
 		this.titulo = String.format("Convite para o %s: %s.", evento.getTipo().toString(), evento.getTitulo());
 
-		this.descricao = String.format("%s acaba de te convidar para o %s: %s. Aceite o convite para participar!.",
+		this.descricao = String.format("%s acaba de te convidar para o %s: %s. Aceite o convite para participar!",
 				evento.getOrganizador().getNome(), evento.getTipo().toString(), evento.getTitulo());
 	}
 	
