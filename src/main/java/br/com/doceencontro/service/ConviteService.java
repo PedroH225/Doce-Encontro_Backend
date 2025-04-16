@@ -11,6 +11,7 @@ import br.com.doceencontro.model.Convite;
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.ConviteDTO;
+import br.com.doceencontro.model.dtos.ConviteResponseDTO;
 import br.com.doceencontro.repository.ConviteRepository;
 import br.com.doceencontro.repository.EventoRepository;
 
@@ -50,6 +51,12 @@ public class ConviteService {
 	private ConviteDTO converterDto(Convite convite) {
 		return new ConviteDTO(convite);
 	}
+	
+	private List<ConviteResponseDTO> converterDtos(List<Convite> convites) {
+		return convites.stream()
+				.map(c -> new ConviteResponseDTO(c))
+				.collect(Collectors.toList());
+	}
 
 	public ConviteDTO convidar(List<String> usuariosIds, String eventoId) {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -65,5 +72,9 @@ public class ConviteService {
 		Evento eventodb = this.eventoRepository.save(evento);
 		
 		return converterDto(eventodb.getConvite());
+	}
+
+	public List<ConviteResponseDTO> listarConvitesUsuario(String destinatarioId) {
+		return converterDtos(conviteRepository.findByDestinatariosId(destinatarioId));
 	}
 }
