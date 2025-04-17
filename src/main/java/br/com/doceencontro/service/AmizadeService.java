@@ -9,6 +9,7 @@ import javax.management.RuntimeErrorException;
 import org.springframework.stereotype.Service;
 
 import br.com.doceencontro.exception.exceptions.AmizadeExistenteException;
+import br.com.doceencontro.exception.exceptions.ForbiddenException;
 import br.com.doceencontro.exception.exceptions.PedidoExistenteException;
 import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
 import br.com.doceencontro.model.Amizade;
@@ -48,6 +49,12 @@ public class AmizadeService {
 		return new AmizadeResponseDTO(amizade);
 	}
 
+	private void validarParticipacaoAmizade(String usuarioId, Amizade amizade) {
+		if (!amizade.getUsuario().getId().equals(usuarioId) && !amizade.getAmigo().getId().equals(usuarioId)) {
+			throw new ForbiddenException("Você não faz parte dessa amizade.");
+		}
+	}
+
 	private List<AmigoDTO> converterDtos(List<Amizade> amizades, String usuarioId) {
 		return amizades.stream().map(a -> new AmigoDTO(a, usuarioId)).collect(Collectors.toList());
 	}
@@ -58,7 +65,7 @@ public class AmizadeService {
 		Usuario usuario = usuarioService.findById(usuarioId);
 
 		Optional<Amizade> buscarAmizade = amizadeRepository.buscarAmizade(usuarioId, amigo.getId());
-		
+
 		if (buscarAmizade.isPresent()) {
 			Amizade amizadeExistente = buscarAmizade.get();
 
@@ -76,16 +83,20 @@ public class AmizadeService {
 
 	}
 
-	public AmizadeResponseDTO aceitarPedido(String amizadeId) {
+	public AmizadeResponseDTO aceitarPedido(String usuarioId, String amizadeId) {
 		Amizade amizade = findById(amizadeId);
+		
+		validarParticipacaoAmizade(usuarioId, amizade);
 
 		amizade.setStatus(StatusAmizade.ACEITO);
 
 		return converterDto(amizadeRepository.save(amizade));
 	}
 
-	public String excluirAmigo(String amizadeId) {
+	public String excluirAmigo(String usuarioId, String amizadeId) {
 		Amizade amizade = findById(amizadeId);
+		
+		validarParticipacaoAmizade(usuarioId, amizade);
 
 		amizadeRepository.excluirAmizade(amizadeId);
 
@@ -93,7 +104,7 @@ public class AmizadeService {
 			return "Amizade excluída com sucesso.";
 		}
 		return "Pedido excluído com sucesso.";
-		
+
 	}
 
 	public List<AmigoDTO> buscarPendentes(String usuarioId) {

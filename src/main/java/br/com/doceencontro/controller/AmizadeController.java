@@ -34,12 +34,12 @@ public class AmizadeController {
 	
 	@PutMapping("/{amizadeId}")
 	public AmizadeResponseDTO aceitarPedido(@PathVariable String amizadeId) {
-		return amizadeService.aceitarPedido(amizadeId);
+		return amizadeService.aceitarPedido(IdToken.get(), amizadeId);
 	}
 	
 	@DeleteMapping("/{amizadeId}")
 	public String excluirAmigo(@PathVariable String amizadeId) {
-		return amizadeService.excluirAmigo(amizadeId);
+		return amizadeService.excluirAmigo(IdToken.get(), amizadeId);
 	}
 	
 	@GetMapping("/pendentes")
