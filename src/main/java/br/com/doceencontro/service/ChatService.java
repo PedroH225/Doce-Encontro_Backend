@@ -22,19 +22,16 @@ public class ChatService {
 
 	private MensagemRepository mensagemRepository;
 
-	private EventoRepository eventoRepository;
-
 	private EventoService eventoService;
 
 	private UsuarioService usuarioService;
 
 	public ChatService(ChatRepository chatRepository, MensagemRepository mensagemRepository,
-			EventoRepository eventoRepository, EventoService eventoService, UsuarioService usuarioService) {
+			EventoService eventoService, UsuarioService usuarioService) {
 		this.chatRepository = chatRepository;
 		this.mensagemRepository = mensagemRepository;
 		this.eventoService = eventoService;
 		this.usuarioService = usuarioService;
-		this.eventoRepository = eventoRepository;
 	}
 
 	public Chat findById(String id) {
@@ -61,9 +58,8 @@ public class ChatService {
 		Chat buscarChat = findById(chatId);
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
 
-		String eventoId = buscarChat.getEvento().getId();
-		if (!eventoService.verificarAutor(usuarioId, eventoId)) {
-			eventoService.garantirParticipacao(eventoId, usuarioId);
+		if (!eventoService.verificarAutor(usuarioId, buscarChat.getEvento())) {
+			eventoService.garantirParticipacao(buscarChat.getEvento(), usuarioId);
 		}
 
 		Mensagem novaMensagem = new Mensagem(buscarChat, buscarUsuario, mensagem);
