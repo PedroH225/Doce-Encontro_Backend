@@ -9,6 +9,7 @@ import javax.management.RuntimeErrorException;
 import org.springframework.stereotype.Service;
 
 import br.com.doceencontro.exception.exceptions.AmizadeExistenteException;
+import br.com.doceencontro.exception.exceptions.AmizadeNotFoundException;
 import br.com.doceencontro.exception.exceptions.ForbiddenException;
 import br.com.doceencontro.exception.exceptions.PedidoExistenteException;
 import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
@@ -39,7 +40,7 @@ public class AmizadeService {
 		Optional<Amizade> buscarAmizade = amizadeRepository.findById(amizadeId);
 
 		if (buscarAmizade.isEmpty()) {
-			throw new RuntimeException("Amizade não encontrada.");
+			throw new AmizadeNotFoundException();
 		}
 
 		return buscarAmizade.get();
