@@ -4,18 +4,16 @@ INSERT INTO `doce-encontro-db`.`usuarios` (id, nome, email, senha) VALUES
 ('b634becf-47f9-4c99-a45e-f00f531e29bb', 'Carlos Souza', 'carlos@example.com', '$2a$10$mCdgqORL0u5pLy9Y31MSEerJh8gzWnIzc9EyEkocGEWMi50NKR1jC');
 
 
-INSERT INTO `doce-encontro-db`.`eventos` (id, titulo, descricao, data, usuario_id) VALUES
-('bd5def34-a0c0-447f-bfec-679360657861', 'Evento A', 'Descrição do Evento A', '2025-03-10 18:00:00', '77eea251-9b21-42b1-b9cf-276035b66ed7'),
-('5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4', 'Evento B', 'Descrição do Evento B', '2025-03-12 19:00:00','37997bb5-8bba-4707-ae13-6d89b4cdf668'),
-('25da36ea-f881-44ea-a325-54094d96d459', 'Evento C', 'Descrição do Evento C', '2025-03-14 20:00:00', 'b634becf-47f9-4c99-a45e-f00f531e29bb');
+INSERT INTO `doce-encontro-db`.`eventos` (id, titulo, descricao, data, tipo, usuario_id) VALUES
+('bd5def34-a0c0-447f-bfec-679360657861', 'Evento A', 'Descrição do Evento A', '2025-03-10 18:00:00', 'BEBE', '77eea251-9b21-42b1-b9cf-276035b66ed7'),
+('5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4', 'Evento B', 'Descrição do Evento B', '2025-03-12 19:00:00', 'REVELACAO','37997bb5-8bba-4707-ae13-6d89b4cdf668'),
+('25da36ea-f881-44ea-a325-54094d96d459', 'Evento C', 'Descrição do Evento C', '2025-03-14 20:00:00', 'FRALDAS', 'b634becf-47f9-4c99-a45e-f00f531e29bb');
 
 INSERT INTO `doce-encontro-db`.`enderecos` (id, local, estado, cidade, rua, numero, evento_id) VALUES
 ('f8a770e5-dcdf-4a6f-b49f-ce2dd0d47044', 'Rua A, 123', 'SP', 'São Paulo', 'Rua X', 10, 'bd5def34-a0c0-447f-bfec-679360657861'),
 ('788c6437-79ce-400d-b72a-8845f2189933', 'Avenida B, 456', 'RJ', 'Rio de Janeiro', 'Avenida Y', 20, '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4'),
 ('3450efc5-da79-496c-b3d1-44981b61f27f', 'Rua C, 789', 'MG', 'Belo Horizonte', 'Rua Z', 30, '25da36ea-f881-44ea-a325-54094d96d459');
 
-
--- Arquivos
 INSERT INTO `doce-encontro-db`.`arquivos` (id, nome, caminho, tipo, evento_id) VALUES
 ('a1b2c3d4-e5f6-4abc-8def-1234567890aa', 'arquivo1.pdf', '/uploads/arquivo1.pdf', 'pdf', 'bd5def34-a0c0-447f-bfec-679360657861'),
 ('b2c3d4e5-f6a7-4def-9abc-2345678901bb', 'arquivo2.docx', '/uploads/arquivo2.docx', 'docx', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4'),
@@ -70,3 +68,9 @@ INSERT INTO `doce-encontro-db`.`chats` (id, nome, evento_id) VALUES
 ('a7046e44-3be1-4485-ab7e-e9d04bfba1ad', 'Chat de Evento A', 'bd5def34-a0c0-447f-bfec-679360657861'),
 ('f1ff21ec-1d8e-40bb-af82-d6ddc7bec4a8', 'Chat de Evento B', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4'),
 ('81ee50e6-648f-4134-95da-3877612e88b9', 'Chat de Evento C', '25da36ea-f881-44ea-a325-54094d96d459');
+
+INSERT INTO `doce-encontro-db`.`convites` (id, titulo, descricao, evento_id) VALUES
+('48a54446-ebca-4ffd-bc7c-1aed856087c7', 'Evento C convite', 'descrição', '25da36ea-f881-44ea-a325-54094d96d459'),
+('2d3c7d71-d48d-4cff-b859-74b35a9684e3', 'Evento B convite', 'descrição', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4'),
+('2d0a6297-1b92-4b1a-b4b6-acb23d830183', 'Evento A convite', 'descrição', 'bd5def34-a0c0-447f-bfec-679360657861');
+

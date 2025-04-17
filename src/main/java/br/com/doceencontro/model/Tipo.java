@@ -1,18 +1,10 @@
 package br.com.doceencontro.model;
 
 public enum Tipo {
-	OUTRO("Outro"),
-	CHURRASCO("Churrasco"),
-	ANIVERSARIO("Aniversário"),
-	CASAMENTO("Casamento"),
-	FORMATURA("Formatura"),
-	CHADEBEBE("Chá de Bebê"),
-	HALLOWEEN("Halloween"),
-	REVEILLON("Reveillon"),
-	CONFRATERNIZACAO("Confraternização"),
-	CARNAVAL("Carnaval"),
-	JUNINA("Festa Junina"),
-	INAUGURACAO("Inauguração");
+	BEBE("Chá de Bebê"),
+	FRALDAS("Chá de Fraldas"),
+	REVELACAO("Chá Revelação");
+	
 	
 	private String tipo;
 	

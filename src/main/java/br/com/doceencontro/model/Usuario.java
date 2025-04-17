@@ -71,6 +71,8 @@ public class Usuario implements UserDetails {
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Mensagem> mensagens;
 	
+	@ManyToMany(mappedBy = "destinatarios", cascade = CascadeType.PERSIST)
+	private List<Convite> convites;
 	
 	public Usuario editar(Usuario usuarioEditado) {
 		this.nome =  usuarioEditado.nome;

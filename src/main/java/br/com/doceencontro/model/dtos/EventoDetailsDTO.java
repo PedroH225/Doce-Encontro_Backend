@@ -2,6 +2,7 @@ package br.com.doceencontro.model.dtos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import br.com.doceencontro.model.Endereco;
@@ -29,6 +30,8 @@ public class EventoDetailsDTO {
 	private List<RequisitoResponseDTO> requisitos;
 	
 	private List<UsuarioResponseDTO> participantes = new ArrayList<UsuarioResponseDTO>();
+	
+	private List<UsuarioResponseDTO> convidados = new ArrayList<UsuarioResponseDTO>();
 
 	public EventoDetailsDTO(Evento evento) {
 		this.id = evento.getId();
@@ -41,8 +44,17 @@ public class EventoDetailsDTO {
 				.collect(Collectors.toList());
 				
 		this.organizador = new UsuarioResponseDTO(evento.getOrganizador());
-		this.participantes = evento.getParticipantes().stream().map(u -> new UsuarioResponseDTO(u))
-				.collect(Collectors.toList());
 		
+		this.participantes = converterDtos(evento.getParticipantes());
+		this.convidados = converterDtos(evento.getConvite().getDestinatarios());
+		
+	}
+	
+	private List<UsuarioResponseDTO> converterDtos(List<Usuario> usuarios) {
+		return usuarios.stream().map(u -> new UsuarioResponseDTO(u)).collect(Collectors.toList());
+	}
+	
+	private List<UsuarioResponseDTO> converterDtos(Set<Usuario> usuarios) {
+		return usuarios.stream().map(u -> new UsuarioResponseDTO(u)).collect(Collectors.toList());
 	}
 }
