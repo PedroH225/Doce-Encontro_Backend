@@ -7,31 +7,29 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
 import br.com.doceencontro.model.Convite;
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.ConviteDTO;
 import br.com.doceencontro.model.dtos.ConviteResponseDTO;
 import br.com.doceencontro.repository.ConviteRepository;
-import br.com.doceencontro.repository.EventoRepository;
+import br.com.doceencontro.utils.EventoUtils;
 
 @Service
 public class ConviteService {
 
 	private ConviteRepository conviteRepository;
 
-	private EventoRepository eventoRepository;
-
 	private UsuarioService usuarioService;
 
 	private EventoService eventoService;
 
 	public ConviteService(ConviteRepository conviteRepository, EventoService eventoService,
-			UsuarioService usuarioService, EventoRepository eventoRepository) {
+			UsuarioService usuarioService) {
 		this.conviteRepository = conviteRepository;
 		this.usuarioService = usuarioService;
 		this.eventoService = eventoService;
-		this.eventoRepository = eventoRepository;
 	}
 
 	public List<Convite> findAll() {
@@ -63,13 +61,17 @@ public class ConviteService {
 
 		Evento evento = eventoService.findById(eventoId);
 
-		usuariosIds.forEach(id -> {
-			usuarios.add(usuarioService.findById(id));
+		usuariosIds.forEach(usuarioId -> {
+			try {
+				if (!EventoUtils.isParticipando(evento, usuarioId) && !EventoUtils.verificarAutor(usuarioId, evento)) {
+					usuarios.add(usuarioService.findById(usuarioId));
+				}
+			} catch (UsuarioNotFoundException e) {}
 		});
 		
 		evento.getConvite().enviarConvite(usuarios);
 
-		Evento eventodb = this.eventoRepository.save(evento);
+		Evento eventodb = this.eventoService.salvar(evento);
 		
 		return converterDto(eventodb.getConvite());
 	}

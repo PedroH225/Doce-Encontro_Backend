@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.doceencontro.exception.exceptions.EventoNotFoundException;
 import br.com.doceencontro.exception.exceptions.ForbiddenException;
-import br.com.doceencontro.exception.exceptions.JaParticipandoException;
 import br.com.doceencontro.exception.exceptions.NotAutorException;
-import br.com.doceencontro.exception.exceptions.NotParticipandoException;
 import br.com.doceencontro.model.Chat;
 import br.com.doceencontro.model.Convite;
 import br.com.doceencontro.model.Endereco;
@@ -22,6 +20,7 @@ import br.com.doceencontro.model.dtos.EventoRequestDTO;
 import br.com.doceencontro.model.dtos.EventoResponseDTO;
 import br.com.doceencontro.repository.EnderecoRepository;
 import br.com.doceencontro.repository.EventoRepository;
+import br.com.doceencontro.utils.EventoUtils;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -53,22 +52,9 @@ public class EventoService {
 
 		return buscarEvento.get();
 	}
-
-	public void garantirNaoParticipacao(String eventoId, String usuarioId) {
-		if (eventoRepository.verificarParticipacao(usuarioId, eventoId).isPresent()) {
-			throw new JaParticipandoException();
-		}
-
-	}
 	
-	public void garantirParticipacao(String eventoId, String usuarioId) {
-		if (eventoRepository.verificarParticipacao(usuarioId, eventoId).isEmpty()) {
-			throw new NotParticipandoException();
-		}
-	}
-	
-	public boolean verificarAutor(String usuarioId, String eventoId) {
-		return eventoRepository.findAutor(usuarioId, eventoId).isPresent();
+	public Evento salvar(Evento evento) {
+		return eventoRepository.save(evento);
 	}
 
 	private EventoDetailsDTO converterParticipantesDto(Evento evento) {
@@ -102,7 +88,6 @@ public class EventoService {
 		Evento novoEvento = new Evento(null, eventoDTO.titulo(), eventoDTO.descricao(),
 				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), novoEndereco, buscarOrganizador, null, null, null,
 				null, null);
-
 		
 		novoEndereco.setEvento(novoEvento);
 		novoEvento.setConvite(new Convite(novoEvento));
@@ -112,10 +97,11 @@ public class EventoService {
 	}
 
 	public EventoResponseDTO editarEvento(String eventoId, EventoRequestDTO eventoDTO, String autorId) {
-		if (!verificarAutor(autorId, eventoId)) {
+		Evento buscarEvento = findById(eventoId);
+
+		if (!EventoUtils.verificarAutor(autorId, buscarEvento)) {
 			throw new NotAutorException();
 		}
-		Evento buscarEvento = findById(eventoId);
 
 		Evento eventoEditado = eventoRepository.save(buscarEvento.editar(eventoDTO));
 
@@ -124,12 +110,12 @@ public class EventoService {
 
 	@Transactional
 	public String excluirEvento(String eventoId, String autorId) {
-		if (!verificarAutor(autorId, eventoId)) {
+		Evento buscarEvento = findById(eventoId);
+
+		if (!EventoUtils.verificarAutor(autorId, buscarEvento)) {
 			throw new NotAutorException();
 		}
 		
-		Evento buscarEvento = findById(eventoId);
-
 		eventoRepository.excluir(buscarEvento.getId());
 		enderecoRepository.excluir(buscarEvento.getEndereco().getId());
 
@@ -147,12 +133,6 @@ public class EventoService {
 		if (buscarConvidado.isEmpty()) {
 			throw new RuntimeException("Você não foi convidado.");
 		}
-		
-		garantirNaoParticipacao(eventoId, usuarioId);
-
-		if (verificarAutor(usuarioId, eventoId)) {
-			throw new JaParticipandoException();
-		}
 
 		buscarEvento.addParticipante(buscarUsuario);
 
@@ -169,10 +149,10 @@ public class EventoService {
 		Evento buscarEvento = findById(eventoId);
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
 		
-		if (verificarAutor(usuarioId, eventoId)) {
+		if (EventoUtils.verificarAutor(usuarioId, buscarEvento)) {
 			throw new ForbiddenException("Organizadores não podem retirar a participação.");
 		}
-		garantirParticipacao(eventoId, usuarioId);
+		EventoUtils.garantirParticipacao(buscarEvento, usuarioId);
 		
 		
 		buscarEvento.removerParticipante(buscarUsuario);
