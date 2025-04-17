@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
 import br.com.doceencontro.model.Convite;
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Usuario;
@@ -63,8 +64,12 @@ public class ConviteService {
 
 		Evento evento = eventoService.findById(eventoId);
 
-		usuariosIds.forEach(id -> {
-			usuarios.add(usuarioService.findById(id));
+		usuariosIds.forEach(usuarioId -> {
+			try {
+				if (!eventoService.isParticipando(evento, usuarioId) && !eventoService.verificarAutor(usuarioId, evento)) {
+					usuarios.add(usuarioService.findById(usuarioId));
+				}
+			} catch (UsuarioNotFoundException e) {}
 		});
 		
 		evento.getConvite().enviarConvite(usuarios);
