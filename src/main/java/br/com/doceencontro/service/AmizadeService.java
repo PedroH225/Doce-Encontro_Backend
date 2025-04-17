@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.doceencontro.exception.exceptions.AmizadeExistenteException;
 import br.com.doceencontro.exception.exceptions.AmizadeNotFoundException;
+import br.com.doceencontro.exception.exceptions.ConflictException;
 import br.com.doceencontro.exception.exceptions.ForbiddenException;
 import br.com.doceencontro.exception.exceptions.PedidoExistenteException;
 import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
@@ -88,6 +89,10 @@ public class AmizadeService {
 		Amizade amizade = findById(amizadeId);
 		
 		validarParticipacaoAmizade(usuarioId, amizade);
+		
+		if (amizade.getStatus().equals(StatusAmizade.ACEITO)) {
+			throw new ConflictException("Pedido já aceito.");
+		}
 
 		amizade.setStatus(StatusAmizade.ACEITO);
 
