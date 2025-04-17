@@ -14,7 +14,7 @@ import br.com.doceencontro.service.RequisitoService;
 import br.com.doceencontro.utils.IdToken;
 
 @RestController
-@RequestMapping("/eventos/requisitos")
+@RequestMapping("/eventos/presentes")
 public class RequisitoController {
 
 	private RequisitoService service;
