@@ -66,3 +66,4 @@ docker-compose.yml
 
 ### OUTROS ###
 token-perm.txt
+.env
