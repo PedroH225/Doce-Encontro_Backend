@@ -43,56 +43,49 @@ public class AmizadeService {
 	private AmizadeResponseDTO converterDto(Amizade amizade) {
 		return new AmizadeResponseDTO(amizade);
 	}
-	
+
 	private List<AmigoDTO> converterDtos(List<Amizade> amizades, String usuarioId) {
-		return amizades.stream()
-				.map(a -> new AmigoDTO(a, usuarioId))
-				.collect(Collectors.toList());
+		return amizades.stream().map(a -> new AmigoDTO(a, usuarioId)).collect(Collectors.toList());
 	}
 
+	public AmizadeResponseDTO adicionarAmigo(String usuarioId, String amigoEmail) {
+		Usuario amigo = usuarioService.buscarPorEmailExcetoId(amigoEmail, usuarioId);
 
-	public AmizadeResponseDTO adicionarAmigo(String usuarioId, String amigoId) {
 		Usuario usuario = usuarioService.findById(usuarioId);
-		try {
-			Usuario amigo = usuarioService.findById(amigoId);
-			Amizade novaAmizade = new Amizade(null, usuario, amigo, StatusAmizade.PENDENTE);
+		
+		Amizade novaAmizade = new Amizade(null, usuario, amigo, StatusAmizade.PENDENTE);
 
-			novaAmizade.addAmigo(usuario, amigo);
+		novaAmizade.addAmigo(usuario, amigo);
 
-			return converterDto(amizadeRepository.save(novaAmizade));
-		} catch (UsuarioNotFoundException e) {
-			throw new RuntimeException("Amigo não encontrado.");
-		}
+		return converterDto(amizadeRepository.save(novaAmizade));
+
 	}
-	
+
 	public AmizadeResponseDTO aceitarPedido(String amizadeId) {
 		Amizade amizade = findById(amizadeId);
-		
+
 		amizade.setStatus(StatusAmizade.ACEITO);
-		
+
 		return converterDto(amizadeRepository.save(amizade));
 	}
-	
+
 	public String excluirAmigo(String amizadeId) {
 		findById(amizadeId);
-		
+
 		amizadeRepository.excluirAmizade(amizadeId);
-		
+
 		return "Amizade excluída com sucesso!";
 	}
 
 	public List<AmigoDTO> buscarPendentes(String usuarioId) {
 		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId, StatusAmizade.PENDENTE);
-		
+
 		return converterDtos(amizades, usuarioId);
 	}
-	
+
 	public List<AmigoDTO> buscarAceitos(String usuarioId) {
 		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId, StatusAmizade.ACEITO);
-		
+
 		return converterDtos(amizades, usuarioId);
 	}
 }
-
-
-

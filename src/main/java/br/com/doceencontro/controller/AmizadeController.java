@@ -27,9 +27,9 @@ public class AmizadeController {
 		this.amizadeService = amizadeService;
 	}
 	
-	@PostMapping("/{amigoId}")
-	public AmizadeResponseDTO adicionarAmigo(@PathVariable String amigoId) {
-		return amizadeService.adicionarAmigo(IdToken.get() ,amigoId);
+	@PostMapping("/{amigoEmail}")
+	public AmizadeResponseDTO adicionarAmigo(@PathVariable String amigoEmail) {
+		return amizadeService.adicionarAmigo(IdToken.get() ,amigoEmail);
 	}
 	
 	@PutMapping("/{amizadeId}")
