@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.stereotype.Service;
 
+import br.com.doceencontro.exception.exceptions.AmizadeExistenteException;
+import br.com.doceencontro.exception.exceptions.PedidoExistenteException;
 import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
 import br.com.doceencontro.model.Amizade;
 import br.com.doceencontro.model.StatusAmizade;
@@ -52,7 +56,18 @@ public class AmizadeService {
 		Usuario amigo = usuarioService.buscarPorEmailExcetoId(amigoEmail, usuarioId);
 
 		Usuario usuario = usuarioService.findById(usuarioId);
+
+		Optional<Amizade> buscarAmizade = amizadeRepository.buscarAmizade(usuarioId, amigo.getId());
 		
+		if (buscarAmizade.isPresent()) {
+			Amizade amizadeExistente = buscarAmizade.get();
+
+			if (amizadeExistente.getStatus().equals(StatusAmizade.ACEITO)) {
+				throw new AmizadeExistenteException();
+			}
+			throw new PedidoExistenteException();
+		}
+
 		Amizade novaAmizade = new Amizade(null, usuario, amigo, StatusAmizade.PENDENTE);
 
 		novaAmizade.addAmigo(usuario, amigo);
