@@ -139,6 +139,15 @@ public class EventoService {
 	public String participar(String eventoId, String usuarioId) {
 		Evento buscarEvento = findById(eventoId);
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
+		
+		Optional<Usuario> buscarConvidado = buscarEvento.getConvite().getDestinatarios().stream()
+		.filter(c -> c.getId().equals(usuarioId))
+		.findFirst();
+		
+		if (buscarConvidado.isEmpty()) {
+			throw new RuntimeException("Você não foi convidado.");
+		}
+		
 		garantirNaoParticipacao(eventoId, usuarioId);
 
 		if (verificarAutor(usuarioId, eventoId)) {
@@ -148,6 +157,8 @@ public class EventoService {
 		buscarEvento.addParticipante(buscarUsuario);
 
 		buscarEvento.getChat().adicionarParticipante(buscarUsuario);
+		
+		buscarEvento.getConvite().getDestinatarios().remove(buscarUsuario);
 
 		eventoRepository.save(buscarEvento);
 
