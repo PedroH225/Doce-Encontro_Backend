@@ -21,18 +21,15 @@ public class ConviteService {
 
 	private ConviteRepository conviteRepository;
 
-	private EventoRepository eventoRepository;
-
 	private UsuarioService usuarioService;
 
 	private EventoService eventoService;
 
 	public ConviteService(ConviteRepository conviteRepository, EventoService eventoService,
-			UsuarioService usuarioService, EventoRepository eventoRepository) {
+			UsuarioService usuarioService) {
 		this.conviteRepository = conviteRepository;
 		this.usuarioService = usuarioService;
 		this.eventoService = eventoService;
-		this.eventoRepository = eventoRepository;
 	}
 
 	public List<Convite> findAll() {
@@ -74,7 +71,7 @@ public class ConviteService {
 		
 		evento.getConvite().enviarConvite(usuarios);
 
-		Evento eventodb = this.eventoRepository.save(evento);
+		Evento eventodb = this.eventoService.salvar(evento);
 		
 		return converterDto(eventodb.getConvite());
 	}
