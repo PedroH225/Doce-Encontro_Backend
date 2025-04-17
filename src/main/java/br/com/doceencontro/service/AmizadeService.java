@@ -85,11 +85,15 @@ public class AmizadeService {
 	}
 
 	public String excluirAmigo(String amizadeId) {
-		findById(amizadeId);
+		Amizade amizade = findById(amizadeId);
 
 		amizadeRepository.excluirAmizade(amizadeId);
 
-		return "Amizade excluída com sucesso!";
+		if (amizade.getStatus().equals(StatusAmizade.ACEITO)) {
+			return "Amizade excluída com sucesso.";
+		}
+		return "Pedido excluído com sucesso.";
+		
 	}
 
 	public List<AmigoDTO> buscarPendentes(String usuarioId) {
