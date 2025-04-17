@@ -12,8 +12,8 @@ import br.com.doceencontro.model.Mensagem;
 import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.MensagemDTO;
 import br.com.doceencontro.repository.ChatRepository;
-import br.com.doceencontro.repository.EventoRepository;
 import br.com.doceencontro.repository.MensagemRepository;
+import br.com.doceencontro.utils.EventoUtils;
 
 @Service
 public class ChatService {
@@ -22,15 +22,12 @@ public class ChatService {
 
 	private MensagemRepository mensagemRepository;
 
-	private EventoService eventoService;
-
 	private UsuarioService usuarioService;
 
 	public ChatService(ChatRepository chatRepository, MensagemRepository mensagemRepository,
-			EventoService eventoService, UsuarioService usuarioService) {
+			UsuarioService usuarioService) {
 		this.chatRepository = chatRepository;
 		this.mensagemRepository = mensagemRepository;
-		this.eventoService = eventoService;
 		this.usuarioService = usuarioService;
 	}
 
@@ -58,8 +55,8 @@ public class ChatService {
 		Chat buscarChat = findById(chatId);
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
 
-		if (!eventoService.verificarAutor(usuarioId, buscarChat.getEvento())) {
-			eventoService.garantirParticipacao(buscarChat.getEvento(), usuarioId);
+		if (!EventoUtils.verificarAutor(usuarioId, buscarChat.getEvento())) {
+			EventoUtils.garantirParticipacao(buscarChat.getEvento(), usuarioId);
 		}
 
 		Mensagem novaMensagem = new Mensagem(buscarChat, buscarUsuario, mensagem);

@@ -2,8 +2,6 @@ package br.com.doceencontro.service;
 
 import java.util.Optional;
 
-import javax.management.RuntimeErrorException;
-
 import org.springframework.stereotype.Service;
 
 import br.com.doceencontro.exception.exceptions.NotParticipandoException;
@@ -12,8 +10,8 @@ import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Requisito;
 import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.RequisitoResponseDTO;
-import br.com.doceencontro.repository.EventoRepository;
 import br.com.doceencontro.repository.RequisitoRepository;
+import br.com.doceencontro.utils.EventoUtils;
 
 @Service
 public class RequisitoService {
@@ -73,7 +71,7 @@ public class RequisitoService {
 	public RequisitoResponseDTO addResponsavel(String requisitoId, String usuarioId) {
 		Requisito buscarRequisito = findById(requisitoId);
 
-		if (!eventoService.isParticipando(buscarRequisito.getEvento(), usuarioId)) {
+		if (!EventoUtils.isParticipando(buscarRequisito.getEvento(), usuarioId)) {
 			throw new NotParticipandoException();
 		}
 
@@ -87,7 +85,7 @@ public class RequisitoService {
 	public RequisitoResponseDTO removerResponsavel(String requisitoId, String usuarioId) {
 		Requisito buscarRequisito = findById(requisitoId);
 
-		if (!eventoService.isParticipando(buscarRequisito.getEvento(), usuarioId)) {
+		if (!EventoUtils.isParticipando(buscarRequisito.getEvento(), usuarioId)) {
 			throw new NotParticipandoException();
 		}
 

@@ -14,7 +14,7 @@ import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.ConviteDTO;
 import br.com.doceencontro.model.dtos.ConviteResponseDTO;
 import br.com.doceencontro.repository.ConviteRepository;
-import br.com.doceencontro.repository.EventoRepository;
+import br.com.doceencontro.utils.EventoUtils;
 
 @Service
 public class ConviteService {
@@ -63,7 +63,7 @@ public class ConviteService {
 
 		usuariosIds.forEach(usuarioId -> {
 			try {
-				if (!eventoService.isParticipando(evento, usuarioId) && !eventoService.verificarAutor(usuarioId, evento)) {
+				if (!EventoUtils.isParticipando(evento, usuarioId) && !EventoUtils.verificarAutor(usuarioId, evento)) {
 					usuarios.add(usuarioService.findById(usuarioId));
 				}
 			} catch (UsuarioNotFoundException e) {}
