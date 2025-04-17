@@ -53,6 +53,10 @@ public class EventoService {
 
 		return buscarEvento.get();
 	}
+	
+	public Evento salvar(Evento evento) {
+		return eventoRepository.save(evento);
+	}
 
 	public void garantirNaoParticipacao(Evento evento, String usuarioId) {
 		Optional<Usuario> buscarUsuario = evento.getParticipantes().stream()
