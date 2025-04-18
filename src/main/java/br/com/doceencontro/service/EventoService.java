@@ -93,7 +93,10 @@ public class EventoService {
 		novoEndereco.setEvento(novoEvento);
 		novoEvento.setConvite(new Convite(novoEvento));
 		novoEvento.setChat(new Chat(novoEvento));
-
+		
+		novoEvento.addParticipante(buscarOrganizador);
+		novoEvento.getChat().adicionarParticipante(buscarOrganizador);
+		
 		return new EventoResponseDTO(eventoRepository.save(novoEvento));
 	}
 
@@ -164,5 +167,5 @@ public class EventoService {
 
 		return "Participação removida com sucesso.";
 	}
-
+	
 }
