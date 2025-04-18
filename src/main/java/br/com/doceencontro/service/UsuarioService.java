@@ -36,6 +36,16 @@ public class UsuarioService {
 
 		return buscarUsuario.get();
 	}
+	
+	public Usuario buscarPorEmailExcetoId(String email, String id) {
+		Optional<Usuario> buscarUsuario = usuarioRepository.findByEmailAndIdNot(email, id);
+
+		if (buscarUsuario.isEmpty()) {
+			throw new UsuarioNotFoundException();
+		}
+
+		return buscarUsuario.get();
+	}
 
 	private List<UsuarioResponseDTO> converterDtos(List<Usuario> usuario) {
 		return usuario.stream().map(u -> new UsuarioResponseDTO(u)).collect(Collectors.toList());

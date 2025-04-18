@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.doceencontro.exception.exceptions.EventoNotFoundException;
 import br.com.doceencontro.exception.exceptions.ForbiddenException;
 import br.com.doceencontro.exception.exceptions.NotAutorException;
+import br.com.doceencontro.exception.exceptions.NotConvidadoException;
 import br.com.doceencontro.model.Chat;
 import br.com.doceencontro.model.Convite;
 import br.com.doceencontro.model.Endereco;
@@ -131,7 +132,7 @@ public class EventoService {
 		.findFirst();
 		
 		if (buscarConvidado.isEmpty()) {
-			throw new RuntimeException("Você não foi convidado.");
+			throw new NotConvidadoException();
 		}
 
 		buscarEvento.addParticipante(buscarUsuario);

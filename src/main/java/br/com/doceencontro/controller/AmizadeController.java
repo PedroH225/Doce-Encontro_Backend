@@ -27,19 +27,19 @@ public class AmizadeController {
 		this.amizadeService = amizadeService;
 	}
 	
-	@PostMapping("/{amigoId}")
-	public AmizadeResponseDTO adicionarAmigo(@PathVariable String amigoId) {
-		return amizadeService.adicionarAmigo(IdToken.get() ,amigoId);
+	@PostMapping("/{amigoEmail}")
+	public AmizadeResponseDTO adicionarAmigo(@PathVariable String amigoEmail) {
+		return amizadeService.adicionarAmigo(IdToken.get() ,amigoEmail);
 	}
 	
 	@PutMapping("/{amizadeId}")
 	public AmizadeResponseDTO aceitarPedido(@PathVariable String amizadeId) {
-		return amizadeService.aceitarPedido(amizadeId);
+		return amizadeService.aceitarPedido(IdToken.get(), amizadeId);
 	}
 	
 	@DeleteMapping("/{amizadeId}")
 	public String excluirAmigo(@PathVariable String amizadeId) {
-		return amizadeService.excluirAmigo(amizadeId);
+		return amizadeService.excluirAmigo(IdToken.get(), amizadeId);
 	}
 	
 	@GetMapping("/pendentes")

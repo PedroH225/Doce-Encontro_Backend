@@ -1,6 +1,7 @@
 package br.com.doceencontro.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,4 +24,10 @@ public interface AmizadeRepository extends JpaRepository<Amizade, String> {
 		     + "WHERE (a.usuario.id = :usuarioId OR a.amigo.id = :usuarioId) "
 		     + "AND a.status = :status")
 	List<Amizade> buscarAmizades(String usuarioId, StatusAmizade status);
+	
+	@Query("SELECT a FROM Amizade a "
+		     + "WHERE (a.usuario.id = :usuarioId AND a.amigo.id = :amigoId)"
+		     + "OR (a.usuario.id = :amigoId AND a.amigo.id = :usuarioId)")
+	Optional<Amizade> buscarAmizade(String usuarioId, String amigoId);
+	
 }

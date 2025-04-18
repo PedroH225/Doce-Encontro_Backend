@@ -4,8 +4,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.stereotype.Service;
 
+import br.com.doceencontro.exception.exceptions.AmizadeExistenteException;
+import br.com.doceencontro.exception.exceptions.AmizadeNotFoundException;
+import br.com.doceencontro.exception.exceptions.ConflictException;
+import br.com.doceencontro.exception.exceptions.ForbiddenException;
+import br.com.doceencontro.exception.exceptions.PedidoExistenteException;
 import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
 import br.com.doceencontro.model.Amizade;
 import br.com.doceencontro.model.StatusAmizade;
@@ -34,7 +41,7 @@ public class AmizadeService {
 		Optional<Amizade> buscarAmizade = amizadeRepository.findById(amizadeId);
 
 		if (buscarAmizade.isEmpty()) {
-			throw new RuntimeException("Amizade não encontrada.");
+			throw new AmizadeNotFoundException();
 		}
 
 		return buscarAmizade.get();
@@ -43,56 +50,78 @@ public class AmizadeService {
 	private AmizadeResponseDTO converterDto(Amizade amizade) {
 		return new AmizadeResponseDTO(amizade);
 	}
-	
-	private List<AmigoDTO> converterDtos(List<Amizade> amizades, String usuarioId) {
-		return amizades.stream()
-				.map(a -> new AmigoDTO(a, usuarioId))
-				.collect(Collectors.toList());
-	}
 
-
-	public AmizadeResponseDTO adicionarAmigo(String usuarioId, String amigoId) {
-		Usuario usuario = usuarioService.findById(usuarioId);
-		try {
-			Usuario amigo = usuarioService.findById(amigoId);
-			Amizade novaAmizade = new Amizade(null, usuario, amigo, StatusAmizade.PENDENTE);
-
-			novaAmizade.addAmigo(usuario, amigo);
-
-			return converterDto(amizadeRepository.save(novaAmizade));
-		} catch (UsuarioNotFoundException e) {
-			throw new RuntimeException("Amigo não encontrado.");
+	private void validarParticipacaoAmizade(String usuarioId, Amizade amizade) {
+		if (!amizade.getUsuario().getId().equals(usuarioId) && !amizade.getAmigo().getId().equals(usuarioId)) {
+			throw new ForbiddenException("Você não faz parte dessa amizade.");
 		}
 	}
-	
-	public AmizadeResponseDTO aceitarPedido(String amizadeId) {
+
+	private List<AmigoDTO> converterDtos(List<Amizade> amizades, String usuarioId) {
+		return amizades.stream().map(a -> new AmigoDTO(a, usuarioId)).collect(Collectors.toList());
+	}
+
+	public AmizadeResponseDTO adicionarAmigo(String usuarioId, String amigoEmail) {
+		Usuario amigo = usuarioService.buscarPorEmailExcetoId(amigoEmail, usuarioId);
+
+		Usuario usuario = usuarioService.findById(usuarioId);
+
+		Optional<Amizade> buscarAmizade = amizadeRepository.buscarAmizade(usuarioId, amigo.getId());
+
+		if (buscarAmizade.isPresent()) {
+			Amizade amizadeExistente = buscarAmizade.get();
+
+			if (amizadeExistente.getStatus().equals(StatusAmizade.ACEITO)) {
+				throw new AmizadeExistenteException();
+			}
+			throw new PedidoExistenteException();
+		}
+
+		Amizade novaAmizade = new Amizade(null, usuario, amigo, StatusAmizade.PENDENTE);
+
+		novaAmizade.addAmigo(usuario, amigo);
+
+		return converterDto(amizadeRepository.save(novaAmizade));
+
+	}
+
+	public AmizadeResponseDTO aceitarPedido(String usuarioId, String amizadeId) {
 		Amizade amizade = findById(amizadeId);
 		
-		amizade.setStatus(StatusAmizade.ACEITO);
+		validarParticipacaoAmizade(usuarioId, amizade);
 		
+		if (amizade.getStatus().equals(StatusAmizade.ACEITO)) {
+			throw new ConflictException("Pedido já aceito.");
+		}
+
+		amizade.setStatus(StatusAmizade.ACEITO);
+
 		return converterDto(amizadeRepository.save(amizade));
 	}
-	
-	public String excluirAmigo(String amizadeId) {
-		findById(amizadeId);
+
+	public String excluirAmigo(String usuarioId, String amizadeId) {
+		Amizade amizade = findById(amizadeId);
 		
+		validarParticipacaoAmizade(usuarioId, amizade);
+
 		amizadeRepository.excluirAmizade(amizadeId);
-		
-		return "Amizade excluída com sucesso!";
+
+		if (amizade.getStatus().equals(StatusAmizade.ACEITO)) {
+			return "Amizade excluída com sucesso.";
+		}
+		return "Pedido excluído com sucesso.";
+
 	}
 
 	public List<AmigoDTO> buscarPendentes(String usuarioId) {
 		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId, StatusAmizade.PENDENTE);
-		
+
 		return converterDtos(amizades, usuarioId);
 	}
-	
+
 	public List<AmigoDTO> buscarAceitos(String usuarioId) {
 		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId, StatusAmizade.ACEITO);
-		
+
 		return converterDtos(amizades, usuarioId);
 	}
 }
-
-
-
