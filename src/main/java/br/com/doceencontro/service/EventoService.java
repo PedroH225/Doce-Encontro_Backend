@@ -1,5 +1,6 @@
 package br.com.doceencontro.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -87,7 +88,7 @@ public class EventoService {
 				eventoDTO.rua(), eventoDTO.numero(), null);
 
 		Evento novoEvento = new Evento(null, eventoDTO.titulo(), eventoDTO.descricao(),
-				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), novoEndereco, buscarOrganizador, null, null, null,
+				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), novoEndereco, buscarOrganizador, new ArrayList<Usuario>(), null, null,
 				null, null);
 		
 		novoEndereco.setEvento(novoEvento);
@@ -168,4 +169,10 @@ public class EventoService {
 		return "Participação removida com sucesso.";
 	}
 	
+	public List<EventoResponseDTO> listarAtivos(String usuarioId) {		
+		return converterDtos(eventoRepository.listarEventosAtivos(usuarioId));
+	}
 }
+
+
+

@@ -39,6 +39,11 @@ public class EventoController {
 		return eventoService.obterPorId(id);
 	}
 	
+	@GetMapping("/ativos")
+	public List<EventoResponseDTO> listarAtivos() {
+		return eventoService.listarAtivos(IdToken.get());
+	}
+	
 	@PostMapping
 	public EventoResponseDTO registrarEvento(@RequestBody @Valid EventoRequestDTO eventoDTO) {
 		return eventoService.registrarEvento(IdToken.get(), eventoDTO);
