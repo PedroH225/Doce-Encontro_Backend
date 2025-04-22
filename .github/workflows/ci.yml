@@ -17,12 +17,10 @@ jobs:
     services:
       db:
         image: mysql:latest
-        container_name: test-db
-        restart: always
-        environment:
+        env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: test-db
-          SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3307/test-db
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/test-db
           SPRING_DATABASE_USERNAME: root
           SPRING_DATABASE_PASSWORD: password
         ports:
