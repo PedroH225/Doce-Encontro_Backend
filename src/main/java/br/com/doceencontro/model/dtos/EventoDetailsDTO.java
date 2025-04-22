@@ -1,9 +1,12 @@
 package br.com.doceencontro.model.dtos;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.doceencontro.model.Endereco;
 import br.com.doceencontro.model.Evento;
@@ -21,7 +24,9 @@ public class EventoDetailsDTO {
 
 	private String descricao;
 
-	private Tipo tipo;
+	private String tipo;
+	
+	private String data;
 
 	private Endereco endereco;
 
@@ -32,12 +37,16 @@ public class EventoDetailsDTO {
 	private List<UsuarioResponseDTO> participantes = new ArrayList<UsuarioResponseDTO>();
 	
 	private List<UsuarioResponseDTO> convidados = new ArrayList<UsuarioResponseDTO>();
+	
+	@JsonIgnore
+	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
 	public EventoDetailsDTO(Evento evento) {
 		this.id = evento.getId();
 		this.titulo = evento.getTitulo();
 		this.descricao = evento.getDescricao();
-		this.tipo = evento.getTipo();
+		this.tipo = evento.getTipo().toString();
+		this.data = evento.getData().format(dtf);
 		this.endereco = evento.getEndereco();
 		this.requisitos = evento.getRequisitos().stream()
 				.map(r -> new RequisitoResponseDTO(r))
