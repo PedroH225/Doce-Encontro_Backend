@@ -172,6 +172,15 @@ public class EventoService {
 	public List<EventoResponseDTO> listarAtivos(String usuarioId) {		
 		return converterDtos(eventoRepository.listarEventosAtivos(usuarioId));
 	}
+	
+	public List<String> tiposDeEvento() {
+		Tipo[] tipos = Tipo.values();
+		List<String> tiposString = new ArrayList<String>();
+		for (Tipo tipo : tipos) {
+			tiposString.add(tipo.toString());
+		}
+		return tiposString;
+	}
 }
 
 
