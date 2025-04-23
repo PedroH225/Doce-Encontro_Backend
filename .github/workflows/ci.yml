@@ -2,14 +2,30 @@ name: CI Spring Boot
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      DCEN_PASS: ${{ secrets.DCEN_PASS }}
+      DCEN_EMAIL: ${{ secrets.DCEN_EMAIL }}
+      HOST: ${{ secrets.HOST }}
+
+    services:
+      db:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test-db
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/test-db
+          SPRING_DATABASE_USERNAME: root
+          SPRING_DATABASE_PASSWORD: password
+        ports:
+          - "3307:3306"
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: 📥 Checkout do código
@@ -35,3 +51,4 @@ jobs:
 
       - name: ✅ Executa os testes
         run: mvn test
+
