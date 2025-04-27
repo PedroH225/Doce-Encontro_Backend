@@ -17,7 +17,9 @@ public record RegisterDTO(
 		
 		@NotBlank(message = MensagemErro.OBRIGATORIO) @SenhaForte 
 		@Length(max = 20, message = MensagemErro.MAX)
-		String senha
+		String senha,
+		
+		String senhaRepitida
 		
 		) {
     
