@@ -1,6 +1,5 @@
 package br.com.doceencontro.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.doceencontro.model.Tipo;
 import br.com.doceencontro.model.dtos.EventoDetailsDTO;
 import br.com.doceencontro.model.dtos.EventoRequestDTO;
 import br.com.doceencontro.model.dtos.EventoResponseDTO;
