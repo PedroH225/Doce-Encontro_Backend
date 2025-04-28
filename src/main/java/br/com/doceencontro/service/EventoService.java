@@ -122,7 +122,8 @@ public class EventoService {
 			throw new NotAutorException();
 		}
 
-		eventoRepository.excluir(buscarEvento.getId());
+		// eventoRepository.excluir(buscarEvento.getId());
+		eventoRepository.desativar(buscarEvento.getId()); // ajuste para exclusao logica e nao fisica
 		enderecoRepository.excluir(buscarEvento.getEndereco().getId());
 
 		return "Evento excluído com sucesso.";
@@ -184,14 +185,14 @@ public class EventoService {
 
 	@Transactional
 	public String desativarEvento(String eventoId, String autorId) {
-		Evento buscarEvento = findById(eventoId);
+		Evento evento = findById(eventoId);
 
-		if (!EventoUtils.verificarAutor(autorId, buscarEvento)) {
+		if (!EventoUtils.verificarAutor(autorId, evento)) {
 			throw new NotAutorException();
 		}
 
-		buscarEvento.setAtivo(false);
-		eventoRepository.save(buscarEvento);
+		evento.setAtivo(false);
+		eventoRepository.save(evento);
 
 		return "Evento desativado com sucesso.";
 	}
