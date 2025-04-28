@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.dtos.EventoDetailsDTO;
 import br.com.doceencontro.model.dtos.EventoRequestDTO;
 import br.com.doceencontro.model.dtos.EventoResponseDTO;
 import br.com.doceencontro.service.EventoService;
+import br.com.doceencontro.utils.EventoUtils;
 import br.com.doceencontro.utils.IdToken;
 import jakarta.validation.Valid;
 
@@ -76,6 +78,13 @@ public class EventoController {
 	@PutMapping("/{eventoId}/desativar")
 	public String desativarEvento(@PathVariable String eventoId) {
 		return eventoService.desativarEvento(eventoId, IdToken.get());
+	}
+
+	@GetMapping("/{eventoId}/verificar-autor")
+	public boolean verificarAutor(@PathVariable String eventoId) {
+		String usuarioId = IdToken.get();
+		Evento evento = eventoService.findById(eventoId);
+		return EventoUtils.verificarAutor(usuarioId, evento);
 	}
 
 }
