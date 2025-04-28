@@ -4,10 +4,10 @@ INSERT INTO `doce-encontro-db`.`usuarios` (id, nome, email, senha) VALUES
 ('b634becf-47f9-4c99-a45e-f00f531e29bb', 'Carlos Souza', 'carlos@example.com', '$2a$10$mCdgqORL0u5pLy9Y31MSEerJh8gzWnIzc9EyEkocGEWMi50NKR1jC');
 
 
-INSERT INTO `doce-encontro-db`.`eventos` (id, titulo, descricao, data, tipo, usuario_id) VALUES
-('bd5def34-a0c0-447f-bfec-679360657861', 'Evento A', 'Descrição do Evento A', '2025-12-10 18:00:00', 'BEBE', '77eea251-9b21-42b1-b9cf-276035b66ed7'),
-('5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4', 'Evento B', 'Descrição do Evento B', '2025-10-12 19:00:00', 'REVELACAO','37997bb5-8bba-4707-ae13-6d89b4cdf668'),
-('25da36ea-f881-44ea-a325-54094d96d459', 'Evento C', 'Descrição do Evento C', '2025-08-14 20:00:00', 'FRALDAS', 'b634becf-47f9-4c99-a45e-f00f531e29bb');
+INSERT INTO `doce-encontro-db`.`eventos` (id, titulo, descricao, data, tipo, usuario_id, ativo) VALUES
+('bd5def34-a0c0-447f-bfec-679360657861', 'Evento A', 'Descrição do Evento A', '2025-12-10 18:00:00', 'BEBE', '77eea251-9b21-42b1-b9cf-276035b66ed7', 1),
+('5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4', 'Evento B', 'Descrição do Evento B', '2025-10-12 19:00:00', 'REVELACAO','37997bb5-8bba-4707-ae13-6d89b4cdf668', 1),
+('25da36ea-f881-44ea-a325-54094d96d459', 'Evento C', 'Descrição do Evento C', '2025-08-14 20:00:00', 'FRALDAS', 'b634becf-47f9-4c99-a45e-f00f531e29bb',1);
 
 INSERT INTO `doce-encontro-db`.`enderecos` (id, local, estado, cidade, rua, numero, evento_id) VALUES
 ('f8a770e5-dcdf-4a6f-b49f-ce2dd0d47044', 'Rua A, 123', 'SP', 'São Paulo', 'Rua X', 10, 'bd5def34-a0c0-447f-bfec-679360657861'),

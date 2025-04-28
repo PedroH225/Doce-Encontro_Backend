@@ -54,7 +54,7 @@ public class EventoService {
 
 		return buscarEvento.get();
 	}
-	
+
 	public Evento salvar(Evento evento) {
 		return eventoRepository.save(evento);
 	}
@@ -88,16 +88,17 @@ public class EventoService {
 				eventoDTO.rua(), eventoDTO.numero(), null);
 
 		Evento novoEvento = new Evento(null, eventoDTO.titulo(), eventoDTO.descricao(),
-				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), novoEndereco, buscarOrganizador, new ArrayList<Usuario>(), null, null,
+				Tipo.fromString(eventoDTO.tipo()), eventoDTO.data(), true, novoEndereco, buscarOrganizador,
+				new ArrayList<Usuario>(), null, null,
 				null, null);
-		
+
 		novoEndereco.setEvento(novoEvento);
 		novoEvento.setConvite(new Convite(novoEvento));
 		novoEvento.setChat(new Chat(novoEvento));
-		
+
 		novoEvento.addParticipante(buscarOrganizador);
 		novoEvento.getChat().adicionarParticipante(buscarOrganizador);
-		
+
 		return new EventoResponseDTO(eventoRepository.save(novoEvento));
 	}
 
@@ -120,7 +121,7 @@ public class EventoService {
 		if (!EventoUtils.verificarAutor(autorId, buscarEvento)) {
 			throw new NotAutorException();
 		}
-		
+
 		eventoRepository.excluir(buscarEvento.getId());
 		enderecoRepository.excluir(buscarEvento.getEndereco().getId());
 
@@ -130,11 +131,11 @@ public class EventoService {
 	public String participar(String eventoId, String usuarioId) {
 		Evento buscarEvento = findById(eventoId);
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
-		
+
 		Optional<Usuario> buscarConvidado = buscarEvento.getConvite().getDestinatarios().stream()
-		.filter(c -> c.getId().equals(usuarioId))
-		.findFirst();
-		
+				.filter(c -> c.getId().equals(usuarioId))
+				.findFirst();
+
 		if (buscarConvidado.isEmpty()) {
 			throw new NotConvidadoException();
 		}
@@ -142,7 +143,7 @@ public class EventoService {
 		buscarEvento.addParticipante(buscarUsuario);
 
 		buscarEvento.getChat().adicionarParticipante(buscarUsuario);
-		
+
 		buscarEvento.getConvite().getDestinatarios().remove(buscarUsuario);
 
 		eventoRepository.save(buscarEvento);
@@ -153,13 +154,12 @@ public class EventoService {
 	public String removerParticipacao(String eventoId, String usuarioId) {
 		Evento buscarEvento = findById(eventoId);
 		Usuario buscarUsuario = usuarioService.findById(usuarioId);
-		
+
 		if (EventoUtils.verificarAutor(usuarioId, buscarEvento)) {
 			throw new ForbiddenException("Organizadores não podem retirar a participação.");
 		}
 		EventoUtils.garantirParticipacao(buscarEvento, usuarioId);
-		
-		
+
 		buscarEvento.removerParticipante(buscarUsuario);
 
 		buscarEvento.getChat().removerParticipante(buscarUsuario);
@@ -168,11 +168,11 @@ public class EventoService {
 
 		return "Participação removida com sucesso.";
 	}
-	
-	public List<EventoResponseDTO> listarAtivos(String usuarioId) {		
+
+	public List<EventoResponseDTO> listarAtivos(String usuarioId) {
 		return converterDtos(eventoRepository.listarEventosAtivos(usuarioId));
 	}
-	
+
 	public List<String> tiposDeEvento() {
 		Tipo[] tipos = Tipo.values();
 		List<String> tiposString = new ArrayList<String>();
@@ -181,7 +181,19 @@ public class EventoService {
 		}
 		return tiposString;
 	}
+
+	@Transactional
+	public String desativarEvento(String eventoId, String autorId) {
+		Evento buscarEvento = findById(eventoId);
+
+		if (!EventoUtils.verificarAutor(autorId, buscarEvento)) {
+			throw new NotAutorException();
+		}
+
+		buscarEvento.setAtivo(false);
+		eventoRepository.save(buscarEvento);
+
+		return "Evento desativado com sucesso.";
+	}
+
 }
-
-
-

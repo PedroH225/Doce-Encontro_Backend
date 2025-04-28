@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `doce-encontro-db`.`eventos` (
   `tipo` VARCHAR(30) NULL,
   `data` DATETIME NOT NULL,
   `usuario_id` VARCHAR(36) NOT NULL,
+  `ativo` BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`usuario_id`) REFERENCES `doce-encontro-db`.`usuarios`(`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
