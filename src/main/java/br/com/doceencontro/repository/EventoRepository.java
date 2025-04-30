@@ -1,5 +1,6 @@
 package br.com.doceencontro.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,11 +32,7 @@ public interface EventoRepository extends JpaRepository<Evento, String> {
 	@Query("SELECT u FROM Usuario u JOIN u.eventosCriados e WHERE u.id = :usuarioId AND e.id = :eventoId")
 	Optional<Usuario> findAutor(String usuarioId, String eventoId);
 
-	// @Query("SELECT e FROM Usuario u JOIN u.eventosParticipados e "
-	// 		+ "WHERE u.id = :usuarioId AND e.data >= CURRENT_TIMESTAMP")
-	// List<Evento> listarEventosAtivos(String usuarioId);
-
 	@Query("SELECT e FROM Usuario u JOIN u.eventosParticipados e "
-    + "WHERE u.id = :usuarioId AND e.data >= CURRENT_TIMESTAMP AND e.ativo = true")
-List<Evento> listarEventosAtivos(String usuarioId);
+			+ "WHERE u.id = :usuarioId AND e.data >= :data AND e.ativo = true")
+	List<Evento> listarEventosAtivos(String usuarioId, LocalDateTime data);
 }
