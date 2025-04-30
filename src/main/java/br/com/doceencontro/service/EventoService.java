@@ -174,7 +174,11 @@ public class EventoService {
 	public List<EventoResponseDTO> listarAtivos(String usuarioId) {		
 		return converterDtos(eventoRepository.listarEventosAtivos(usuarioId, LocalDateTime.now().minusDays(14)));
 	}
-
+	
+	public List<EventoResponseDTO> listarPassados(String usuarioId) {		
+		return converterDtos(eventoRepository.listarEventosPassados(usuarioId, LocalDateTime.now().minusDays(14)));
+	}
+	
 	public List<String> tiposDeEvento() {
 		Tipo[] tipos = Tipo.values();
 		List<String> tiposString = new ArrayList<String>();
