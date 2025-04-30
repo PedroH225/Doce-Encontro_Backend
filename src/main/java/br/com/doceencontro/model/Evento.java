@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.doceencontro.model.dtos.EventoRequestDTO;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -32,38 +33,41 @@ public class Evento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
-	
+
 	private String titulo;
-	
+
 	private String descricao;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
-	
+
 	private LocalDateTime data;
-	
+
+	@Column(nullable = false) // <-- Aqui adicionamos o ativo no mapeamento
+	private Boolean ativo = true;
+
 	@OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Endereco endereco;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "usuario_id", referencedColumnName = "id")
 	private Usuario organizador;
-	
+
 	@ManyToMany(mappedBy = "eventosParticipados")
 	private List<Usuario> participantes;
-	
+
 	@OneToMany(mappedBy = "evento", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Arquivo> arquivos;
-	
+
 	@OneToMany(mappedBy = "evento")
 	private List<Requisito> requisitos;
-	
+
 	@OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Chat chat;
-	
+
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "evento")
 	private Convite convite;
-	
+
 	public Evento editar(EventoRequestDTO eventoDTO) {
 		setTitulo(eventoDTO.titulo());
 		setDescricao(eventoDTO.descricao());
@@ -74,23 +78,22 @@ public class Evento {
 		endereco.setEstado(eventoDTO.estado());
 		endereco.setRua(eventoDTO.rua());
 		endereco.setNumero(eventoDTO.numero());
-		
+
 		return this;
 	}
-	
+
 	public void addParticipante(Usuario participante) {
 		this.participantes.add(participante);
 		participante.getEventosParticipados().add(this);
 	}
-	
+
 	public void removerParticipante(Usuario participante) {
 		this.participantes.remove(participante);
 		participante.getEventosParticipados().remove(this);
 	}
-	
+
 	public void addRequisito(Requisito requisito) {
 		this.requisitos.add(requisito);
 		requisito.setEvento(this);
 	}
-	
 }
