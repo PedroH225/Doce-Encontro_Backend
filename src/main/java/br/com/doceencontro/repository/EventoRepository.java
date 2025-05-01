@@ -33,7 +33,7 @@ public interface EventoRepository extends JpaRepository<Evento, String> {
 	Optional<Usuario> findAutor(String usuarioId, String eventoId);
 
 	@Query("SELECT e FROM Usuario u JOIN u.eventosParticipados e "
-			+ "WHERE u.id = :usuarioId AND e.data >= :data AND e.ativo = true")
+			+ "WHERE u.id = :usuarioId AND e.data >= :data")
 	List<Evento> listarEventosAtivos(String usuarioId, LocalDateTime data);
 	
 	@Query("SELECT e FROM Usuario u JOIN u.eventosParticipados e "
