@@ -56,9 +56,6 @@ public class Usuario implements UserDetails {
 	inverseJoinColumns = @JoinColumn(name = "eventos_id"))
 	private List<Evento> eventosParticipados;
 
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<DataEspecial> datasDataEspeciais;
-
 	@ManyToMany(mappedBy = "usuarios", cascade = CascadeType.ALL)
 	private List<Notificacao> notificacoes;
 
