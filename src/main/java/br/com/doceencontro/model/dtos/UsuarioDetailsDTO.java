@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Usuario;
+import br.com.doceencontro.utils.ConversorDTO;
 import lombok.Data;
 
 @Data
@@ -25,15 +26,8 @@ public class UsuarioDetailsDTO {
 		this.nome = usuario.getNome();
 		this.email = usuario.getEmail();
 		
-		this.eventosCriados = converterEventoDTO(usuario.getEventosCriados());
-		this.eventosParticipados = converterEventoDTO(usuario.getEventosParticipados());
+		this.eventosCriados = ConversorDTO.eventos(usuario.getEventosCriados());
+		this.eventosParticipados = ConversorDTO.eventos(usuario.getEventosParticipados());
 		
-	}
-
-	private List<EventoResponseDTO> converterEventoDTO(List<Evento> eventos) {
-		return eventos.stream()
-				.map(e -> new EventoResponseDTO(e))
-				.collect(Collectors.toList());
-			
 	}
 }

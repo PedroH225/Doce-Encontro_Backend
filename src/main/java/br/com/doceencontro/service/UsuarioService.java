@@ -14,6 +14,7 @@ import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.UsuarioDetailsDTO;
 import br.com.doceencontro.model.dtos.UsuarioResponseDTO;
 import br.com.doceencontro.repository.UsuarioRepository;
+import br.com.doceencontro.utils.ConversorDTO;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -48,21 +49,13 @@ public class UsuarioService {
 
 		return buscarUsuario.get();
 	}
-
-	private List<UsuarioResponseDTO> converterDtos(List<Usuario> usuario) {
-		return usuario.stream().map(u -> new UsuarioResponseDTO(u)).collect(Collectors.toList());
-	}
-
-	private UsuarioDetailsDTO converterDto(Usuario usuario) {
-		return new UsuarioDetailsDTO(usuario);
-	}
 	
 	private boolean verificarEmailExistente(String email, String id) {
 		return usuarioRepository.findByEmailAndIdNot(email, id).isPresent();
 	}
 
 	public List<UsuarioResponseDTO> obterTodos() {
-		return converterDtos(usuarioRepository.findAll());
+		return ConversorDTO.usuarios(usuarioRepository.findAll());
 	}
 
 	public UsuarioDetailsDTO obterPorId(String id) {
@@ -72,13 +65,13 @@ public class UsuarioService {
 			throw new UsuarioNotFoundException();
 		}
 
-		return converterDto(buscarUsuario.get());
+		return ConversorDTO.usuarioDetails(buscarUsuario.get());
 	}
 
 	public UsuarioDetailsDTO registrarUsuário(Usuario usuario) {
 		Usuario usuariodb = usuarioRepository.save(usuario);
 
-		return converterDto(usuariodb);
+		return ConversorDTO.usuarioDetails(usuariodb);
 	}
 
 	public UsuarioDetailsDTO editarUsuario(String id, Usuario usuarioEditado) {
@@ -87,7 +80,7 @@ public class UsuarioService {
 		}
 		Usuario buscarUsuario = findById(id);
 
-		return converterDto(usuarioRepository.save(buscarUsuario.editar(usuarioEditado)));
+		return ConversorDTO.usuarioDetails(usuarioRepository.save(buscarUsuario.editar(usuarioEditado)));
 	}
 
 	@Transactional

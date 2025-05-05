@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.com.doceencontro.model.Endereco;
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Usuario;
+import br.com.doceencontro.utils.ConversorDTO;
 import br.com.doceencontro.utils.IdToken;
 import lombok.Data;
 
@@ -42,21 +43,11 @@ public class EventoDetailsDTO {
         this.data = evento.getData().format(dtf);
         this.ativo = evento.getAtivo();
         this.endereco = evento.getEndereco();
-        this.presentes = evento.getRequisitos().stream()
-                .map(RequisitoResponseDTO::new)
-                .collect(Collectors.toList());
+        this.presentes = ConversorDTO.requisitos(evento.getRequisitos());
         this.organizador = new UsuarioResponseDTO(evento.getOrganizador());
-        this.participantes = converterDtos(evento.getParticipantes());
-        this.convidados = converterDtos(evento.getConvite().getDestinatarios());
+        this.participantes = ConversorDTO.usuarios(evento.getParticipantes());
+        this.convidados = ConversorDTO.usuariosSet(evento.getConvite().getDestinatarios());
         
         this.isAutor = IdToken.get().equals(evento.getOrganizador().getId());
-    }
-
-    private List<UsuarioResponseDTO> converterDtos(List<Usuario> usuarios) {
-        return usuarios.stream().map(UsuarioResponseDTO::new).collect(Collectors.toList());
-    }
-
-    private List<UsuarioResponseDTO> converterDtos(Set<Usuario> usuarios) {
-        return usuarios.stream().map(UsuarioResponseDTO::new).collect(Collectors.toList());
     }
 }
