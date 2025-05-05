@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.com.doceencontro.model.Endereco;
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Usuario;
+import br.com.doceencontro.utils.IdToken;
 import lombok.Data;
 
 @Data
@@ -27,6 +28,8 @@ public class EventoDetailsDTO {
     private List<RequisitoResponseDTO> presentes;
     private List<UsuarioResponseDTO> participantes = new ArrayList<>();
     private List<UsuarioResponseDTO> convidados = new ArrayList<>();
+    
+    private boolean isAutor;
 
     @JsonIgnore
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -45,6 +48,8 @@ public class EventoDetailsDTO {
         this.organizador = new UsuarioResponseDTO(evento.getOrganizador());
         this.participantes = converterDtos(evento.getParticipantes());
         this.convidados = converterDtos(evento.getConvite().getDestinatarios());
+        
+        this.isAutor = IdToken.get().equals(evento.getOrganizador().getId());
     }
 
     private List<UsuarioResponseDTO> converterDtos(List<Usuario> usuarios) {
