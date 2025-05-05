@@ -12,6 +12,7 @@ import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Notificacao;
 import br.com.doceencontro.model.Usuario;
+import br.com.doceencontro.model.dtos.EventoResponseDTO;
 import br.com.doceencontro.model.dtos.UsuarioDetailsDTO;
 import br.com.doceencontro.model.dtos.UsuarioResponseDTO;
 import br.com.doceencontro.repository.UsuarioRepository;
@@ -105,6 +106,14 @@ public class UsuarioService {
 		} else {
 			return ResponseEntity.notFound().build();
 		}
+	}
+	
+	public List<EventoResponseDTO> listarEventosCriados(String usuarioId) {
+		return ConversorDTO.eventos(findById(usuarioId).getEventosCriados());
+	}
+	
+	public List<EventoResponseDTO> listarEventosParticipados(String usuarioId) {
+		return ConversorDTO.eventos(findById(usuarioId).getEventosParticipados());
 	}
 	
 }
