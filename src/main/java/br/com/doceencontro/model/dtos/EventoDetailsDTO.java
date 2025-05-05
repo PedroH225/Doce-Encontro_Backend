@@ -25,10 +25,8 @@ public class EventoDetailsDTO {
     private String data;
     private Boolean ativo;
     private Endereco endereco;
+    
     private UsuarioResponseDTO organizador;
-    private List<RequisitoResponseDTO> presentes;
-    private List<UsuarioResponseDTO> participantes = new ArrayList<>();
-    private List<UsuarioResponseDTO> convidados = new ArrayList<>();
     
     private boolean isAutor;
 
@@ -43,11 +41,9 @@ public class EventoDetailsDTO {
         this.data = evento.getData().format(dtf);
         this.ativo = evento.getAtivo();
         this.endereco = evento.getEndereco();
-        this.presentes = ConversorDTO.requisitos(evento.getRequisitos());
+
         this.organizador = new UsuarioResponseDTO(evento.getOrganizador());
-        this.participantes = ConversorDTO.usuarios(evento.getParticipantes());
-        this.convidados = ConversorDTO.usuariosSet(evento.getConvite().getDestinatarios());
-        
+
         this.isAutor = IdToken.get().equals(evento.getOrganizador().getId());
     }
 }

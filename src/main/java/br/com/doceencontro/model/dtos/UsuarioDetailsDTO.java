@@ -1,11 +1,10 @@
 package br.com.doceencontro.model.dtos;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.format.DateTimeFormatter;
 
-import br.com.doceencontro.model.Evento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.doceencontro.model.Usuario;
-import br.com.doceencontro.utils.ConversorDTO;
 import lombok.Data;
 
 @Data
@@ -17,17 +16,15 @@ public class UsuarioDetailsDTO {
 	
 	private String email;
 	
-	private List<EventoResponseDTO> eventosCriados;
+	private String criadoEm;
 	
-	private List<EventoResponseDTO> eventosParticipados;
+    @JsonIgnore
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
 	
 	public UsuarioDetailsDTO(Usuario usuario) {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
 		this.email = usuario.getEmail();
-		
-		this.eventosCriados = ConversorDTO.eventos(usuario.getEventosCriados());
-		this.eventosParticipados = ConversorDTO.eventos(usuario.getEventosParticipados());
-		
+		this.criadoEm = usuario.getCriadoEm().format(dtf);
 	}
 }
