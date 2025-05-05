@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import br.com.doceencontro.exception.exceptions.EmailEmUsoException;
 import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
 import br.com.doceencontro.model.Evento;
+import br.com.doceencontro.model.Notificacao;
 import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.UsuarioDetailsDTO;
 import br.com.doceencontro.model.dtos.UsuarioResponseDTO;
@@ -105,5 +106,5 @@ public class UsuarioService {
 			return ResponseEntity.notFound().build();
 		}
 	}
-
+	
 }

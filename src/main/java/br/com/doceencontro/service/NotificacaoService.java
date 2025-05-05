@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Notificacao;
+import br.com.doceencontro.model.dtos.NotificacaoResponseDTO;
 import br.com.doceencontro.repository.NotificacaoRepository;
+import br.com.doceencontro.utils.ConversorDTO;
 
 @Service
 public class NotificacaoService {
@@ -29,8 +31,8 @@ public class NotificacaoService {
 		notificacaoRepository.save(notificacao);
 	}
 	
-	public List<Notificacao> obterNotificacoesUsuario(String usuarioId) {
-		return notificacaoRepository.findAllByUsuariosId(usuarioId);
+	public List<NotificacaoResponseDTO> obterNotificacoesUsuario(String usuarioId) {
+		return ConversorDTO.notificacoes(notificacaoRepository.findAllByUsuariosId(usuarioId));
 	}
 }
 
