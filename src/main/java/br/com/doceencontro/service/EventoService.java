@@ -22,10 +22,12 @@ import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.EventoDetailsDTO;
 import br.com.doceencontro.model.dtos.EventoRequestDTO;
 import br.com.doceencontro.model.dtos.EventoResponseDTO;
+import br.com.doceencontro.model.dtos.UsuarioResponseDTO;
 import br.com.doceencontro.repository.EnderecoRepository;
 import br.com.doceencontro.repository.EventoRepository;
 import br.com.doceencontro.utils.ConversorDTO;
 import br.com.doceencontro.utils.EventoUtils;
+import jakarta.persistence.Convert;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -199,6 +201,10 @@ public class EventoService {
 		eventoRepository.save(evento);
 
 		return "Evento desativado com sucesso.";
+	}
+	
+	public List<UsuarioResponseDTO> buscarParticipantes(String eventoId) {
+		return ConversorDTO.usuarios(findById(eventoId).getParticipantes());
 	}
 
 }
