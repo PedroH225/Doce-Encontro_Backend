@@ -1,6 +1,6 @@
 services:
   db:
-    image: mysql:latest
+    image: mysql:8.4
     container_name: doce-encontro-db
     restart: always
     environment:
@@ -8,13 +8,20 @@ services:
       MYSQL_DATABASE: ${DCEN_DB}
     ports:
       - 3307:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - db_data:/var/lib/mysql
   backend:
     build: .
     container_name: doce-encontro-backend
+    restart: on-failure
     depends_on:
-      - db
+      db:
+       condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${DCEN_DB}
       SPRING_DATASOURCE_USERNAME: ${DCEN_DB_USER}
