@@ -1,11 +1,13 @@
 package br.com.doceencontro.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,13 +36,13 @@ public class Requisito {
 	private String descricao;
 
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "evento_id", referencedColumnName = "id")
 	private Evento evento;
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "requisito_usuario", joinColumns = @JoinColumn(name = "requisito_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-	private List<Usuario> responsaveis;
+	private List<Usuario> responsaveis = new ArrayList<Usuario>();
 
 	public void adicionarResponsavel(Usuario responsavel) {
 		this.responsaveis.add(responsavel);
