@@ -31,12 +31,12 @@ public class Convite {
 	
 	private String descricao;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "convite_usuario",
 	joinColumns = @JoinColumn(name = "convite_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
 	private Set<Usuario> destinatarios;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "evento_id", referencedColumnName = "id")
 	private Evento evento;
 
@@ -53,6 +53,10 @@ public class Convite {
 			u.getConvites().add(this);
 			this.destinatarios.add(u);
 		});
+	}
+	
+	public void removerDestPorId(String destinatarioId) {
+		destinatarios.removeIf(u -> destinatarioId != null && u.getId().equals(destinatarioId));
 	}
 
 }
