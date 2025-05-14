@@ -1,7 +1,10 @@
 INSERT INTO `doce-encontro-db`.`usuarios` (id, nome, email, senha) VALUES
 ('77eea251-9b21-42b1-b9cf-276035b66ed7', 'João Silva', 'joao@example.com', '$2a$10$xkrk1iVWdWmUtvP0XjWzsu/KSKXMuor73lRdnpxvqBczTjVAOxXIG'),
 ('37997bb5-8bba-4707-ae13-6d89b4cdf668', 'Maria Oliveira', 'pedrodguimaraes20@gmail.com', '$2a$10$hP/LHClj.PYP.i5rWRnWSOzeTkvfvUuTrA4smsEenHF5sPeTTK95W'),
-('b634becf-47f9-4c99-a45e-f00f531e29bb', 'Carlos Souza', 'carlos@example.com', '$2a$10$mCdgqORL0u5pLy9Y31MSEerJh8gzWnIzc9EyEkocGEWMi50NKR1jC');
+('b634becf-47f9-4c99-a45e-f00f531e29bb', 'Carlos Souza', 'carlos@example.com', '$2a$10$mCdgqORL0u5pLy9Y31MSEerJh8gzWnIzc9EyEkocGEWMi50NKR1jC'),
+('91aa1c11-bb22-4dd3-8ecc-123456789001', 'Lucas Pereira', 'lucas@example.com', '$2a$10$abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdab'),
+('92bb2d22-cc33-4ee4-9fdd-234567890012', 'Ana Costa', 'ana@example.com', '$2a$10$abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdab'),
+('93cc3e33-dd44-4ff5-a0ee-345678901023', 'Felipe Lima', 'felipe@example.com', '$2a$10$abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdab');
 
 
 INSERT INTO `doce-encontro-db`.`eventos` (id, titulo, descricao, data, tipo, usuario_id, ativo) VALUES
@@ -38,7 +41,10 @@ INSERT INTO `doce-encontro-db`.`datas_especiais` (id, data, usuarios_id) VALUES
 -- Amizades
 INSERT INTO `doce-encontro-db`.`amizades` (id, usuarios_id, amigo_id, status) VALUES
 ('33333333-4444-4555-8666-7777777777cc', '77eea251-9b21-42b1-b9cf-276035b66ed7', '37997bb5-8bba-4707-ae13-6d89b4cdf668', 'ACEITO'),
-('44444444-5555-4666-8777-8888888888dd', '37997bb5-8bba-4707-ae13-6d89b4cdf668', 'b634becf-47f9-4c99-a45e-f00f531e29bb', 'PENDENTE');
+('44444444-5555-4666-8777-8888888888dd', '37997bb5-8bba-4707-ae13-6d89b4cdf668', 'b634becf-47f9-4c99-a45e-f00f531e29bb', 'PENDENTE'),
+('55555555-aaaa-4bbb-8ccc-9999999999ee', '77eea251-9b21-42b1-b9cf-276035b66ed7', '91aa1c11-bb22-4dd3-8ecc-123456789001', 'ACEITO'),
+('66666666-bbbb-4ccc-8ddd-aaaaaaaaaaff', '77eea251-9b21-42b1-b9cf-276035b66ed7', '92bb2d22-cc33-4ee4-9fdd-234567890012', 'ACEITO'),
+('77777777-cccc-4ddd-8eee-bbbbbbbbbb00', '77eea251-9b21-42b1-b9cf-276035b66ed7', '93cc3e33-dd44-4ff5-a0ee-345678901023', 'ACEITO');
 
 -- Usuario_Evento (usuários participando de eventos além dos seus próprios)
 INSERT INTO `doce-encontro-db`.`usuario_evento` (usuarios_id, eventos_id) VALUES
