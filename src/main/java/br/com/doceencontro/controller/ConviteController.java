@@ -2,6 +2,7 @@ package br.com.doceencontro.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,11 @@ public class ConviteController {
 	@PostMapping("/{eventoId}")
 	public ConviteDTO convidarParticipantes(@PathVariable String eventoId, @RequestBody List<String> usuariosIds) {
 		return conviteService.convidar(usuariosIds, eventoId);
+	}
+	
+	@DeleteMapping("/{eventoId}/{usuarioId}")
+	public String removerConvidado(@PathVariable String eventoId, @PathVariable String usuarioId) {
+		return conviteService.removerConvite(eventoId, usuarioId);
 	}
 }
 

@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import br.com.doceencontro.exception.exceptions.JaParticipandoException;
+import br.com.doceencontro.exception.exceptions.NotConvidadoException;
+import br.com.doceencontro.exception.exceptions.NotParticipandoException;
 import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
 import br.com.doceencontro.model.Convite;
 import br.com.doceencontro.model.Evento;
@@ -19,6 +20,7 @@ import br.com.doceencontro.model.dtos.UsuarioResponseDTO;
 import br.com.doceencontro.repository.ConviteRepository;
 import br.com.doceencontro.utils.ConversorDTO;
 import br.com.doceencontro.utils.EventoUtils;
+import br.com.doceencontro.utils.IdToken;
 
 @Service
 public class ConviteService {
@@ -91,4 +93,21 @@ public class ConviteService {
 	public List<UsuarioResponseDTO> buscarConvidados(String eventoId) {
 		return ConversorDTO.usuariosSet(eventoService.findById(eventoId).getConvite().getDestinatarios());
 	}
+	
+	public String removerConvite(String eventoId, String usuarioId) {
+		Evento evento = eventoService.findById(eventoId);
+		
+		EventoUtils.garantirAutoria(evento, IdToken.get());
+		
+		EventoUtils.garantirConvidado(evento, usuarioId);
+
+		evento.getConvite().removerDestPorId(usuarioId);
+		
+		eventoService.salvar(evento);
+		
+		return "Convite removido com sucesso!";
+	}
 }
+
+
+

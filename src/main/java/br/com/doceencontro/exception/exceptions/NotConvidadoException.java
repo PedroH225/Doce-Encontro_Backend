@@ -4,7 +4,7 @@ public class NotConvidadoException extends ForbiddenException {
 	private static final long serialVersionUID = 1L;
 
 	public NotConvidadoException() {
-		super("Você não está entre os convidados.");
+		super("O usuário não está entre os convidados.");
 	}
 
 }

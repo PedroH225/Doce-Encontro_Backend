@@ -85,6 +85,11 @@ public class EventoController {
 	public String removerParticipacao(@PathVariable String eventoId) {
 		return eventoService.removerParticipacao(eventoId, IdToken.get());
 	}
+	
+	@DeleteMapping("/retirarParticipante/{eventoId}/{usuarioId}")
+	public String retirarParticipacao(@PathVariable String eventoId, @PathVariable String usuarioId) {
+		return eventoService.removerParticipacao(eventoId, usuarioId);
+	}
 
 	@PutMapping("/{eventoId}/desativar")
 	public String desativarEvento(@PathVariable String eventoId) {
