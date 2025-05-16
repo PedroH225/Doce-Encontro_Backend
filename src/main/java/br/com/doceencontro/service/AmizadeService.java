@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
-
 import org.springframework.stereotype.Service;
 
 import br.com.doceencontro.exception.exceptions.AmizadeExistenteException;
@@ -13,7 +11,6 @@ import br.com.doceencontro.exception.exceptions.AmizadeNotFoundException;
 import br.com.doceencontro.exception.exceptions.ConflictException;
 import br.com.doceencontro.exception.exceptions.ForbiddenException;
 import br.com.doceencontro.exception.exceptions.PedidoExistenteException;
-import br.com.doceencontro.exception.exceptions.UsuarioNotFoundException;
 import br.com.doceencontro.model.Amizade;
 import br.com.doceencontro.model.StatusAmizade;
 import br.com.doceencontro.model.Usuario;
@@ -114,13 +111,19 @@ public class AmizadeService {
 	}
 
 	public List<AmigoDTO> buscarPendentes(String usuarioId) {
-		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId, StatusAmizade.PENDENTE);
+		List<Amizade> amizades = amizadeRepository.buscarPendentes(usuarioId);
 
 		return converterDtos(amizades, usuarioId);
 	}
 
 	public List<AmigoDTO> buscarAceitos(String usuarioId) {
-		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId, StatusAmizade.ACEITO);
+		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId);
+
+		return converterDtos(amizades, usuarioId);
+	}
+	
+	public List<AmigoDTO> buscarRecebidos(String usuarioId) {
+		List<Amizade> amizades = amizadeRepository.buscarRecebidos(usuarioId);
 
 		return converterDtos(amizades, usuarioId);
 	}

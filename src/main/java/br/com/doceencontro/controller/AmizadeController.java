@@ -42,6 +42,11 @@ public class AmizadeController {
 		return amizadeService.excluirAmigo(IdToken.get(), amizadeId);
 	}
 	
+	@GetMapping("/recebidos")
+	public List<AmigoDTO> buscarRecebidos() {
+		return amizadeService.buscarRecebidos(IdToken.get());
+	}
+	
 	@GetMapping("/pendentes")
 	public List<AmigoDTO> buscarPendentes() {
 		return amizadeService.buscarPendentes(IdToken.get());

@@ -22,8 +22,18 @@ public interface AmizadeRepository extends JpaRepository<Amizade, String> {
 	
 	@Query("SELECT a FROM Amizade a "
 		     + "WHERE (a.usuario.id = :usuarioId OR a.amigo.id = :usuarioId) "
-		     + "AND a.status = :status")
-	List<Amizade> buscarAmizades(String usuarioId, StatusAmizade status);
+		     + "AND a.status = 'ACEITO'")
+	List<Amizade> buscarAmizades(String usuarioId);
+	
+	@Query("SELECT a FROM Amizade a "
+		     + "WHERE a.usuario.id = :usuarioId "
+		     + "AND a.status = 'PENDENTE'")
+	List<Amizade> buscarPendentes(String usuarioId);
+	
+	@Query("SELECT a FROM Amizade a "
+		     + "WHERE a.amigo.id = :usuarioId "
+		     + "AND a.status = 'PENDENTE'")
+	List<Amizade> buscarRecebidos(String usuarioId);
 	
 	@Query("SELECT a FROM Amizade a "
 		     + "WHERE (a.usuario.id = :usuarioId AND a.amigo.id = :amigoId)"
