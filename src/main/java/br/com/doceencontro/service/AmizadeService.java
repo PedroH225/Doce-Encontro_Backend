@@ -17,6 +17,7 @@ import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.AmigoDTO;
 import br.com.doceencontro.model.dtos.AmizadeResponseDTO;
 import br.com.doceencontro.repository.AmizadeRepository;
+import br.com.doceencontro.utils.ConversorDTO;
 
 @Service
 public class AmizadeService {
@@ -43,22 +44,14 @@ public class AmizadeService {
 
 		return buscarAmizade.get();
 	}
-
-	private AmizadeResponseDTO converterDto(Amizade amizade) {
-		return new AmizadeResponseDTO(amizade);
-	}
-
+	
 	private void validarParticipacaoAmizade(String usuarioId, Amizade amizade) {
 		if (!amizade.getUsuario().getId().equals(usuarioId) && !amizade.getAmigo().getId().equals(usuarioId)) {
 			throw new ForbiddenException("Você não faz parte dessa amizade.");
 		}
 	}
 
-	private List<AmigoDTO> converterDtos(List<Amizade> amizades, String usuarioId) {
-		return amizades.stream().map(a -> new AmigoDTO(a, usuarioId)).collect(Collectors.toList());
-	}
-
-	public AmizadeResponseDTO adicionarAmigo(String usuarioId, String amigoEmail) {
+	public AmigoDTO adicionarAmigo(String usuarioId, String amigoEmail) {
 		Usuario amigo = usuarioService.buscarPorEmailExcetoId(amigoEmail, usuarioId);
 
 		Usuario usuario = usuarioService.findById(usuarioId);
@@ -78,11 +71,11 @@ public class AmizadeService {
 
 		novaAmizade.addAmigo(usuario, amigo);
 
-		return converterDto(amizadeRepository.save(novaAmizade));
+		return ConversorDTO.amigo(amizadeRepository.save(novaAmizade));
 
 	}
 
-	public AmizadeResponseDTO aceitarPedido(String usuarioId, String amizadeId) {
+	public AmigoDTO aceitarPedido(String usuarioId, String amizadeId) {
 		Amizade amizade = findById(amizadeId);
 		
 		validarParticipacaoAmizade(usuarioId, amizade);
@@ -93,7 +86,7 @@ public class AmizadeService {
 
 		amizade.setStatus(StatusAmizade.ACEITO);
 
-		return converterDto(amizadeRepository.save(amizade));
+		return ConversorDTO.amigo(amizadeRepository.save(amizade));
 	}
 
 	public String excluirAmigo(String usuarioId, String amizadeId) {
@@ -113,18 +106,18 @@ public class AmizadeService {
 	public List<AmigoDTO> buscarPendentes(String usuarioId) {
 		List<Amizade> amizades = amizadeRepository.buscarPendentes(usuarioId);
 
-		return converterDtos(amizades, usuarioId);
+		return ConversorDTO.amigos(amizades);
 	}
 
 	public List<AmigoDTO> buscarAceitos(String usuarioId) {
 		List<Amizade> amizades = amizadeRepository.buscarAmizades(usuarioId);
 
-		return converterDtos(amizades, usuarioId);
+		return ConversorDTO.amigos(amizades);
 	}
 	
 	public List<AmigoDTO> buscarRecebidos(String usuarioId) {
 		List<Amizade> amizades = amizadeRepository.buscarRecebidos(usuarioId);
 
-		return converterDtos(amizades, usuarioId);
+		return ConversorDTO.amigos(amizades);
 	}
 }

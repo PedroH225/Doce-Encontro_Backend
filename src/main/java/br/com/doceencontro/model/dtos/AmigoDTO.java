@@ -1,6 +1,7 @@
 package br.com.doceencontro.model.dtos;
 
 import br.com.doceencontro.model.Amizade;
+import br.com.doceencontro.utils.IdToken;
 import lombok.Data;
 
 @Data
@@ -13,10 +14,12 @@ public class AmigoDTO {
 	private String status;
 	
 	
-	public AmigoDTO(Amizade amizade, String usuarioId) {
+	public AmigoDTO(Amizade amizade) {
 		this.amizadeId = amizade.getId();
 		
-		if (!amizade.getAmigo().getId().equals(usuarioId)) {
+		String idLogado = IdToken.get();
+		
+		if (!amizade.getAmigo().getId().equals(idLogado)) {
 			
 			this.amigo = new UsuarioResponseDTO(amizade.getAmigo());
 			
