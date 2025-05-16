@@ -1,16 +1,16 @@
 package br.com.doceencontro.model.dtos;
 
 import br.com.doceencontro.model.Amizade;
-import br.com.doceencontro.model.StatusAmizade;
-import br.com.doceencontro.model.Usuario;
+import lombok.Data;
 
+@Data
 public class AmigoDTO {
 
-	public String amizadeId;
+	private String amizadeId;
 	
-	public UsuarioResponseDTO amigo;
+	private UsuarioResponseDTO amigo;
 	
-	public String status;
+	private String status;
 	
 	
 	public AmigoDTO(Amizade amizade, String usuarioId) {

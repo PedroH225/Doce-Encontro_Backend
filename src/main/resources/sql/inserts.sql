@@ -44,7 +44,7 @@ INSERT INTO `doce-encontro-db`.`amizades` (id, usuarios_id, amigo_id, status) VA
 ('444444c4-5555-4666-8777-8888888888dd', '37997bb5-8bba-4707-ae13-6d89b4cdf668', 'b634becf-47f9-4c99-a45e-f00f531e29bb', 'PENDENTE'),
 ('333333a3-4444-4555-8666-7777777777cc', '77eea251-9b21-42b1-b9cf-276035b66ed7', 'b634becf-47f9-4c99-a45e-f00f531e29bb', 'ACEITO'),
 ('55555555-aaaa-4bbb-8ccc-9999999999ee', '77eea251-9b21-42b1-b9cf-276035b66ed7', '91aa1c11-bb22-4dd3-8ecc-123456789001', 'PENDENTE'),
-('66666666-bbbb-4ccc-8ddd-aaaaaaaaaaff', '77eea251-9b21-42b1-b9cf-276035b66ed7', '92bb2d22-cc33-4ee4-9fdd-234567890012', 'ACEITO'),
+('66666666-bbbb-4ccc-8ddd-aaaaaaaaaaff', '92bb2d22-cc33-4ee4-9fdd-234567890012', '77eea251-9b21-42b1-b9cf-276035b66ed7', 'PENDENTE'),
 ('77777777-cccc-4ddd-8eee-bbbbbbbbbb00', '77eea251-9b21-42b1-b9cf-276035b66ed7', '93cc3e33-dd44-4ff5-a0ee-345678901023', 'ACEITO');
 
 -- Usuario_Evento (usuários participando de eventos além dos seus próprios)
