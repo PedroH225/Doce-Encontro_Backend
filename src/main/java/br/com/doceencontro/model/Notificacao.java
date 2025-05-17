@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,6 +38,9 @@ public class Notificacao {
 	private String corpo;
 	
 	private LocalDateTime data;
+	
+	@Enumerated(EnumType.STRING)
+	private Icone icone;
 	
 	@JsonIgnore
 	@ManyToMany()

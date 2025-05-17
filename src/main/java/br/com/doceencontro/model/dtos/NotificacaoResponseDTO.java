@@ -1,6 +1,9 @@
 package br.com.doceencontro.model.dtos;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.doceencontro.model.Notificacao;
 import lombok.AllArgsConstructor;
@@ -17,12 +20,18 @@ public class NotificacaoResponseDTO {
 	
 	private String corpo;
 	
-	private LocalDateTime data;
+	private String data;
+	
+	private String icone;
+	
+	@JsonIgnore
+	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
 
 	public NotificacaoResponseDTO(Notificacao notificacao) {
 		this.id = notificacao.getId();
 		this.titulo = notificacao.getTitulo();
 		this.corpo = notificacao.getCorpo();
-		this.data = notificacao.getData();
+		this.data = notificacao.getData().format(dtf);
+		this.icone = notificacao.getIcone().toString();
 	}
 }

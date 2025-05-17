@@ -29,9 +29,9 @@ INSERT INTO `doce-encontro-db`.`imagens` (id, nome, caminho, eventos_id) VALUES
 ('c3d4e5f6-a7b8-4abc-0def-3456789012cc', 'imagem3.jpg', '/uploads/imagem3.jpg', '25da36ea-f881-44ea-a325-54094d96d459');
 
 -- Notificações
-INSERT INTO `doce-encontro-db`.`notificacoes` (id, titulo, corpo, data) VALUES
-('e4f5g6h7-i8j9-4abc-1def-4567890123dd', 'Bem-vindo', 'Bem-vindo ao Festora!', '2025-03-01 09:00:00'),
-('f5g6h7i8-j9k0-4def-2abc-5678901234ee', 'Evento Confirmado', 'Seu evento foi confirmado.', '2025-03-02 10:00:00');
+INSERT INTO `doce-encontro-db`.`notificacoes` (id, titulo, corpo, data, icone) VALUES
+('e4f5g6h7-i8j9-4abc-1def-4567890123dd', 'Bem-vindo', 'Bem-vindo ao Festora!', '2025-03-01 09:00:00', 'SUCCESS'),
+('f5g6h7i8-j9k0-4def-2abc-5678901234ee', 'Evento Confirmado', 'Seu evento foi confirmado.', '2025-03-02 10:00:00', 'SUCCESS');
 
 -- Datas Especiais
 INSERT INTO `doce-encontro-db`.`datas_especiais` (id, data, usuarios_id) VALUES

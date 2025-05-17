@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `test-db`.`notificacoes` (
   `titulo` VARCHAR(100) NULL,
   `corpo` LONGTEXT NULL,
   `data` DATETIME NULL,
+  `icone` VARCHAR(20) DEFAULT 'NOTIFICATION',,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
