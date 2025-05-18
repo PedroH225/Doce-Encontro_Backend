@@ -1,13 +1,11 @@
 package br.com.doceencontro.model;
 
-import java.lang.annotation.Repeatable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -47,7 +45,8 @@ public class Notificacao {
 	@JoinTable(name = "notificacao_usuario", 
 		joinColumns = @JoinColumn(name = "notificacao_id"),
 		inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-	private List<Usuario> usuarios;
+	private List<Usuario> usuarios = new ArrayList<Usuario>();
+	
 	
 	
 	public void enviarNotificacao(List<Usuario> usuarios) {
@@ -55,6 +54,13 @@ public class Notificacao {
 			this.usuarios.add(usuario);
 			usuario.getNotificacoes().add(this);
 		}
+	}
+
+	public Notificacao(String titulo, String corpo, Icone icone) {
+		this.titulo = titulo;
+		this.corpo = corpo;
+		this.data = LocalDateTime.now();
+		this.icone = icone;
 	}
 }
 
