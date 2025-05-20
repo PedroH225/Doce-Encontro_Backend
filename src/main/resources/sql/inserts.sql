@@ -8,9 +8,9 @@ INSERT INTO `doce-encontro-db`.`usuarios` (id, nome, email, senha) VALUES
 
 
 INSERT INTO `doce-encontro-db`.`eventos` (id, titulo, descricao, data, tipo, usuario_id, ativo) VALUES
-('bd5def34-a0c0-447f-bfec-679360657861', 'Evento A', 'Descrição do Evento A', '2025-12-10 18:00:00', 'BEBE', '77eea251-9b21-42b1-b9cf-276035b66ed7', 1),
-('5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4', 'Evento B', 'Descrição do Evento B', '2025-10-12 19:00:00', 'REVELACAO','37997bb5-8bba-4707-ae13-6d89b4cdf668', 1),
-('25da36ea-f881-44ea-a325-54094d96d459', 'Evento C', 'Descrição do Evento C', '2025-08-14 20:00:00', 'FRALDAS', 'b634becf-47f9-4c99-a45e-f00f531e29bb',1);
+('bd5def34-a0c0-447f-bfec-679360657861', 'Chá de Bebê do Miguel', 'Venha celebrar a chegada do nosso pequeno Miguel com muito carinho e diversão!', '2025-12-10 18:00:00', 'BEBE', '77eea251-9b21-42b1-b9cf-276035b66ed7', 1),
+('5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4', 'Revelação da Maria ou João?', 'Prepare-se para um momento mágico: vamos descobrir juntos se vem uma princesinha ou um príncipe!', '2025-10-12 19:00:00', 'REVELACAO', '37997bb5-8bba-4707-ae13-6d89b4cdf668', 1),
+('25da36ea-f881-44ea-a325-54094d96d459', 'Chá de Fraldas da Alice', 'Vamos ajudar os papais da Alice a encher o estoque de fraldas com muito amor e alegria!', '2025-08-14 20:00:00', 'FRALDAS', 'b634becf-47f9-4c99-a45e-f00f531e29bb', 1);
 
 INSERT INTO `doce-encontro-db`.`enderecos` (id, local, estado, cidade, rua, numero, evento_id) VALUES
 ('f8a770e5-dcdf-4a6f-b49f-ce2dd0d47044', 'Rua A, 123', 'SP', 'São Paulo', 'Rua X', 10, 'bd5def34-a0c0-447f-bfec-679360657861'),
@@ -64,17 +64,20 @@ INSERT INTO `doce-encontro-db`.`notificacao_usuario` (notificacao_id, usuario_id
 ('e4f5g6h7-i8j9-4abc-1def-4567890123dd', '37997bb5-8bba-4707-ae13-6d89b4cdf668'),
 ('f5g6h7i8-j9k0-4def-2abc-5678901234ee', 'b634becf-47f9-4c99-a45e-f00f531e29bb');
 
+-- Evento 1: Chá de Fraldas (evento_id: bd5def34-a0c0-447f-bfec-679360657861)
 INSERT INTO `doce-encontro-db`.`requisitos` (id, titulo, descricao, evento_id) VALUES
-('d72f72a0-e2f5-4c7b-9d4a-4d6db0f6495b', 'Picanha', '2kg de pão de alho.', 'bd5def34-a0c0-447f-bfec-679360657861'),
-('a2c2c0e1-fad5-4a3e-b836-5f6c9ad5d85c', 'Cerveja', '2L de cerveja.', 'bd5def34-a0c0-447f-bfec-679360657861');
+('d72f72a0-e2f5-4c7b-9d4a-4d6db0f6495b', 'Fraldas Pampers M', 'Pacote com pelo menos 20 unidades.', '25da36ea-f881-44ea-a325-54094d96d459'),
+('a2c2c0e1-fad5-4a3e-b836-5f6c9ad5d85c', 'Lenços Umedecidos', 'Pacote com no mínimo 100 unidades.', '25da36ea-f881-44ea-a325-54094d96d459');
 
+-- Evento 2: Chá Revelação (evento_id: 5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4)
 INSERT INTO `doce-encontro-db`.`requisitos` (id, titulo, descricao, evento_id) VALUES
-('e6f5c85e-89ab-4bfa-97e2-59714d4b27d3', 'Carvão', '1 saco de carvão.', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4'),
-('b13e17c9-df67-4ed9-92bc-55954d2f7a43', 'Pão de alho', '12 unidades de pão de alho.', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4');
+('e6f5c85e-89ab-4bfa-97e2-59714d4b27d3', 'Balões Rosa e Azul', 'Pacote de balões para decoração temática.', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4'),
+('b13e17c9-df67-4ed9-92bc-55954d2f7a43', 'Bolo Temático', 'Bolo com recheio que revela o sexo do bebê.', '5d463b1b-cc33-4e5b-9a30-8e4bab92d9c4');
 
+-- Evento 3: Chá de Bebê (evento_id: 25da36ea-f881-44ea-a325-54094d96d459)
 INSERT INTO `doce-encontro-db`.`requisitos` (id, titulo, descricao, evento_id) VALUES
-('b1e9cbb1-ae10-4db1-8086-0cba12dd5935', 'Linguiça', '2kg de linguiça.', '25da36ea-f881-44ea-a325-54094d96d459'),
-('e002e576-4bda-4be6-adc5-d6ada04ad105', 'Coração de frango.', '1kg de coração de frango.', '25da36ea-f881-44ea-a325-54094d96d459');
+('b1e9cbb1-ae10-4db1-8086-0cba12dd5935', 'Mamadeira', 'Mamadeira para recém-nascido.', 'bd5def34-a0c0-447f-bfec-679360657861'),
+('e002e576-4bda-4be6-adc5-d6ada04ad105', 'Roupinhas RN', 'Conjunto de 3 peças tamanho recém-nascido.', 'bd5def34-a0c0-447f-bfec-679360657861');
 
 INSERT INTO `doce-encontro-db`.`chats` (id, nome, evento_id) VALUES
 ('a7046e44-3be1-4485-ab7e-e9d04bfba1ad', 'Chat de Evento A', 'bd5def34-a0c0-447f-bfec-679360657861'),

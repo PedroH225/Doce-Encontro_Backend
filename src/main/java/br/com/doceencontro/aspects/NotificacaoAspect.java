@@ -10,6 +10,7 @@ import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Icone;
 import br.com.doceencontro.model.Notificacao;
 import br.com.doceencontro.model.Usuario;
+import br.com.doceencontro.model.dtos.ConviteDTO;
 import br.com.doceencontro.model.dtos.EventoResponseDTO;
 import br.com.doceencontro.service.EmailService;
 import br.com.doceencontro.service.EventoService;
@@ -42,9 +43,7 @@ public class NotificacaoAspect {
 		
 		emailService.enviarEmailParticipantes(result, participantes, notificacaoTitulo, notificacaoCorpo);
 		
-	}
-	
-	
+	}	
 }
 
 
