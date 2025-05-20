@@ -14,7 +14,7 @@ import br.com.doceencontro.model.Usuario;
 @Repository
 public interface NotificacaoRepository extends JpaRepository<Notificacao, String> {
 
-	public List<Notificacao> findAllByUsuariosId(String usuarioId);
+	public List<Notificacao> findAllByUsuariosIdOrderByDataDesc(String usuarioId);
 
 	@Query("SELECT DISTINCT p FROM Evento e " + "JOIN e.participantes p " + "LEFT JOIN FETCH p.notificacoes "
 			+ "WHERE e.id = :id")

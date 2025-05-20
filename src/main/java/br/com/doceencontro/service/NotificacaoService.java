@@ -52,7 +52,7 @@ public class NotificacaoService {
 	}
 
 	public List<NotificacaoResponseDTO> obterNotificacoesUsuario(String usuarioId) {
-		return ConversorDTO.notificacoes(notificacaoRepository.findAllByUsuariosId(usuarioId));
+		return ConversorDTO.notificacoes(notificacaoRepository.findAllByUsuariosIdOrderByDataDesc(usuarioId));
 	}
 
 	public void notificarUsuario(UsuarioResponseDTO amigo, Notificacao novaNotificacao) {

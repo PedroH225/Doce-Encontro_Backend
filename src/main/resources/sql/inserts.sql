@@ -2,9 +2,9 @@ INSERT INTO `doce-encontro-db`.`usuarios` (id, nome, email, senha) VALUES
 ('77eea251-9b21-42b1-b9cf-276035b66ed7', 'João Silva', 'joao@example.com', '$2a$10$xkrk1iVWdWmUtvP0XjWzsu/KSKXMuor73lRdnpxvqBczTjVAOxXIG'),
 ('37997bb5-8bba-4707-ae13-6d89b4cdf668', 'Maria Oliveira', 'pedrodguimaraes20@gmail.com', '$2a$10$hP/LHClj.PYP.i5rWRnWSOzeTkvfvUuTrA4smsEenHF5sPeTTK95W'),
 ('b634becf-47f9-4c99-a45e-f00f531e29bb', 'Carlos Souza', 'carlos@example.com', '$2a$10$mCdgqORL0u5pLy9Y31MSEerJh8gzWnIzc9EyEkocGEWMi50NKR1jC'),
-('91aa1c11-bb22-4dd3-8ecc-123456789001', 'Lucas Pereira', 'lucas@example.com', '$2a$10$abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdab'),
-('92bb2d22-cc33-4ee4-9fdd-234567890012', 'Ana Costa', 'ana@example.com', '$2a$10$abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdab'),
-('93cc3e33-dd44-4ff5-a0ee-345678901023', 'Felipe Lima', 'felipe@example.com', '$2a$10$abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdab');
+('91aa1c11-bb22-4dd3-8ecc-123456789001', 'Lucas Pereira', 'lucas@example.com', '$2a$10$xkrk1iVWdWmUtvP0XjWzsu/KSKXMuor73lRdnpxvqBczTjVAOxXIG'),
+('92bb2d22-cc33-4ee4-9fdd-234567890012', 'Ana Costa', 'ana@example.com', '$2a$10$xkrk1iVWdWmUtvP0XjWzsu/KSKXMuor73lRdnpxvqBczTjVAOxXIG'),
+('93cc3e33-dd44-4ff5-a0ee-345678901023', 'Felipe Lima', 'felipe@example.com', '$2a$10$xkrk1iVWdWmUtvP0XjWzsu/KSKXMuor73lRdnpxvqBczTjVAOxXIG');
 
 
 INSERT INTO `doce-encontro-db`.`eventos` (id, titulo, descricao, data, tipo, usuario_id, ativo) VALUES
