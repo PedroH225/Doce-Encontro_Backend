@@ -28,14 +28,6 @@ public class NotificacaoService {
 		return notificacaoRepository.findParticipantesComNotificacoes(evento.getId());
 	}
 
-	public Usuario buscarUsuariosComNotificacao(String usuarioId) {
-		Optional<Usuario> buscarUsuario = notificacaoRepository.buscarUsuarioComNotificacoes(usuarioId);
-		if (buscarUsuario.isEmpty()) {
-			return null;
-		}
-		return buscarUsuario.get();
-	}
-
 	@Async
 	public void notificarParticipantes(EventoResponseDTO evento, List<Usuario> participantes, Notificacao notificacao) {
 		for (Usuario participante : participantes) {

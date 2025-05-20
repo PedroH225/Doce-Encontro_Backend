@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import br.com.doceencontro.model.Icone;
@@ -13,7 +14,6 @@ import br.com.doceencontro.model.dtos.ConviteDTO;
 import br.com.doceencontro.model.dtos.EventoResponseDTO;
 import br.com.doceencontro.service.EmailService;
 import br.com.doceencontro.service.NotificacaoService;
-import br.com.doceencontro.service.UsuarioService;
 import lombok.AllArgsConstructor;
 
 @Aspect
@@ -25,6 +25,7 @@ public class NotificacaoAspect {
 
 	private EmailService emailService;
 
+	@Async
 	@AfterReturning(pointcut = "execution(* br.com.doceencontro.service.EventoService.editarEvento(..))", returning = "result")
 	public void notificarEdicao(EventoResponseDTO result) {
 		String eventoTitulo = result.getTitulo();
@@ -42,6 +43,7 @@ public class NotificacaoAspect {
 
 	}
 
+	@Async
 	@AfterReturning(pointcut = "execution(* br.com.doceencontro.service.ConviteService.convidar(..))", returning = "result")
 	public void notificarConvidados(ConviteDTO result) {
 		if (result.getDestinatarios() == null || result.getDestinatarios().isEmpty()) {
@@ -55,6 +57,8 @@ public class NotificacaoAspect {
 		);
 
 		notificacaoService.notificarUsuarios(result.getDestinatarios(), novaNotificacao);
+		
+		emailService.enviarEmail(result.getDestinatarios(), novaNotificacao);
 	}
 
 }
