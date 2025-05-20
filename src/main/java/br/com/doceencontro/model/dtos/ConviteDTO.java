@@ -15,13 +15,13 @@ public class ConviteDTO {
 
 	private String descricao;
 	
-	private List<UsuarioResponseDTO> destinatario;
+	private List<UsuarioResponseDTO> destinatarios;
 	
 	public ConviteDTO(Convite convite) {
 		this.id = convite.getId();
 		this.titulo = convite.getTitulo();
 		this.descricao = convite.getDescricao();
-		this.destinatario = convite.getDestinatarios().stream()
+		this.destinatarios = convite.getDestinatarios().stream()
 				.map(u -> new UsuarioResponseDTO(u))
 				.collect(Collectors.toList());
 	}
