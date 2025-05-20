@@ -1,14 +1,15 @@
 package br.com.doceencontro.aspects;
 
-import java.util.Arrays;
 import java.util.List;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import br.com.doceencontro.model.Amizade;
+import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Icone;
 import br.com.doceencontro.model.Notificacao;
 import br.com.doceencontro.model.TipoFinalizacaoEmail;
@@ -19,7 +20,9 @@ import br.com.doceencontro.model.dtos.EventoResponseDTO;
 import br.com.doceencontro.model.dtos.UsuarioResponseDTO;
 import br.com.doceencontro.service.AmizadeService;
 import br.com.doceencontro.service.EmailService;
+import br.com.doceencontro.service.EventoService;
 import br.com.doceencontro.service.NotificacaoService;
+import br.com.doceencontro.service.UsuarioService;
 import br.com.doceencontro.utils.ConversorDTO;
 import lombok.AllArgsConstructor;
 
@@ -29,8 +32,12 @@ import lombok.AllArgsConstructor;
 public class NotificacaoAspect {
 
 	private NotificacaoService notificacaoService;
+	
+	private UsuarioService usuarioService;
 
 	private AmizadeService amizadeService;
+	
+	private EventoService eventoService;
 
 	private EmailService emailService;
 
@@ -63,8 +70,29 @@ public class NotificacaoAspect {
 
 		notificacaoService.notificarUsuarios(result.getDestinatarios(), novaNotificacao);
 
-		emailService.enviarEmail(result.getDestinatarios(), novaNotificacao, TipoFinalizacaoEmail.CONVITE);
+		emailService.enviarEmails(result.getDestinatarios(), novaNotificacao, TipoFinalizacaoEmail.CONVITE);
 	}
+	
+	@Async
+	@AfterReturning(pointcut = "execution(* br.com.doceencontro.service.EventoService.participar(..))")
+	public void notificarConviteAceito(JoinPoint joinPoint) {
+	    Object[] argumentos = joinPoint.getArgs();
+	    
+	    Evento evento = eventoService.findById(String.valueOf(argumentos[0]));
+	    
+	    Usuario novoParticipante = usuarioService.findById(String.valueOf(argumentos[1]));
+	    
+		Notificacao novaNotificacao = new Notificacao(
+				"Novo participante.",
+				String.format("%s agora está participando do %s: %s!",
+						novoParticipante.getNome(), evento.getTipo(), evento.getTitulo()),
+				Icone.SUCCESS);
+
+		notificacaoService.notificarUsuario(evento.getOrganizador(), novaNotificacao);
+
+		emailService.enviarEmail(ConversorDTO.usuario(evento.getOrganizador()), novaNotificacao, TipoFinalizacaoEmail.AGRADECIMENTO);
+	}
+	
 
 	@Async
 	@AfterReturning(pointcut = "execution(* br.com.doceencontro.service.AmizadeService.adicionarAmigo(..))", returning = "result")
