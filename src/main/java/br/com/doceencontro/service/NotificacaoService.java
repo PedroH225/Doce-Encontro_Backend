@@ -54,4 +54,12 @@ public class NotificacaoService {
 	public List<NotificacaoResponseDTO> obterNotificacoesUsuario(String usuarioId) {
 		return ConversorDTO.notificacoes(notificacaoRepository.findAllByUsuariosId(usuarioId));
 	}
+
+	public void notificarUsuario(UsuarioResponseDTO amigo, Notificacao novaNotificacao) {
+		Usuario usuario = usuarioService.findById(amigo.getId());
+		
+		novaNotificacao.getUsuarios().add(usuario);
+		
+		notificacaoRepository.save(novaNotificacao);
+	}
 }

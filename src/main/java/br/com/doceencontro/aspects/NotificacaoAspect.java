@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 
 import br.com.doceencontro.model.Icone;
 import br.com.doceencontro.model.Notificacao;
+import br.com.doceencontro.model.TipoFinalizacaoEmail;
 import br.com.doceencontro.model.Usuario;
+import br.com.doceencontro.model.dtos.AmigoDTO;
 import br.com.doceencontro.model.dtos.ConviteDTO;
 import br.com.doceencontro.model.dtos.EventoResponseDTO;
 import br.com.doceencontro.service.EmailService;
@@ -58,7 +60,19 @@ public class NotificacaoAspect {
 
 		notificacaoService.notificarUsuarios(result.getDestinatarios(), novaNotificacao);
 		
-		emailService.enviarEmail(result.getDestinatarios(), novaNotificacao);
+		emailService.enviarEmail(result.getDestinatarios(), novaNotificacao, TipoFinalizacaoEmail.CONVITE);
+	}
+	
+	@Async
+	@AfterReturning(pointcut = "execution(* br.com.doceencontro.service.ConviteService.convidar(..))", returning = "result")
+	public void notificarPedido(AmigoDTO result) {
+		Notificacao novaNotificacao = new Notificacao(
+				"Novo pedido de amizade",
+				String.format("%s acaba de te enviar um pedido de amizade!", result.getRemetente()),
+				Icone.PERSONADD
+			);
+		
+		notificacaoService.notificarUsuario(result.getAmigo(), novaNotificacao);
 	}
 
 }

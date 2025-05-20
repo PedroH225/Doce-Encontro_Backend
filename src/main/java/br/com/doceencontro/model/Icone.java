@@ -9,7 +9,8 @@ public enum Icone {
     INFO("info"),
     ERROR("error"),
     SUCCESS("check_circle"),
-    CALENDAR("calendar_today");
+    CALENDAR("calendar_today"),
+	PERSONADD("person_add");
 
 	private String icone;
 	
