@@ -24,53 +24,49 @@ public class EmailService {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
-	
+
 	private String criarSaudacao(String nomeUsuario) {
-	    return "Prezado(a) " + nomeUsuario + ",\n\n";
+		return "Prezado(a) " + nomeUsuario + ",\n\n";
 	}
-	
+
 	private String criarFinalizacao(TipoFinalizacaoEmail tipo) {
-	    StringBuilder finalizacao = new StringBuilder();
+		StringBuilder finalizacao = new StringBuilder();
 
-	    switch (tipo) {
-	        case CONVITE:
-	            finalizacao.append("\nContamos com sua presença!");
-	            break;
-	        case AGRADECIMENTO:
-	            finalizacao.append("\nAgradecemos pela atenção.");
-	            break;
-	        case PADRAO:
-	        default:
-	            break;
-	    }
+		switch (tipo) {
+		case CONVITE:
+			finalizacao.append("\nContamos com sua presença!");
+			break;
+		case AGRADECIMENTO:
+			finalizacao.append("\nAgradecemos pela atenção.");
+			break;
+		case PADRAO:
+		default:
+			break;
+		}
 
-	    finalizacao.append("\n\nAtenciosamente,\n");
-	    finalizacao.append("Plataforma Doce Encontro\n");
-	    finalizacao.append("═════════ ❖ ═════════\n");
-	    finalizacao.append("Esta é uma mensagem automática. Por favor, não responda este e-mail.");
+		finalizacao.append("\n\nAtenciosamente,\n");
+		finalizacao.append("Plataforma Doce Encontro\n");
+		finalizacao.append("═════════ ❖ ═════════\n");
+		finalizacao.append("Esta é uma mensagem automática. Por favor, não responda este e-mail.");
 
-	    return finalizacao.toString();
+		return finalizacao.toString();
 	}
-
-
-
 
 	@Async
 	public void enviarEmailParticipantes(EventoResponseDTO evento, List<Usuario> participantes, String assunto,
 			String corpo) {
 		SimpleMailMessage message = new SimpleMailMessage();
-		
+
 		message.setFrom(dcenEmail);
 
 		message.setSubject(assunto);
-		
+
 		String finalizacao = criarFinalizacao(TipoFinalizacaoEmail.PADRAO);
 
 		for (Usuario participante : participantes) {
 			if (!participante.getNome().equalsIgnoreCase(evento.getOrganizador())) {
 
-				message.setText(criarSaudacao(participante.getNome()) 
-						+ corpo + finalizacao);
+				message.setText(criarSaudacao(participante.getNome()) + corpo + finalizacao);
 
 				message.setTo(participante.getEmail());
 				try {
@@ -83,23 +79,22 @@ public class EmailService {
 	}
 
 	@Async
-	public void enviarEmail(List<UsuarioResponseDTO> destinatarios, Notificacao novaNotificacao, TipoFinalizacaoEmail tipo) {
+	public void enviarEmails(List<UsuarioResponseDTO> destinatarios, Notificacao novaNotificacao,
+			TipoFinalizacaoEmail tipo) {
 		SimpleMailMessage message = new SimpleMailMessage();
-		
+
 		message.setFrom(dcenEmail);
 
 		message.setSubject(novaNotificacao.getTitulo());
-		
+
 		String finalizacao = criarFinalizacao(tipo);
 
 		for (UsuarioResponseDTO destinatario : destinatarios) {
 
-			message.setText(criarSaudacao(destinatario.getNome()) 
-					+ novaNotificacao.getCorpo()
-					+ finalizacao);
+			message.setText(criarSaudacao(destinatario.getNome()) + novaNotificacao.getCorpo() + finalizacao);
 
 			message.setTo(destinatario.getEmail());
-			
+
 			try {
 				javaMailSender.send(message);
 			} catch (MailException e) {
@@ -107,5 +102,26 @@ public class EmailService {
 			}
 
 		}
+	}
+
+	public void enviarEmail(UsuarioResponseDTO destinatario, Notificacao novaNotificacao, TipoFinalizacaoEmail tipo) {
+		SimpleMailMessage message = new SimpleMailMessage();
+
+		message.setFrom(dcenEmail);
+
+		message.setSubject(novaNotificacao.getTitulo());
+
+		String finalizacao = criarFinalizacao(tipo);
+
+		message.setText(criarSaudacao(destinatario.getNome()) + novaNotificacao.getCorpo() + finalizacao);
+
+		message.setTo(destinatario.getEmail());
+
+		try {
+			javaMailSender.send(message);
+		} catch (MailException e) {
+			System.out.println("Erro ao enviar email: " + e.getMessage());
+		}
+
 	}
 }

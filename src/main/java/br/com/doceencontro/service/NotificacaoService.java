@@ -62,4 +62,10 @@ public class NotificacaoService {
 		
 		notificacaoRepository.save(novaNotificacao);
 	}
+	
+	public void notificarUsuario(Usuario usuario, Notificacao novaNotificacao) {		
+		novaNotificacao.getUsuarios().add(usuario);
+		
+		notificacaoRepository.save(novaNotificacao);
+	}
 }

@@ -1,5 +1,6 @@
 package br.com.doceencontro.aspects;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.aspectj.lang.annotation.AfterReturning;
@@ -7,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import br.com.doceencontro.model.Amizade;
 import br.com.doceencontro.model.Icone;
 import br.com.doceencontro.model.Notificacao;
 import br.com.doceencontro.model.TipoFinalizacaoEmail;
@@ -14,8 +16,11 @@ import br.com.doceencontro.model.Usuario;
 import br.com.doceencontro.model.dtos.AmigoDTO;
 import br.com.doceencontro.model.dtos.ConviteDTO;
 import br.com.doceencontro.model.dtos.EventoResponseDTO;
+import br.com.doceencontro.model.dtos.UsuarioResponseDTO;
+import br.com.doceencontro.service.AmizadeService;
 import br.com.doceencontro.service.EmailService;
 import br.com.doceencontro.service.NotificacaoService;
+import br.com.doceencontro.utils.ConversorDTO;
 import lombok.AllArgsConstructor;
 
 @Aspect
@@ -24,6 +29,8 @@ import lombok.AllArgsConstructor;
 public class NotificacaoAspect {
 
 	private NotificacaoService notificacaoService;
+
+	private AmizadeService amizadeService;
 
 	private EmailService emailService;
 
@@ -52,27 +59,41 @@ public class NotificacaoAspect {
 			return;
 		}
 
-		Notificacao novaNotificacao = new Notificacao(
-			result.getTitulo(),
-			result.getDescricao(),
-			Icone.MAIL
-		);
+		Notificacao novaNotificacao = new Notificacao(result.getTitulo(), result.getDescricao(), Icone.MAIL);
 
 		notificacaoService.notificarUsuarios(result.getDestinatarios(), novaNotificacao);
-		
+
 		emailService.enviarEmail(result.getDestinatarios(), novaNotificacao, TipoFinalizacaoEmail.CONVITE);
 	}
-	
+
 	@Async
-	@AfterReturning(pointcut = "execution(* br.com.doceencontro.service.ConviteService.convidar(..))", returning = "result")
+	@AfterReturning(pointcut = "execution(* br.com.doceencontro.service.AmizadeService.adicionarAmigo(..))", returning = "result")
 	public void notificarPedido(AmigoDTO result) {
-		Notificacao novaNotificacao = new Notificacao(
-				"Novo pedido de amizade",
-				String.format("%s acaba de te enviar um pedido de amizade!", result.getRemetente()),
-				Icone.PERSONADD
-			);
+		Amizade amizade = amizadeService.findById(result.getAmizadeId());
+
+		Notificacao novaNotificacao = new Notificacao("Novo pedido de amizade",
+				String.format("%s acaba de te enviar um pedido de amizade!", amizade.getUsuario().getNome()),
+				Icone.PERSONADD);
+
+		notificacaoService.notificarUsuario(amizade.getAmigo(), novaNotificacao);
+
+		emailService.enviarEmail(ConversorDTO.usuario(amizade.getAmigo()), novaNotificacao, TipoFinalizacaoEmail.PADRAO);
+	}
+
+	@Async
+	@AfterReturning(pointcut = "execution(* br.com.doceencontro.service.AmizadeService.aceitarPedido(..))", returning = "result")
+	public void notificarPedidoAceito(AmigoDTO result) {
+		Amizade amizade = amizadeService.findById(result.getAmizadeId());
+
+		Notificacao novaNotificacao = new Notificacao("Pedido de amizade aceito.",
+				String.format("%s acaba de aceitar seu pedido de amizade.", amizade.getAmigo().getNome()),
+				Icone.SUCCESS);
 		
-		notificacaoService.notificarUsuario(result.getAmigo(), novaNotificacao);
+
+		notificacaoService.notificarUsuario(amizade.getUsuario(), novaNotificacao);
+
+		emailService.enviarEmail(ConversorDTO.usuario(amizade.getUsuario()), novaNotificacao,
+				TipoFinalizacaoEmail.PADRAO);
 	}
 
 }
