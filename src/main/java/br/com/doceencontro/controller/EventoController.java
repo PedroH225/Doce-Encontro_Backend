@@ -51,6 +51,11 @@ public class EventoController {
 		return eventoService.listarPassados(IdToken.get());
 	}
 	
+	@GetMapping("/autor")
+	public List<EventoResponseDTO> listarEventosDoUsuario() {
+		return eventoService.listarDoUsuario(IdToken.get());
+	}
+	
 	@GetMapping("/tipos")
 	public List<String> tiposDeEvento() {
 		return eventoService.tiposDeEvento();
