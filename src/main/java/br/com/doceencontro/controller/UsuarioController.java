@@ -20,20 +20,16 @@ import br.com.doceencontro.service.ConviteService;
 import br.com.doceencontro.service.UsuarioService;
 import br.com.doceencontro.utils.EventoUtils;
 import br.com.doceencontro.utils.IdToken;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/usuarios")
+@AllArgsConstructor
 public class UsuarioController {
 
 	private UsuarioService usuarioService;
 	
 	private ConviteService conviteService;
-
-	public UsuarioController(UsuarioService usuarioService, ConviteService conviteService) {
-		this.usuarioService = usuarioService;
-		this.conviteService = conviteService;
-
-	}
 	
 	@GetMapping
 	public List<UsuarioResponseDTO> obterTodos() {
@@ -73,6 +69,11 @@ public class UsuarioController {
 	@DeleteMapping
 	public String excluirUsuario() {
 		return usuarioService.excluirUsuario(IdToken.get());
+	}
+	
+	@DeleteMapping("/convites/{conviteId}")
+	public String negarConvite(@PathVariable String conviteId) {
+		return conviteService.negarConvite(conviteId, IdToken.get());
 	}
 	
 }

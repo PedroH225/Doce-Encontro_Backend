@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.doceencontro.model.dtos.ConviteDTO;
 import br.com.doceencontro.model.dtos.UsuarioResponseDTO;
 import br.com.doceencontro.service.ConviteService;
+import br.com.doceencontro.utils.IdToken;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -36,6 +37,7 @@ public class ConviteController {
 	public String removerConvidado(@PathVariable String eventoId, @PathVariable String usuarioId) {
 		return conviteService.removerConvite(eventoId, usuarioId);
 	}
+	
 }
 
 

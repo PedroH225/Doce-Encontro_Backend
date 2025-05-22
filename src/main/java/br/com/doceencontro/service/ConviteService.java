@@ -105,4 +105,14 @@ public class ConviteService {
 
 		return "Convite removido com sucesso!";
 	}
+	
+	public String negarConvite(String conviteId, String usuarioId) {
+		Convite convite = findById(conviteId);
+
+		convite.removerDestPorId(usuarioId);
+
+		conviteRepository.save(convite);
+
+		return "Convite recusado com sucesso!";
+	}
 }
