@@ -26,6 +26,8 @@ public class EventoDetailsDTO {
     private Boolean ativo;
     private Endereco endereco;
     
+    private String chatId;
+    
     private UsuarioResponseDTO organizador;
     
     private boolean isAutor;
@@ -41,7 +43,8 @@ public class EventoDetailsDTO {
         this.data = evento.getData().format(dtf);
         this.ativo = evento.getAtivo();
         this.endereco = evento.getEndereco();
-
+        this.chatId = evento.getChat().getId();
+        
         this.organizador = new UsuarioResponseDTO(evento.getOrganizador());
 
         this.isAutor = IdToken.get().equals(evento.getOrganizador().getId());

@@ -29,8 +29,10 @@ import br.com.doceencontro.utils.ConversorDTO;
 import br.com.doceencontro.utils.EventoUtils;
 import jakarta.persistence.Convert;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class EventoService {
 
 	private EventoRepository eventoRepository;
@@ -38,13 +40,6 @@ public class EventoService {
 	private EnderecoRepository enderecoRepository;
 
 	private UsuarioService usuarioService;
-
-	public EventoService(EventoRepository eventoRepository, UsuarioService usuarioService,
-			EnderecoRepository enderecoRepository) {
-		this.eventoRepository = eventoRepository;
-		this.usuarioService = usuarioService;
-		this.enderecoRepository = enderecoRepository;
-	}
 
 	public List<Evento> findAll() {
 		return eventoRepository.findAll();
@@ -205,6 +200,10 @@ public class EventoService {
 	
 	public List<UsuarioResponseDTO> buscarParticipantes(String eventoId) {
 		return ConversorDTO.usuarios(findById(eventoId).getParticipantes());
+	}
+
+	public List<EventoResponseDTO> listarDoUsuario(String autorId) {		
+		return ConversorDTO.eventos(eventoRepository.findAllByOrganizadorId(autorId));
 	}
 
 }

@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import br.com.doceencontro.model.Amizade;
+import br.com.doceencontro.model.Convite;
 import br.com.doceencontro.model.Evento;
 import br.com.doceencontro.model.Notificacao;
 import br.com.doceencontro.model.Requisito;
 import br.com.doceencontro.model.Usuario;
+import br.com.doceencontro.model.dtos.AmigoDTO;
+import br.com.doceencontro.model.dtos.ConviteDTO;
 import br.com.doceencontro.model.dtos.EventoDetailsDTO;
 import br.com.doceencontro.model.dtos.EventoResponseDTO;
 import br.com.doceencontro.model.dtos.NotificacaoResponseDTO;
@@ -57,5 +61,23 @@ public class ConversorDTO {
 	public static List<NotificacaoResponseDTO> notificacoes(List<Notificacao> notificacoes) {
 		return notificacoes.stream().map(NotificacaoResponseDTO::new).collect(Collectors.toList());
 	}
+	
+	public static AmigoDTO amigo(Amizade amizade) {
+		return new AmigoDTO(amizade);
+	}
+	
+	public static List<AmigoDTO> amigos(List<Amizade> amizades) {
+		return amizades.stream().map(AmigoDTO::new).collect(Collectors.toList());
+	}
+	
+	public static ConviteDTO convite(Convite convite) {
+		return new ConviteDTO(convite);
+	}
+	
+	public static List<ConviteDTO> convite(List<Convite> convites) {
+		return convites.stream().map(ConviteDTO::new).collect(Collectors.toList());
+	}
+	
+	
 
 }

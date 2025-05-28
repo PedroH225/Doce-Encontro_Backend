@@ -1,29 +1,32 @@
 package br.com.doceencontro.model.dtos;
 
 import br.com.doceencontro.model.Amizade;
-import br.com.doceencontro.model.StatusAmizade;
-import br.com.doceencontro.model.Usuario;
+import br.com.doceencontro.utils.ConversorDTO;
+import br.com.doceencontro.utils.IdToken;
+import lombok.Data;
 
+@Data
 public class AmigoDTO {
 
-	public String amizadeId;
-	
-	public UsuarioResponseDTO amigo;
-	
-	public String status;
-	
-	
-	public AmigoDTO(Amizade amizade, String usuarioId) {
+	private String amizadeId;
+
+	private UsuarioResponseDTO amigo;
+
+	private String status;
+
+	public AmigoDTO(Amizade amizade) {
 		this.amizadeId = amizade.getId();
-		
-		if (!amizade.getAmigo().getId().equals(usuarioId)) {
-			
-			this.amigo = new UsuarioResponseDTO(amizade.getAmigo());
-			
+
+		String idLogado = IdToken.get();
+
+		if (!amizade.getAmigo().getId().equals(idLogado)) {
+
+			this.amigo = ConversorDTO.usuario(amizade.getAmigo());
+
 		} else {
-			this.amigo = new UsuarioResponseDTO(amizade.getUsuario());
+			this.amigo = ConversorDTO.usuario(amizade.getUsuario());
 		}
-		
+
 		this.status = amizade.getStatus().toString();
 	}
 }

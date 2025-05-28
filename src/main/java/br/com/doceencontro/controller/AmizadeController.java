@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.PutExchange;
 
-import br.com.doceencontro.model.Amizade;
 import br.com.doceencontro.model.dtos.AmigoDTO;
-import br.com.doceencontro.model.dtos.AmizadeResponseDTO;
 import br.com.doceencontro.service.AmizadeService;
 import br.com.doceencontro.utils.IdToken;
 
@@ -28,18 +25,23 @@ public class AmizadeController {
 	}
 	
 	@PostMapping("/{amigoEmail}")
-	public AmizadeResponseDTO adicionarAmigo(@PathVariable String amigoEmail) {
+	public AmigoDTO adicionarAmigo(@PathVariable String amigoEmail) {
 		return amizadeService.adicionarAmigo(IdToken.get() ,amigoEmail);
 	}
 	
 	@PutMapping("/{amizadeId}")
-	public AmizadeResponseDTO aceitarPedido(@PathVariable String amizadeId) {
+	public AmigoDTO aceitarPedido(@PathVariable String amizadeId) {
 		return amizadeService.aceitarPedido(IdToken.get(), amizadeId);
 	}
 	
 	@DeleteMapping("/{amizadeId}")
 	public String excluirAmigo(@PathVariable String amizadeId) {
 		return amizadeService.excluirAmigo(IdToken.get(), amizadeId);
+	}
+	
+	@GetMapping("/recebidos")
+	public List<AmigoDTO> buscarRecebidos() {
+		return amizadeService.buscarRecebidos(IdToken.get());
 	}
 	
 	@GetMapping("/pendentes")
