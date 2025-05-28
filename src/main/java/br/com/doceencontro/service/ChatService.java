@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import br.com.doceencontro.exception.exceptions.ChatNotFoundException;
@@ -14,8 +15,10 @@ import br.com.doceencontro.model.dtos.MensagemDTO;
 import br.com.doceencontro.repository.ChatRepository;
 import br.com.doceencontro.repository.MensagemRepository;
 import br.com.doceencontro.utils.EventoUtils;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class ChatService {
 
 	private ChatRepository chatRepository;
@@ -23,13 +26,8 @@ public class ChatService {
 	private MensagemRepository mensagemRepository;
 
 	private UsuarioService usuarioService;
-
-	public ChatService(ChatRepository chatRepository, MensagemRepository mensagemRepository,
-			UsuarioService usuarioService) {
-		this.chatRepository = chatRepository;
-		this.mensagemRepository = mensagemRepository;
-		this.usuarioService = usuarioService;
-	}
+	
+	private final SimpMessagingTemplate messagingTemplate;
 
 	public Chat findById(String id) {
 		Optional<Chat> buscarChat = chatRepository.findById(id);
@@ -60,8 +58,12 @@ public class ChatService {
 		}
 
 		Mensagem novaMensagem = new Mensagem(buscarChat, buscarUsuario, mensagem);
+		
+		MensagemDTO mensagemDTO = new MensagemDTO(mensagemRepository.save(novaMensagem));
+		
+	    messagingTemplate.convertAndSend("/topic/chat/" + chatId, mensagemDTO);
 
-		return new MensagemDTO(mensagemRepository.save(novaMensagem));
+		return mensagemDTO;
 	}
 
 	public List<MensagemDTO> obterMensagens(String chatId) {
