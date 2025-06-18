@@ -23,7 +23,7 @@ O Doce Encontro é um app mobile para organizar chás de bebê de forma prática
 1. Clone o repositório e acesse a pasta do backend
 ```bash
 git clone git@github.com:DoceEncontro/Backend.git 
-cd ./Backend
+cd ./Doce-Encontro-Backend
 ```
 
 2. No mesmo terminal, execute:
@@ -33,3 +33,4 @@ docker-compose up --build
 
 ## Uso
 - [Execute o Frontend](https://github.com/DoceEncontro/Frontend)
+- Fazer requisições ao backend: [Swagger](http://localhost:8080/swagger-ui/index.html)
