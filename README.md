@@ -26,7 +26,8 @@ git clone git@github.com:DoceEncontro/Backend.git
 cd ./Doce-Encontro-Backend
 ```
 
-2. Crie as variáveis de ambiente necessárias:
+2. Crie as variáveis de ambiente necessárias
+
 Na raiz do projeto, crie o arquivo .env e ajuste os valores conforme seu ambiente de execução. Exemplo disponível [aqui](https://github.com/DoceEncontro/Doce-Encontro-Backend/blob/main/.env-example).
 
 3. No mesmo terminal, execute:
