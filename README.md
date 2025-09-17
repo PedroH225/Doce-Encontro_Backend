@@ -25,13 +25,13 @@ O Doce Encontro é um app mobile para organizar chás de bebê de forma prática
 ### Execução
 1. Clone o repositório e acesse a pasta do backend
 ```bash
-git clone git@github.com:DoceEncontro/Backend.git 
+git clone git@github.com:PedroH225/Doce-Encontro_Backend.git 
 cd ./Doce-Encontro-Backend
 ```
 
 2. Crie as variáveis de ambiente necessárias
 
-Na raiz do projeto, crie o arquivo `.env` e ajuste os valores conforme seu ambiente de execução. Exemplo disponível [aqui](https://github.com/DoceEncontro/Doce-Encontro-Backend/blob/main/.env-example).
+Na raiz do projeto, crie o arquivo `.env` e ajuste os valores conforme seu ambiente de execução. Exemplo disponível [aqui](https://github.com/PedroH225/Doce-Encontro_Backend/blob/main/.env-example).
 
 3. No mesmo terminal, execute:
 ```bash

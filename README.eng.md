@@ -23,13 +23,12 @@ Doce Encontro is a mobile app for organizing baby showers in a practical and eff
 ### Execution
 1. Clone the repository and access the backend folder
     ```bash
-    git clone git@github.com:DoceEncontro/Backend.git 
+    git clone git@github.com:PedroH225/Doce-Encontro_Backend.git
     cd ./Doce-Encontro-Backend
     ```
 
 2. Create the necessary environment variables
-
-    In the project root, create the `.env` file and adjust the values according to your execution environment. An example is available [here](https://github.com/DoceEncontro/Doce-Encontro-Backend/blob/main/.env-example).
+In the project root, create the `.env` file and adjust the values according to your execution environment. An example is available [here](https://github.com/PedroH225/Doce-Encontro_Backend/blob/main/.env-example).
 
 3. In the same terminal, run:
     ```bash
