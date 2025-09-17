@@ -1,7 +1,7 @@
 # Doce Encontro Backend
 
 ## Description
-Doce Encontro(Sweet Gathering) is a mobile app for organizing baby showers in a practical and efficient way. It solves common problems like disorganization and communication failure among participants. The app includes notifications of >
+Doce Encontro is a mobile app for organizing baby showers in a practical and efficient way. It solves common problems like disorganization and communication failure among participants. The app includes task notifications, an interactive calendar, Google Maps integration, AI-powered recommendations, a chatbot, and guest chats. With an intuitive design and modern technology, Doce Encontro facilitates the entire process, making planning simple, accessible, and stress-free.
 
 ## Technologies
 - **Java 21** – Programming language used in the backend.
