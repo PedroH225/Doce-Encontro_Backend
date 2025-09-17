@@ -1,6 +1,6 @@
 # Doce Encontro Backend
 
-> Read in other languages: [English](README.en.md)
+> Read in other languages: [English](README.eng.md)
 
 ## Descrição
 O Doce Encontro é um app mobile para organizar chás de bebê de forma prática e eficiente. Ele resolve problemas comuns como desorganização e falha na comunicação entre participantes. O app inclui notificações de tarefas, calendário interativo, integração com Google Maps, recomendações com IA, chatbot e chats para convidados. Com design intuitivo e tecnologia moderna, o Doce Encontro facilita todo o processo, tornando o planejamento simples, acessível e livre de estresse.
